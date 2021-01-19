@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SQLBuilder", "SQLBuilder\SQLBuilder.vbproj", "{86D27397-DF7C-4631-B426-59B62C355F2A}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RunQuery", "RunQuery\RunQuery.vbproj", "{7F5F6BEE-C404-4235-8817-DC7DC865F962}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ColumnAttributes", "ColumnAttributes\ColumnAttributes.vbproj", "{7B0FBB75-1DFD-48E0-B9E1-131413EE662D}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ESPOBIMDI", "ESPOBIMDI\ESPOBIMDI.vbproj", "{83107B1E-5569-4D7C-9C6A-EFABE2B45611}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ESPOBIParms", "BIParms\ESPOBIParms.vbproj", "{F460BC83-F08A-4C05-BBCA-2B6DD6D5389A}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ImportTable", "ImportTable\ImportTable.vbproj", "{DDEF7202-34D9-4D5D-9712-7055B9E846EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86D27397-DF7C-4631-B426-59B62C355F2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86D27397-DF7C-4631-B426-59B62C355F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86D27397-DF7C-4631-B426-59B62C355F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86D27397-DF7C-4631-B426-59B62C355F2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5F6BEE-C404-4235-8817-DC7DC865F962}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5F6BEE-C404-4235-8817-DC7DC865F962}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5F6BEE-C404-4235-8817-DC7DC865F962}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5F6BEE-C404-4235-8817-DC7DC865F962}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B0FBB75-1DFD-48E0-B9E1-131413EE662D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B0FBB75-1DFD-48E0-B9E1-131413EE662D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B0FBB75-1DFD-48E0-B9E1-131413EE662D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B0FBB75-1DFD-48E0-B9E1-131413EE662D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83107B1E-5569-4D7C-9C6A-EFABE2B45611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83107B1E-5569-4D7C-9C6A-EFABE2B45611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83107B1E-5569-4D7C-9C6A-EFABE2B45611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83107B1E-5569-4D7C-9C6A-EFABE2B45611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F460BC83-F08A-4C05-BBCA-2B6DD6D5389A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F460BC83-F08A-4C05-BBCA-2B6DD6D5389A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F460BC83-F08A-4C05-BBCA-2B6DD6D5389A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F460BC83-F08A-4C05-BBCA-2B6DD6D5389A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDEF7202-34D9-4D5D-9712-7055B9E846EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDEF7202-34D9-4D5D-9712-7055B9E846EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDEF7202-34D9-4D5D-9712-7055B9E846EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDEF7202-34D9-4D5D-9712-7055B9E846EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B075D73-F389-4A6B-BDA2-1F98B605D13E}
+	EndGlobalSection
+EndGlobal
