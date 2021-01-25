@@ -164,6 +164,7 @@ Public Class ImportTableDAL
                 " Case when whfldt in ('P','S') then 'N' else whfldt end as ""Col Type"",  " &
                 " case when whfldt='A' then whfldb else whfldd end as ""Len"", " &
                 " whfldp as ""Dec""  , " &
+                " whfldp as ""Decimals DB""  , " &
                 " whflde, " &
                 " whchd1, " &
                 " whchd2, " &
