@@ -747,6 +747,12 @@ Public Class ColumnSelect
                 'txtValue.Text = dtp1.Value.ToString("dd/MM/yyyy")
                 txtValue.Text = dtp1.Value.ToString("yyyy-MM-dd")
                 txtValue2.Text = dtp2.Value.ToString("yyyy-MM-dd")
+            ElseIf FieldType = "Z" Then
+                Quote = "'"
+                ExcludeUPPER = True
+                'txtValue.Text = dtp1.Value.ToString("dd/MM/yyyy")
+                txtValue.Text = dtp1.Value.ToString("yyyy-MM-dd")
+                txtValue2.Text = dtp2.Value.ToString("yyyy-MM-dd")
             ElseIf FieldType = "ND" Then
                 Quote = "'"
                 ExcludeUPPER = True
@@ -778,7 +784,7 @@ Public Class ColumnSelect
                                 txtValue.Text = dtp1.Value
                                 txtValue2.Text = dtp2.Value
                                 strValue = Quote & CDate(txtValue.Text).ToString("yyyy-MM-dd") & Quote & " AND " & Quote & CDate(txtValue2.Text).ToString("yyyy-MM-dd") & Quote
-                                If FieldType = "L" Then
+                                If FieldType = "L" Or FieldType = "Z" Then
                                     strWhereField1 = "Date(" & strWhereField1 & ")"
                                 End If
                                 If FieldType = "ND" Then
@@ -797,7 +803,7 @@ Public Class ColumnSelect
                     End If
                     'End If
                 ElseIf UCase(strOperator) = "IN" Or UCase(strOperator) = "NOT IN" Then
-                    If FieldType = "L" Or FieldType = "ND" Then
+                    If FieldType = "L" Or FieldType = "ND" Or FieldType = "Z" Then
                         MsgBox("Date fields cannot be used with IN operator.")
                         cboOperators.SelectedValue = "="
                         Exit Function

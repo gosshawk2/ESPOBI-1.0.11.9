@@ -610,4 +610,18 @@ Public Class QueryResultsDGV
     Private Sub btnSQLUpdate_Click(sender As Object, e As EventArgs) Handles btnSQLUpdate.Click
         SQLStatement = txtSQLQuery.Text
     End Sub
+
+    Private Sub btnVisualise_Click(sender As Object, e As EventArgs) Handles btnVisualise.Click
+        Dim App As New Visualiser.ChartViewer
+
+        Cursor = Cursors.WaitCursor
+        Refresh()
+        App.Visible = False
+        App.ChartData = dt
+        App.ChartType = "COLUMN"
+        'App.PopulateForm()
+        App.Show()
+        Cursor = Cursors.Default
+
+    End Sub
 End Class

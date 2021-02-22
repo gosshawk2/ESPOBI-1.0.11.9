@@ -9,6 +9,7 @@
     Private Sub DataSetDetail_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         MdiParent = FromHandle(GlobalSession.MDIParentHandle)
         txtDataSetID.Text = GlobalParms.DataSetID
+
         populateForm()
     End Sub
 

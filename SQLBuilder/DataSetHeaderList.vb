@@ -365,4 +365,33 @@
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         PopulateForm()
     End Sub
+
+    Private Sub btnLoadQuery_Click(sender As Object, e As EventArgs) Handles btnLoadQuery.Click
+        'Read SQL Query from text file:
+        Dim DataSetID As Integer
+        Dim Tablename As String
+        Dim App As New SQLBuilder.ColumnSelect
+
+        Cursor = Cursors.Default
+
+        'stsFW100Label1.Text = "Loading List......"
+        Cursor = Cursors.WaitCursor
+        Refresh()
+        DataSetID = dgvHeaderList.CurrentRow.Cells("DataSetID").Value
+        Tablename = dgvHeaderList.CurrentRow.Cells("Tablename").Value
+        GlobalParms.DataSetHeaderText = dgvHeaderList.CurrentRow.Cells("DataSet Header Text").Value.trim
+        GlobalParms.DataSetName = dgvHeaderList.CurrentRow.Cells("DataSet Name").Value.trim
+        App.Visible = False
+        App.GetParms(GlobalSession, GlobalParms)
+        App.PopulateForm(DataSetID, True)
+        App.TheDataSetID = DataSetID
+        App.txtTablename.Text = Tablename
+        '        App.txtDatasetName.Text = DataSetName
+        '        App.txtDataSetHeaderText.Text = dgvHeaderList.CurrentRow.Cells("DataSet Header Text").Value.trim
+        'App.Text = "Query Definition [" & DataSetName & "]"
+        App.Show()
+        App.btnRefresh.PerformClick()
+        App.btnLoadQuery.PerformClick()
+        Cursor = Cursors.Default
+    End Sub
 End Class

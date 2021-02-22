@@ -176,8 +176,8 @@ Public Class ViewSQL
     Sub ViewAttributes()
         Dim Attributes As String
         Dim FieldPos As Integer
-        Dim ColumnText As String
-        Dim Fieldname As String
+        Dim ColumnText As String = ""
+        Dim Fieldname As String = ""
         Dim FieldType As String
         Dim FieldLength As String
         Dim strFieldDecimals As String

@@ -162,7 +162,6 @@ Partial Class ColumnSelect
         Me.lstFields.Location = New System.Drawing.Point(164, 34)
         Me.lstFields.MinimumSize = New System.Drawing.Size(165, 140)
         Me.lstFields.Name = "lstFields"
-        Me.lstFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple
         Me.lstFields.Size = New System.Drawing.Size(169, 134)
         Me.lstFields.TabIndex = 8
         Me.lstFields.TabStop = False
@@ -271,7 +270,6 @@ Partial Class ColumnSelect
         Me.chklstOrderBY.FormattingEnabled = True
         Me.chklstOrderBY.Location = New System.Drawing.Point(164, 34)
         Me.chklstOrderBY.MinimumSize = New System.Drawing.Size(165, 140)
-        Me.chklstOrderBY.MultiColumn = True
         Me.chklstOrderBY.Name = "chklstOrderBY"
         Me.chklstOrderBY.Size = New System.Drawing.Size(169, 139)
         Me.chklstOrderBY.TabIndex = 13

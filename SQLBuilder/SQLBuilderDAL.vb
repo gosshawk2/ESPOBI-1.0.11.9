@@ -111,6 +111,7 @@ Public Class SQLBuilderDAL
             "left join xobj50 on odobnm=tablename and odlbnm=LibraryName and odobtp='*FILE' " &
             "left join xmbl on mlfile=tablename and mllib=LibraryName " &
         SQLWhere
+
         SQLStatement += "ORDER BY DatasetName"
         Try
             cn.Open()
@@ -377,8 +378,8 @@ Public Class SQLBuilderDAL
         Dim UpdTimestamp As String = Now().ToString("yyyy-MM-dd-HH.mm.ss")
         Dim CrtTimestamp As String = Now().ToString("yyyy-MM-dd-HH.mm.ss")
         'Dim DatasetTable As String = "EBI7020T"
-        Dim dtTest As DataTable
 
+        Update_DatasetHeader = 0
         If Tablename = "" Then
             MsgBox("Update_DatasetHeader(): Tablename cannot be blank")
             Exit Function
@@ -477,9 +478,9 @@ Public Class SQLBuilderDAL
         Dim CrtTimestamp As String = Now().ToString("yyyy-MM-dd-HH.mm.ss")
         Dim UpdTimestamp As String = Now().ToString("yyyy-MM-dd-HH.mm.ss")
         Dim DatasetTable As String = "EBI7023T"
-        Dim dtTest As DataTable
 
         'Update using Tablename and Columnname (not datasetName)
+        Update_DatasetColumns = 0
         cn.Open()
         Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
         Result = 0
@@ -552,8 +553,8 @@ Public Class SQLBuilderDAL
     Function DeleteDatasetHeader(ConnectString As String, DatasetID As Integer, Tablename As String) As Boolean
         Dim SQLStatement As String
 
+        DeleteDatasetHeader = False
         Try
-            DeleteDatasetHeader = False
             Using cn As New OdbcConnection(ConnectString)
                 cn.Open()
                 Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
@@ -577,8 +578,8 @@ Public Class SQLBuilderDAL
     Function DeleteDatasetColumns(ConnectString As String, DatasetID As Integer, Tablename As String) As Boolean
         Dim SQLStatement As String
 
+        DeleteDatasetColumns = False
         Try
-            DeleteDatasetColumns = False
             Using cn As New OdbcConnection(ConnectString)
                 cn.Open()
                 Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
@@ -601,7 +602,6 @@ Public Class SQLBuilderDAL
 
     Function GetMYSQLConnection(ByVal Optional MySQLDataBaseName As String = "") As String
         Dim ConnString As String
-        Dim SQLStatement As String
         Dim ZeroDatetime As Boolean = True
         Dim Server As String = "localhost"
         Dim DbaseName As String = "simplequerybuilder"
@@ -898,7 +898,6 @@ Public Class SQLBuilderDAL
         Dim Fieldname As String
         Dim NewFieldnames As String
         Dim ConnString As String
-        Dim SQLStatement As String
 
         NewFieldnames = ""
         Fieldnames = ""
@@ -1041,15 +1040,7 @@ Public Class SQLBuilderDAL
     Sub BulkLoaderMySQL(csvFilename As String, DBTable As String)
         Dim ConnString As String
         Dim con As MySqlConnection
-        Dim cmd As MySqlCommand
-        Dim strSQL As String
-        Dim NumFields As Integer
         Dim colIDX As Integer = 0
-        Dim dr1 As MySqlDataReader
-        Dim FieldType As String
-        Dim Fieldname As String
-        Dim NewFieldnames As String
-        Dim SQLStatement As String
         Dim bl As MySqlBulkLoader
         Dim intLineCount As Integer
 
@@ -1330,7 +1321,6 @@ Public Class SQLBuilderDAL
     End Function
 
     Sub GetFieldDetail(ConnectString As String, TableName As String, FieldName As String, ByRef FieldType As String, ByRef FieldLength As Integer, ByRef DecimalPlaces As Integer)
-        Dim DBTable As String
         Dim fldDetails As clsFieldDetails
 
         fldDetails = New clsFieldDetails(ConnectString, "", SQLBuilder.DataSetHeaderList.DBVersion)

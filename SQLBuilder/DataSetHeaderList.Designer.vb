@@ -54,6 +54,7 @@ Partial Class DataSetHeaderList
         Me.RemoveTableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.stsDataSetList = New System.Windows.Forms.StatusStrip()
         Me.stsDataSetListLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.btnLoadQuery = New System.Windows.Forms.Button()
         Me.gbTOP.SuspendLayout()
         CType(Me.dgvHeaderList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.cmsDataSetList.SuspendLayout()
@@ -64,6 +65,7 @@ Partial Class DataSetHeaderList
         '
         Me.gbTOP.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gbTOP.Controls.Add(Me.btnLoadQuery)
         Me.gbTOP.Controls.Add(Me.btnRefresh)
         Me.gbTOP.Controls.Add(Me.chkViews)
         Me.gbTOP.Controls.Add(Me.chkTables)
@@ -253,52 +255,52 @@ Partial Class DataSetHeaderList
         '
         Me.cmsDataSetList.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectToolStripMenuItem, Me.ToolStripMenuItem1, Me.ViewDatasetToolStripMenuItem, Me.EditTableToolStripMenuItem, Me.AddTableToolStripMenuItem, Me.RefreshColumnsToolStripMenuItem, Me.ToolStripSeparator1, Me.RemoveTableToolStripMenuItem})
         Me.cmsDataSetList.Name = "HeaderListCRUD"
-        Me.cmsDataSetList.Size = New System.Drawing.Size(181, 170)
+        Me.cmsDataSetList.Size = New System.Drawing.Size(165, 148)
         '
         'SelectToolStripMenuItem
         '
         Me.SelectToolStripMenuItem.Name = "SelectToolStripMenuItem"
-        Me.SelectToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.SelectToolStripMenuItem.Text = "Select for Query"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(161, 6)
         '
         'ViewDatasetToolStripMenuItem
         '
         Me.ViewDatasetToolStripMenuItem.Name = "ViewDatasetToolStripMenuItem"
-        Me.ViewDatasetToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ViewDatasetToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.ViewDatasetToolStripMenuItem.Text = "View"
         '
         'EditTableToolStripMenuItem
         '
         Me.EditTableToolStripMenuItem.Name = "EditTableToolStripMenuItem"
-        Me.EditTableToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.EditTableToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.EditTableToolStripMenuItem.Text = "Edit"
         '
         'AddTableToolStripMenuItem
         '
         Me.AddTableToolStripMenuItem.Name = "AddTableToolStripMenuItem"
-        Me.AddTableToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.AddTableToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.AddTableToolStripMenuItem.Text = "New"
         '
         'RefreshColumnsToolStripMenuItem
         '
         Me.RefreshColumnsToolStripMenuItem.Name = "RefreshColumnsToolStripMenuItem"
-        Me.RefreshColumnsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RefreshColumnsToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.RefreshColumnsToolStripMenuItem.Text = "Refresh Columns"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(161, 6)
         '
         'RemoveTableToolStripMenuItem
         '
         Me.RemoveTableToolStripMenuItem.Name = "RemoveTableToolStripMenuItem"
-        Me.RemoveTableToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RemoveTableToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
         Me.RemoveTableToolStripMenuItem.Text = "Delete"
         '
         'stsDataSetList
@@ -314,6 +316,16 @@ Partial Class DataSetHeaderList
         '
         Me.stsDataSetListLabel1.Name = "stsDataSetListLabel1"
         Me.stsDataSetListLabel1.Size = New System.Drawing.Size(0, 17)
+        '
+        'btnLoadQuery
+        '
+        Me.btnLoadQuery.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnLoadQuery.Location = New System.Drawing.Point(702, 41)
+        Me.btnLoadQuery.Name = "btnLoadQuery"
+        Me.btnLoadQuery.Size = New System.Drawing.Size(82, 23)
+        Me.btnLoadQuery.TabIndex = 46
+        Me.btnLoadQuery.Text = "Load Query"
+        Me.btnLoadQuery.UseVisualStyleBackColor = True
         '
         'DataSetHeaderList
         '
@@ -367,4 +379,5 @@ Partial Class DataSetHeaderList
     Friend WithEvents chkViews As CheckBox
     Friend WithEvents chkTables As CheckBox
     Friend WithEvents btnRefresh As Button
+    Friend WithEvents btnLoadQuery As Button
 End Class

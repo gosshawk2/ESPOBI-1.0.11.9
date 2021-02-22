@@ -34,6 +34,7 @@ Partial Class QueryResultsDGV
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.btnExportToExcel = New System.Windows.Forms.Button()
         Me.btnSQLUpdate = New System.Windows.Forms.Button()
+        Me.btnVisualise = New System.Windows.Forms.Button()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.dgvOutput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl1.SuspendLayout()
@@ -120,7 +121,7 @@ Partial Class QueryResultsDGV
         Me.TabPage1.Controls.Add(Me.dgvOutput)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage1.Size = New System.Drawing.Size(894, 437)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Query Results"
@@ -131,7 +132,7 @@ Partial Class QueryResultsDGV
         Me.TabPage2.Controls.Add(Me.txtSQLQuery)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(894, 437)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "SQL Statement"
@@ -155,11 +156,21 @@ Partial Class QueryResultsDGV
         Me.btnSQLUpdate.Text = "Update SQL"
         Me.btnSQLUpdate.UseVisualStyleBackColor = True
         '
+        'btnVisualise
+        '
+        Me.btnVisualise.Location = New System.Drawing.Point(347, 12)
+        Me.btnVisualise.Name = "btnVisualise"
+        Me.btnVisualise.Size = New System.Drawing.Size(91, 23)
+        Me.btnVisualise.TabIndex = 27
+        Me.btnVisualise.Text = "Visualise"
+        Me.btnVisualise.UseVisualStyleBackColor = True
+        '
         'QueryResultsDGV
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(929, 539)
+        Me.Controls.Add(Me.btnVisualise)
         Me.Controls.Add(Me.btnSQLUpdate)
         Me.Controls.Add(Me.btnExportToExcel)
         Me.Controls.Add(Me.TabControl1)
@@ -191,4 +202,5 @@ Partial Class QueryResultsDGV
     Friend WithEvents TabPage2 As TabPage
     Friend WithEvents btnExportToExcel As Button
     Friend WithEvents btnSQLUpdate As Button
+    Friend WithEvents btnVisualise As Button
 End Class

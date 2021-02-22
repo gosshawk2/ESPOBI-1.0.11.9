@@ -1,19 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7F5F6BEE-C404-4235-8817-DC7DC865F962}</ProjectGuid>
+    <ProjectGuid>{02066822-FE97-4D72-9D88-D8C16DD8BFA5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <StartupObject>
     </StartupObject>
-    <RootNamespace>RunQuery</RootNamespace>
-    <AssemblyName>RunQuery</AssemblyName>
+    <RootNamespace>Visualiser</RootNamespace>
+    <AssemblyName>Visualiser</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -23,7 +24,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>RunQuery.xml</DocumentationFile>
+    <DocumentationFile>Visualiser.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -33,7 +34,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>RunQuery.xml</DocumentationFile>
+    <DocumentationFile>Visualiser.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -49,32 +50,6 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ColumnAttributes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ColumnAttributes\bin\Debug\ColumnAttributes.dll</HintPath>
-    </Reference>
-    <Reference Include="ESPOCommon">
-      <HintPath>..\..\Load Planner\Load Planner\LP\bin\Debug\ESPOCommon.dll</HintPath>
-    </Reference>
-    <Reference Include="ESPOParms, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Load Planner\Load Planner\LP\bin\Debug\ESPOParms.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>..\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data.Entity">
-      <HintPath>..\MySql.Data.Entity.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data.Entity.EF6">
-      <HintPath>..\MySql.Data.Entity.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Fabric.Plugin">
-      <HintPath>..\MySql.Fabric.Plugin.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Web">
-      <HintPath>..\MySql.Web.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -86,9 +61,6 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="Visualiser">
-      <HintPath>..\Visualiser\bin\Debug\Visualiser.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -104,10 +76,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="QueryResultsDGV.Designer.vb">
-      <DependentUpon>QueryResultsDGV.vb</DependentUpon>
+    <Compile Include="ChartViewer.Designer.vb">
+      <DependentUpon>ChartViewer.vb</DependentUpon>
     </Compile>
-    <Compile Include="QueryResultsDGV.vb">
+    <Compile Include="ChartViewer.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -128,8 +100,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="QueryResultsDGV.resx">
-      <DependentUpon>QueryResultsDGV.vb</DependentUpon>
+    <EmbeddedResource Include="ChartViewer.resx">
+      <DependentUpon>ChartViewer.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -150,47 +122,5 @@
     </None>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="ADODB">
-      <Guid>{B691E011-1797-432E-907A-4D8C69339129}</Guid>
-      <VersionMajor>6</VersionMajor>
-      <VersionMinor>1</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>7</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BIParms\ESPOBIParms.vbproj">
-      <Project>{f460bc83-f08a-4c05-bbca-2b6dd6d5389a}</Project>
-      <Name>ESPOBIParms</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
