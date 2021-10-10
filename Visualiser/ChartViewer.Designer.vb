@@ -24,10 +24,11 @@ Partial Class ChartViewer
     Private Sub InitializeComponent()
         Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.stsChartViewer = New System.Windows.Forms.StatusStrip()
         Me.stsChartViewerLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.gbTop = New System.Windows.Forms.GroupBox()
+        Me.BtnAddSeries = New System.Windows.Forms.Button()
+        Me.chkPercentages = New System.Windows.Forms.CheckBox()
         Me.chk3D = New System.Windows.Forms.CheckBox()
         Me.chkDataLabels = New System.Windows.Forms.CheckBox()
         Me.btnRefresh = New System.Windows.Forms.Button()
@@ -70,6 +71,8 @@ Partial Class ChartViewer
         '
         Me.gbTop.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gbTop.Controls.Add(Me.BtnAddSeries)
+        Me.gbTop.Controls.Add(Me.chkPercentages)
         Me.gbTop.Controls.Add(Me.chk3D)
         Me.gbTop.Controls.Add(Me.chkDataLabels)
         Me.gbTop.Controls.Add(Me.btnRefresh)
@@ -81,6 +84,26 @@ Partial Class ChartViewer
         Me.gbTop.Size = New System.Drawing.Size(934, 92)
         Me.gbTop.TabIndex = 3
         Me.gbTop.TabStop = False
+        '
+        'BtnAddSeries
+        '
+        Me.BtnAddSeries.Location = New System.Drawing.Point(693, 52)
+        Me.BtnAddSeries.Name = "BtnAddSeries"
+        Me.BtnAddSeries.Size = New System.Drawing.Size(75, 23)
+        Me.BtnAddSeries.TabIndex = 24
+        Me.BtnAddSeries.Text = "Add Series"
+        Me.BtnAddSeries.UseVisualStyleBackColor = True
+        '
+        'chkPercentages
+        '
+        Me.chkPercentages.AutoSize = True
+        Me.chkPercentages.Location = New System.Drawing.Point(590, 22)
+        Me.chkPercentages.Name = "chkPercentages"
+        Me.chkPercentages.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+        Me.chkPercentages.Size = New System.Drawing.Size(119, 17)
+        Me.chkPercentages.TabIndex = 23
+        Me.chkPercentages.Text = ":Show Percentages"
+        Me.chkPercentages.UseVisualStyleBackColor = True
         '
         'chk3D
         '
@@ -198,6 +221,7 @@ Partial Class ChartViewer
         '
         Me.rbBarChart.AutoSize = True
         Me.rbBarChart.Checked = True
+        Me.rbBarChart.Enabled = False
         Me.rbBarChart.Location = New System.Drawing.Point(72, 11)
         Me.rbBarChart.Name = "rbBarChart"
         Me.rbBarChart.Size = New System.Drawing.Size(41, 17)
@@ -235,10 +259,6 @@ Partial Class ChartViewer
         Me.Chart1.Legends.Add(Legend1)
         Me.Chart1.Location = New System.Drawing.Point(5, 100)
         Me.Chart1.Name = "Chart1"
-        Series1.ChartArea = "ChartArea1"
-        Series1.Legend = "Legend1"
-        Series1.Name = "Series1"
-        Me.Chart1.Series.Add(Series1)
         Me.Chart1.Size = New System.Drawing.Size(934, 354)
         Me.Chart1.TabIndex = 4
         Me.Chart1.Text = "Chart1"
@@ -286,4 +306,6 @@ Partial Class ChartViewer
     Friend WithEvents Chart1 As DataVisualization.Charting.Chart
     Friend WithEvents nudForecastPoints As NumericUpDown
     Friend WithEvents nudMavPoints As NumericUpDown
+    Friend WithEvents chkPercentages As CheckBox
+    Friend WithEvents BtnAddSeries As Button
 End Class

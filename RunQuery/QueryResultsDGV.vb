@@ -228,13 +228,13 @@ Public Class QueryResultsDGV
         Refresh()
         If FieldAttributes.DBType = "MYSQL" Then
             dt = ExecuteMySQLQuery(txtSQLQuery.Text)
-            ExportToExcelWithDataTable(dt, "SQLBuilder Output")
+            'ExportToExcelWithDataTable(dt, "SQLBuilder Output")
         Else
             Dim rsADO As ADODB.Recordset
             'dt = ExecuteSQLQuery(GlobalSession.ConnectString, txtSQLQuery.Text)
             'rsADO = ExecuteSQL(GlobalSession.ConnectString, SQLStatement)
             rsADO = ExecuteSQL(GlobalSession.ConnectString, txtSQLQuery.Text)
-            ExportToExcel_GL("Report Title", rsADO)
+            'ExportToExcel_GL("Report Title", rsADO)
         End If
 
     End Sub
@@ -325,269 +325,7 @@ Public Class QueryResultsDGV
     'Set Destination = Range("K1")
     'Destination.Resize(UBound(Arr, 2), UBound(Arr, 1)).Value = Application.Transpose(Arr)
 
-    Sub ExportToExcelWithDataTable(dt As DataTable, ReportName As String)
-        Dim xlApp As Microsoft.Office.Interop.Excel.Application
-        Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook
-        Dim xlWorkSheet As Microsoft.Office.Interop.Excel.Worksheet
-        Dim dest As Microsoft.Office.Interop.Excel.Range
-        Dim misValue As Object = System.Reflection.Missing.Value
-        Dim i As Integer
-        Dim j As Integer
-        Dim XLName As String
-        Dim Col As String
-        Dim DecimalFormat As String = "#,##0"
-        Dim ColumnName As String
-        Dim ColumnText As String
-        Dim ColumnType As String
-        Dim ColumnDecimals As Integer
-        Dim dc As System.Data.DataColumn
-        Dim dr As System.Data.DataRow
-        Dim colIndex As Integer = 0
-        Dim rowIndex As Integer = 0
-        Dim Arr(,) As String
 
-        'Set Destination = Range("K1")
-        'Destination.Resize(UBound(Arr, 1), UBound(Arr, 2)).Value = Arr
-        'connDB.Open ConnectionString:="Provider = Microsoft.ACE.OLEDB.12.0; data source=" & strDB
-        XLName = "P:" & Trim(ReportName) & ".xlsx"
-
-        Me.Cursor = Cursors.WaitCursor
-        xlApp = New Microsoft.Office.Interop.Excel.Application
-        xlWorkBook = xlApp.Workbooks.Add(misValue)
-        xlWorkSheet = xlWorkBook.Sheets("sheet1")
-
-        For Each dc In dt.Columns
-            colIndex = colIndex + 1
-            xlWorkSheet.Cells(1, colIndex).Font.Bold = True
-            xlWorkSheet.Cells(1, colIndex) = dc.ColumnName
-            'Format to 2dp and insert comma:
-            'xlWorkSheet.Cells.Columns("J").NumberFormat = "#,##0"
-            If colIndex <= 26 Then
-                Col = Chr(64 + colIndex)
-            Else
-                Col = "A" & Chr(64 + (colIndex - 26))
-            End If
-
-            ColumnText = dc.ColumnName
-            ColumnName = FieldAttributes.GetFieldNameFromFieldText(ColumnText)
-            ColumnType = FieldAttributes.GetSelectedFieldType(ColumnName)
-            ColumnDecimals = FieldAttributes.GetSelectedFieldDecimals(ColumnName)
-            DecimalFormat = GetDecimalFormat(ColumnDecimals, ColumnText)
-            If ColumnType = "N" Or InStr(ColumnText.ToUpper, "COUNT") > 0 Then
-                'xlWorkSheet.Cells.Columns(Col).NumberFormat = DecimalFormat
-            End If
-        Next
-        'ReDim Arr(dt.Columns.Count + 1, dt.Rows.Count + 1)
-        ReDim Arr(dt.Rows.Count - 1, dt.Columns.Count - 1)
-        'Export the rows to excel file
-        'For ii As Integer = 0 To dt.Rows.Count - 1
-        'For jj As Integer = 0 To dt.Columns.Count - 1
-        'Arr(ii, jj) = dt.Rows(ii)(jj)
-        'Next
-        'Next
-        'dest.Resize(UBound(Arr, 2), UBound(Arr, 1)).Value = xlApp.Transpose(Arr)
-        'dest.Resize(UBound(Arr, 2), UBound(Arr, 1)).Value = Arr
-
-        'Export the rows to excel file
-        For Each dr In dt.Rows
-            rowIndex = rowIndex + 1
-            colIndex = 0
-            For Each dc In dt.Columns
-                colIndex = colIndex + 1
-                xlWorkSheet.Cells(rowIndex + 1, colIndex) = dr(dc.ColumnName)
-            Next
-        Next
-
-        xlWorkSheet.Range("A1:AZ1").Font.Bold = True
-        xlWorkSheet.Range("A1").AutoFilter(Field:=1)
-        xlWorkSheet.Columns.AutoFit()
-
-        xlApp.ActiveWindow.SplitColumn = 0
-        xlApp.ActiveWindow.SplitRow = 1
-        xlApp.ActiveWindow.FreezePanes = True
-
-        'xlWorkSheet.Cells.Columns("J").NumberFormat = "#,##0"
-
-        'xlWorkSheet.Cells(rsADO.RecordCount + 2, "J") = "=SUBTOTAL(9,J2:J" & rsADO.RecordCount + 1 & ")"
-        'xlWorkSheet.Cells(rsADO.RecordCount + 2, "J").Font.Bold = True
-
-        '        xlWorkSheet.SaveAs(XLName)
-        '        xlWorkBook.Close()
-        '        xlApp.Quit()
-
-        xlApp.Visible = True
-
-        'Save file in final path
-        'xlWorkBook.SaveAs(ReportName, XlFileFormat.xlWorkbookNormal, Type.Missing,
-        'Type.Missing, Type.Missing, Type.Missing, XlSaveAsAccessMode.xlExclusive,
-        'Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing)
-        'xlWorkBook.Close(False, Type.Missing, Type.Missing)
-        'Release the objects
-        Try
-            releaseObject(xlApp)
-            releaseObject(xlWorkBook)
-            releaseObject(xlWorkSheet)
-        Catch ex As Exception
-            MsgBox("Error: " & ex.ToString, MsgBoxStyle.Critical, "Error!")
-        End Try
-
-        Me.Cursor = Cursors.Default
-        Me.Refresh()
-    End Sub
-
-    Private Sub ExportToExcel_GL(ReportName As String, rsADO As ADODB.Recordset)
-        Dim xlApp As Microsoft.Office.Interop.Excel.Application
-        Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook
-        Dim xlWorkSheet As Microsoft.Office.Interop.Excel.Worksheet
-        Dim misValue As Object = System.Reflection.Missing.Value
-        Dim i As Integer
-        Dim j As Integer
-        Dim XLName As String
-
-        XLName = "P:" & Trim(ReportName) & ".xlsx"
-
-        Me.Cursor = Cursors.WaitCursor
-        xlApp = New Microsoft.Office.Interop.Excel.Application
-        xlWorkBook = xlApp.Workbooks.Add(misValue)
-        xlWorkSheet = xlWorkBook.Sheets("sheet1")
-
-        For lngCount = 1 To rsADO.Fields.Count
-            xlWorkSheet.Cells(1, lngCount).Font.Bold = True
-            xlWorkSheet.Cells(1, lngCount) = rsADO.Fields.Item(lngCount - 1).Name
-        Next lngCount
-
-
-        xlWorkSheet.Cells(2, 1).CopyFromRecordset(rsADO)
-
-        xlWorkSheet.Range("A1:AZ1").Font.Bold = True
-        xlWorkSheet.Range("A1").AutoFilter(Field:=1)
-        xlWorkSheet.Columns.AutoFit()
-
-        xlApp.ActiveWindow.SplitColumn = 0
-        xlApp.ActiveWindow.SplitRow = 1
-        xlApp.ActiveWindow.FreezePanes = True
-
-        '        xlWorkSheet.SaveAs(XLName)
-        '        xlWorkBook.Close()
-        '        xlApp.Quit()
-
-        xlApp.Visible = True
-
-        Try
-            releaseObject(xlApp)
-            releaseObject(xlWorkBook)
-            releaseObject(xlWorkSheet)
-        Catch ex As Exception
-            MsgBox("Error: " & ex.ToString, MsgBoxStyle.Critical, "Error!")
-        End Try
-
-        Me.Cursor = Cursors.Default
-
-        'Process.Start(XLName)
-
-        'ToolStripStatusLabel1.Text = "Ready"
-        Me.Refresh()
-
-    End Sub
-
-
-
-    Private Sub ExportToExcel2(ReportName As String, rsADO As ADODB.Recordset)
-        Dim xlApp As Microsoft.Office.Interop.Excel.Application
-        Dim xlWorkBook As Microsoft.Office.Interop.Excel.Workbook
-        Dim xlWorkSheet As Microsoft.Office.Interop.Excel.Worksheet
-        Dim misValue As Object = System.Reflection.Missing.Value
-        Dim i As Integer
-        Dim j As Integer
-        Dim ColumnText As String
-        Dim ColumnName As String
-        Dim ColumnType As String
-        Dim ColumnDecimals As Integer
-        Dim DecimalFormat As String
-        Dim Col As String
-        Dim TotalCol As Integer
-        Dim percentage As Double
-        Dim qt As Microsoft.Office.Interop.Excel.QueryTable
-
-        XLName = "P:" & Trim(ReportName) & ".xlsx"
-
-        Me.Cursor = Cursors.WaitCursor
-        tssLabel1.Text = "Getting Data..."
-        xlApp = New Microsoft.Office.Interop.Excel.Application
-        xlWorkBook = xlApp.Workbooks.Add(misValue)
-        xlWorkSheet = xlWorkBook.Sheets("sheet1")
-
-
-        'Need condition to check if Excel is open: getting exception error here that operation cannot be performed if closed.
-        ' - If error has occured already before - it seems to trigger this.
-        'xlWorkSheet.Cells(2, 1).CopyFromRecordset(rsADO)
-        qt = xlWorkSheet.QueryTables.Add(rsADO, xlWorkSheet.Cells(1, 1))
-        qt.Refresh()
-        tssLabel1.Text = "Formatting..."
-        TotalCol = rsADO.Fields.Count
-        'For Each dr In dt.Rows
-        'rowIndex = rowIndex + 1
-        'colIndex = 0
-        'For Each dc In dt.Columns
-        'colIndex = colIndex + 1
-        'xlWorkSheet.Cells(rowIndex + 1, colIndex) = dr(dc.ColumnName)
-        'Next
-        'Next
-        For lngCount = 1 To rsADO.Fields.Count
-            xlWorkSheet.Cells(1, lngCount).Font.Bold = True
-            xlWorkSheet.Cells(1, lngCount) = rsADO.Fields.Item(lngCount - 1).Name
-            'Need to get correct EXCEL reference when more than 52 columns are present !
-            'Cols: 1-26 = "A-Z", 27-52 = "AA-AZ", 53-78 = "BA-BZ", 79-104 = "CA-CZ", 105-130 = "DA-DZ", 131-156 = "EA-EZ", 157-182 = "FA-FZ", 183-208 = "GA-GZ"
-            'Cols: 677-702 = "ZA-ZZ", 703-728 = "AAA-AAZ", 729-754 = "ABA-ABZ", 755- = "ACA-ACZ"
-            If lngCount <= 26 Then
-                Col = Chr(64 + lngCount)
-            Else
-                Col = "A" & Chr(64 + (lngCount - 26))
-            End If
-            ColumnText = rsADO.Fields.Item(lngCount - 1).Name
-            ColumnName = FieldAttributes.GetFieldNameFromFieldText(ColumnText)
-            ColumnType = FieldAttributes.GetSelectedFieldType(ColumnName)
-            ColumnDecimals = FieldAttributes.GetSelectedFieldDecimals(ColumnName)
-            DecimalFormat = GetDecimalFormat(ColumnDecimals, ColumnText)
-            If ColumnType = "N" Or InStr(ColumnText.ToUpper, "COUNT") > 0 Then
-                'xlWorkSheet.Cells.Columns(Col).NumberFormat = DecimalFormat
-            End If
-            'percentage = (lngCount / rsADO.Fields.Count) * 100
-            'tssLabel1.Text = "Processing... " & CStr(percentage) & "%"
-            tssLabel1.Text = "Processing... "
-        Next lngCount
-
-        xlWorkSheet.Range("A1:AZ1").Font.Bold = True
-        xlWorkSheet.Range("A1").AutoFilter(Field:=1)
-        xlWorkSheet.Columns.AutoFit()
-
-        xlApp.ActiveWindow.SplitColumn = 0
-        xlApp.ActiveWindow.SplitRow = 1
-        xlApp.ActiveWindow.FreezePanes = True
-
-        'xlWorkSheet.Cells.Columns("J").NumberFormat = "#,##0"
-
-        'xlWorkSheet.Cells(rsADO.RecordCount + 2, "J") = "=SUBTOTAL(9,J2:J" & rsADO.RecordCount + 1 & ")"
-        'xlWorkSheet.Cells(rsADO.RecordCount + 2, "J").Font.Bold = True
-
-        '        xlWorkSheet.SaveAs(XLName)
-        '        xlWorkBook.Close()
-        '        xlApp.Quit()
-
-        xlApp.Visible = True
-        tssLabel1.Text = "Cleanup..."
-        Try
-            releaseObject(xlApp)
-            releaseObject(xlWorkBook)
-            releaseObject(xlWorkSheet)
-        Catch ex As Exception
-            MsgBox("Error: " & ex.ToString, MsgBoxStyle.Critical, "Error!")
-        End Try
-        tssLabel1.Text = "Completed."
-        Me.Cursor = Cursors.Default
-        Me.Refresh()
-
-    End Sub
 
     'QT = ActiveSheet.QueryTables.Add(rs, ActiveSheet.Cells(2, 1))
 
@@ -618,7 +356,7 @@ Public Class QueryResultsDGV
         Refresh()
         App.Visible = False
         App.ChartData = dt
-        App.ChartType = "COLUMN"
+        App.ChartType = "PIE"
         'App.PopulateForm()
         App.Show()
         Cursor = Cursors.Default

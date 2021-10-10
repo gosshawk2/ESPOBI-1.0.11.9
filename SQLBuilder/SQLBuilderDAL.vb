@@ -2,9 +2,19 @@
 ' DAL (Data Access Layer) Code Template. Dan Goss v90 SEP 14 2020
 '**********************************************************************************************************
 Imports System.Data.Odbc
+Imports System.Data.SqlClient
 Imports MySql.Data
 Imports MySql.Data.MySqlClient
 Public Class SQLBuilderDAL
+
+    Sub TestSQLConnection(ConnectString As String)
+        Dim cn As New SqlConnection(ConnectString)
+        Dim SQLStatement As String
+        Dim SQLWhere As String = ""
+        Dim dt As DataTable
+
+
+    End Sub
 
     Function GetHeaderList(
              ConnectString As String,
@@ -110,6 +120,21 @@ Public Class SQLBuilderDAL
             "FROM ebi7020t " &
             "left join xobj50 on odobnm=tablename and odlbnm=LibraryName and odobtp='*FILE' " &
             "left join xmbl on mlfile=tablename and mllib=LibraryName " &
+        SQLWhere
+
+        SQLStatement = "SELECT " &
+            "trim(DatasetName) as ""DataSet Name"", " &
+            "trim(DataSetHeaderText) as ""DataSet Header Text"", " &
+            "trim(Tablename) as ""Tablename"", " &
+            "trim(Libraryname) as ""Library"", " &
+            "trim(S21ApplicationCode) as ""App"", " &
+            "trim(DataSetType) as ""Type"", " &
+            "trim(AuthorityFlag) as ""Authority Flag"", " &
+            "trim(DataSetLevel) as ""Level"", " &
+            "trim(Status) as ""Status"", " &
+            "trim(CRTuserID) as ""Created By"", " &
+            "DatasetID " &
+            "FROM ebi7020t " &
         SQLWhere
 
         SQLStatement += "ORDER BY DatasetName"
@@ -605,8 +630,8 @@ Public Class SQLBuilderDAL
         Dim ZeroDatetime As Boolean = True
         Dim Server As String = "localhost"
         Dim DbaseName As String = "simplequerybuilder"
-        Dim USERNAME As String = "root"
-        Dim password As String = "root"
+        Dim USERNAME As String = "guest"
+        Dim password As String = "guest"
         Dim port As String = "3306"
 
         If MySQLDataBaseName <> "" Then
@@ -691,11 +716,12 @@ Public Class SQLBuilderDAL
             "trim(UPDUserID) as ""UPD UserID"", " &
             "trim(UPDTimestamp) as ""UPD Timestamp"", " &
             "DatasetID " &
-            "FROM ebi7020t "
+            "FROM EBI7020T"
+            '"FROM ebi7020t "
             If Tablename <> "" Then
                 SQLStatement += " WHERE Tablename= '" & Tablename & "' "
             End If
-            SQLStatement += "ORDER BY DatasetID"
+            SQLStatement += " ORDER BY DatasetID"
 
             Dim cmd As New MySqlCommand
             cmd.Connection = cn

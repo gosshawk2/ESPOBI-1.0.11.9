@@ -1,7 +1,10 @@
 ﻿Imports System.Data.Odbc
 Public Class ImportTableDAL
-    Public Function InsertEBI7020T(
-                       ConnectString As String,
+    'Create functions for ALL 4 databases:
+    Dim InsertSQL As String
+    Dim UpdateSQL As String
+
+    Public Function PrepareInsert_Into_EBI7020T(ConnectString As String,
                        DataSetName As String,
                        DataSetHeaderText As String,
                        TableName As String,
@@ -12,14 +15,11 @@ Public Class ImportTableDAL
                        Status As String,
                        UserID As String,
                        TextColumnName As String
-                                      )
-
+                                 ) As String
         Dim SQLStatement As String
-        Using cn As New OdbcConnection(ConnectString)
-            cn.Open()
-            Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
-            With cm
-                SQLStatement =
+
+        PrepareInsert_Into_EBI7020T = ""
+        SQLStatement =
                 "Insert into EBI7020T (" &
                 "DatasetName, " &
                 "DatasetHeaderText, " &
@@ -44,36 +44,48 @@ Public Class ImportTableDAL
             "'" & Mid(TableName.ToUpper, 1, 2) & "', " &
             "'" & UserID.ToUpper & "' " &
             ")"
+        Return SQLStatement
+    End Function
+
+    Public Function InsertEBI7020T_IBM(
+                       ConnectString As String,
+                       DataSetName As String,
+                       DataSetHeaderText As String,
+                       TableName As String,
+                       LibraryName As String,
+                       DataSetType As String,
+                       Authority As String,
+                       Level As String,
+                       Status As String,
+                       UserID As String,
+                       TextColumnName As String) As DataTable
+
+        Dim SQLStatement As String
+        Dim dt As DataTable = Nothing
+
+        InsertEBI7020T_IBM = Nothing
+        SQLStatement = PrepareInsert_Into_EBI7020T(ConnectString, DataSetName, DataSetHeaderText, TableName, LibraryName, DataSetType, Authority,
+                                        Level, Status, UserID, TextColumnName)
+        Using cn As New OdbcConnection(ConnectString)
+            cn.Open()
+            Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
+            With cm
+
                 .CommandText = SQLStatement
                 Dim da1 As New OdbcDataAdapter(cm)
                 Dim ds1 As New DataSet
                 Try
                     da1.Fill(ds1)
+                    dt = ds1.Tables(0)
                 Catch ex As Exception
                     MsgBox(ex.Message & vbCrLf & "State: " & cn.State)
                 End Try
             End With
         End Using
-
-        '        Dim ID As Integer
-        '        ID = GetDataSetID(
-        '        ConnectString,
-        '        DataSetName,
-        '        TableName,
-        '        LibraryName
-        '                   )
-        Dim dt As New DataTable
-        dt = InsertEBI7023T(
-            ConnectString,
-            TableName,
-            LibraryName,
-            DataSetName,
-            TextColumnName
-            )
         Return dt
     End Function
 
-    Public Function UpdateEBI7020T(
+    Public Function UpdateEBI7020T_IBM(
                        ConnectString As String,
                        DataSetID As Integer,
                        DataSetName As String,
@@ -84,9 +96,12 @@ Public Class ImportTableDAL
                        Level As String,
                        Status As String,
                        UserID As String
-                                      )
+                                      ) As DataTable
         Dim SQLStatement As String
         Dim UpdTimestamp As String = Now().ToString("yyyy-MM-dd-HH.mm.ss")
+        Dim dt As DataTable = Nothing
+
+        UpdateEBI7020T_IBM = Nothing
         Using cn As New OdbcConnection(ConnectString)
             cn.Open()
             Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
@@ -107,21 +122,22 @@ Public Class ImportTableDAL
                 Dim ds1 As New DataSet
                 Try
                     da1.Fill(ds1)
+                    dt = ds1.Tables(0)
                 Catch ex As Exception
                     MsgBox(ex.Message & vbCrLf & "State: " & cn.State)
                 End Try
             End With
         End Using
-
+        Return dt
     End Function
 
-    Public Function InsertEBI7023T(
+    Public Function InsertEBI7023T_IBM(
                        ConnectString As String,
                        TableName As String,
                        LibraryName As String,
                        DataSetName As String,
                        TextColumnName As String
-                                  )
+                                  ) As DataTable
 
         Dim DataSetID As Integer
         DataSetID = GetDataSetID(
@@ -292,10 +308,11 @@ Public Class ImportTableDAL
     Public Function GetColumns(
                     ConnectString As String,
                     DataSetID As Integer
-                                   )
+                                   ) As DataTable
         Dim TableDescription As String = ""
         Dim SQLStatement As String
-        Dim dt As DataTable
+
+        GetColumns = Nothing
         Using cn As New OdbcConnection(ConnectString)
             cn.Open()
             Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
@@ -334,10 +351,11 @@ Public Class ImportTableDAL
     Public Function GetDatasetHeader(
                     ConnectString As String,
                     DataSetID As Integer
-                                   )
+                                   ) As DataTable
         Dim TableDescription As String = ""
         Dim SQLStatement As String
-        Dim dt As DataTable
+
+        GetDatasetHeader = Nothing
         Using cn As New OdbcConnection(ConnectString)
             cn.Open()
             Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection

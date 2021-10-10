@@ -47,6 +47,16 @@ Public Class ImportTableDetail
         Cursor = Cursors.WaitCursor
         Dim dal As New ImportTableDAL
         Dim dt As New DataTable
+
+        If GlobalParms.DBVersion = "MYSQL" Then
+
+        ElseIf GlobalParms.DBVersion = "IBM" Then
+            dt = dal.GetDatasetHeader(GlobalSession.ConnectString, GlobalParms.DataSetID)
+        ElseIf GlobalParms.DBVersion = "MSSQL" Then
+
+        ElseIf GlobalParms.DBVersion = "ORACLE" Then
+
+        End If
         dt = dal.GetDatasetHeader(GlobalSession.ConnectString, GlobalParms.DataSetID)
         If dt.Rows.Count > 0 Then
             txtTableName.Text = dt.Rows(0)("TableName")
@@ -62,8 +72,11 @@ Public Class ImportTableDetail
         Me.Hide()
     End Sub
 
+    Sub UpdateMySQL()
 
-    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnImport.Click
+    End Sub
+
+    Sub UpdateIBM()
         Cursor = Cursors.Default
         Dim ChgFlag As Boolean
 
@@ -97,7 +110,7 @@ Public Class ImportTableDetail
         Dim dal As New ImportTableDAL
         Dim dt1 As New DataTable
         If txtDataSetID.Text > 0 Then
-            dt1 = dal.UpdateEBI7020T(
+            dt1 = dal.UpdateEBI7020T_IBM(
                 GlobalSession.ConnectString,
                 txtDataSetID.Text,
                 txtDataSetName.Text,
@@ -110,7 +123,7 @@ Public Class ImportTableDetail
                 GlobalSession.CurrentUserShort
                                )
         Else
-            dt1 = dal.InsertEBI7020T(
+            dt1 = dal.InsertEBI7020T_IBM(
                 GlobalSession.ConnectString,
                 txtDataSetName.Text,
                 txtDataSetHeaderText.Text,
@@ -128,6 +141,24 @@ Public Class ImportTableDetail
             End If
         End If
         Me.Hide()
+    End Sub
+
+    Sub UpdateMSSQL()
+
+
+    End Sub
+
+    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnImport.Click
+        'TEST for database version:
+        If GlobalParms.DBVersion = "MYSQL" Then
+
+        ElseIf GlobalParms.DBVersion = "IBM" Then
+            UpdateIBM()
+        ElseIf Globalparms.DBVersion = "MSSQL" Then
+
+        ElseIf GlobalParms.DBVersion = "ORACLE" Then
+
+        End If
     End Sub
 
 End Class

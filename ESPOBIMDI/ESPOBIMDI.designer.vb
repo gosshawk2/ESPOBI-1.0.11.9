@@ -61,7 +61,7 @@ Partial Class ESPOBIMDI
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ViewToolStripMenuItem, Me.WindowToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.DBToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.ViewToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.WindowToolStripMenuItem, Me.DBToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.MdiWindowListItem = Me.WindowToolStripMenuItem
         Me.MenuStrip1.Name = "MenuStrip1"
@@ -106,43 +106,43 @@ Partial Class ESPOBIMDI
         'TileHorizontalToolStripMenuItem
         '
         Me.TileHorizontalToolStripMenuItem.Name = "TileHorizontalToolStripMenuItem"
-        Me.TileHorizontalToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.TileHorizontalToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.TileHorizontalToolStripMenuItem.Text = "Tile Horizontal"
         '
         'TileVerticalToolStripMenuItem
         '
         Me.TileVerticalToolStripMenuItem.Name = "TileVerticalToolStripMenuItem"
-        Me.TileVerticalToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.TileVerticalToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.TileVerticalToolStripMenuItem.Text = "Tile Vertical"
         '
         'CascadeToolStripMenuItem
         '
         Me.CascadeToolStripMenuItem.Name = "CascadeToolStripMenuItem"
-        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.CascadeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CascadeToolStripMenuItem.Text = "Cascade"
         '
         'ArrangeToolStripMenuItem
         '
         Me.ArrangeToolStripMenuItem.Name = "ArrangeToolStripMenuItem"
-        Me.ArrangeToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.ArrangeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ArrangeToolStripMenuItem.Text = "Arrange"
         '
         'MinimiseAllToolStripMenuItem
         '
         Me.MinimiseAllToolStripMenuItem.Name = "MinimiseAllToolStripMenuItem"
-        Me.MinimiseAllToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.MinimiseAllToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.MinimiseAllToolStripMenuItem.Text = "Minimise All"
         '
         'RestoreAllToolStripMenuItem
         '
         Me.RestoreAllToolStripMenuItem.Name = "RestoreAllToolStripMenuItem"
-        Me.RestoreAllToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.RestoreAllToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.RestoreAllToolStripMenuItem.Text = "Restore All"
         '
         'CloseAllToolStripMenuItem
         '
         Me.CloseAllToolStripMenuItem.Name = "CloseAllToolStripMenuItem"
-        Me.CloseAllToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.CloseAllToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CloseAllToolStripMenuItem.Text = "Close All"
         '
         'ToolsToolStripMenuItem
@@ -155,14 +155,14 @@ Partial Class ESPOBIMDI
         'ImportFromCSVToolStripMenuItem
         '
         Me.ImportFromCSVToolStripMenuItem.Name = "ImportFromCSVToolStripMenuItem"
-        Me.ImportFromCSVToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
+        Me.ImportFromCSVToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ImportFromCSVToolStripMenuItem.Text = "Import Table"
         '
         'ThemeToolStripMenuItem
         '
         Me.ThemeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NormalToolStripMenuItem, Me.DarkToolStripMenuItem})
         Me.ThemeToolStripMenuItem.Name = "ThemeToolStripMenuItem"
-        Me.ThemeToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
+        Me.ThemeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ThemeToolStripMenuItem.Text = "Theme"
         '
         'NormalToolStripMenuItem
@@ -183,7 +183,7 @@ Partial Class ESPOBIMDI
         '
         Me.SelectDBToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IBMToolStripMenuItem, Me.MYSQLToolStripMenuItem})
         Me.SelectDBToolStripMenuItem.Name = "SelectDBToolStripMenuItem"
-        Me.SelectDBToolStripMenuItem.Size = New System.Drawing.Size(140, 22)
+        Me.SelectDBToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SelectDBToolStripMenuItem.Text = "Select DB"
         '
         'IBMToolStripMenuItem

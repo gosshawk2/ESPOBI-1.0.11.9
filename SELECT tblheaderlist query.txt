@@ -1,0 +1,10 @@
+SELECT trim(DatasetName) as "DataSet Name", 
+trim(DataSetHeaderText) as "DataSet Header Text", 
+trim(Tablename) as "Tablename", 
+trim(AuthorityFlag) as "Authority Flag", 
+trim(CRTuserID) as "CRT userID", 
+trim(CRTTIMESTAMP) as "CRT Timestamp", 
+trim(UPDUserID) as "UPD UserID", 
+trim(UPDTimestamp) as "UPD Timestamp", 
+DatasetID FROM tblheaderlist
+ORDER BY DatasetID

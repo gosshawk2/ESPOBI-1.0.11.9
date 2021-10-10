@@ -75,8 +75,8 @@
                 If dt.Rows.Count > 0 Then
                     dgvHeaderList.DataSource = dt
                     stsDataSetListLabel1.Text = "Records: " & CStr(dt.Rows.Count)
-                    dgvHeaderList.Columns("Records").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-                    dgvHeaderList.Columns("Records").DefaultCellStyle.Format = "N0"
+                    'dgvHeaderList.Columns("Records").DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+                    'dgvHeaderList.Columns("Records").DefaultCellStyle.Format = "N0"
                 End If
             End If
 
@@ -332,7 +332,7 @@
         Cursor = Cursors.Default
         Dim dal As New ImportTable.ImportTableDAL
         Dim dt As DataTable
-        dt = dal.InsertEBI7023T(
+        dt = dal.InsertEBI7023T_IBM(
             GlobalSession.ConnectString,
             dgvHeaderList.CurrentRow.Cells("TableName").Value,
             dgvHeaderList.CurrentRow.Cells("Library").Value,

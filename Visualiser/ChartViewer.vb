@@ -12,6 +12,7 @@ Public Class ChartViewer
     Private _YAxisInterval As Integer
     Private _RecordCount As Integer
     Private _ChartIndex As Integer
+    Private _TimesRun As Integer
 
     Property ChartData As DataTable
         Get
@@ -121,12 +122,57 @@ Public Class ChartViewer
         End Set
     End Property
 
+    Property TimesRun As Integer
+        Get
+            Return _TimesRun
+        End Get
+        Set(value As Integer)
+            _TimesRun = value
+        End Set
+    End Property
+
     Private Sub ChartViewer_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         For Each c As Control In Controls
             AddHandler c.MouseClick, AddressOf ClickHandler
         Next
+        Me.TimesRun = 0
+        Me.rbBarChart.Enabled = True
+        'Me.rbPieChart.Enabled = True
+        If Me.ChartType = "" Then
+            'run this default:
+            ChartType = "BAR"
 
-        PopulateForm()
+            Me.rbBarChart.Checked = True
+        ElseIf Me.ChartType = "PIE" Then
+            'run this if ChartType PIE:
+            ChartType = "PIE"
+            Me.rbPieChart.Checked = True
+        ElseIf Me.ChartType = "BAR" Then
+            ChartType = "BAR"
+            Me.rbBarChart.Checked = True
+        End If
+        'rbPieChart.Checked = True
+        'PopulateForm()
+        If InStr(ChartData.Columns(0).ColumnName.ToUpper, "YEAR") Then
+            rbBarChart.Checked = True
+        ElseIf InStr(ChartData.Columns(0).ColumnName.ToUpper, "MONTH") Then
+            rbBarChart.Checked = True
+        ElseIf InStr(ChartData.Columns(0).ColumnName.ToUpper, "WEEK") Then
+            rbBarChart.Checked = True
+        ElseIf InStr(ChartData.Columns(0).ColumnName.ToUpper, "DAY") Then
+            rbBarChart.Checked = True
+        ElseIf InStr(ChartData.Columns(0).ColumnName.ToUpper, "DATE") Then
+            rbBarChart.Checked = True
+        ElseIf InStr(ChartData.Columns(0).ColumnName.ToUpper, "HOUR") Then
+            rbBarChart.Checked = True
+        ElseIf InStr(ChartData.Columns(0).ColumnName.ToUpper, "PERIOD") Then
+            rbBarChart.Checked = True
+        ElseIf ChartData.Rows.Count < 12 Then
+            rbPieChart.Checked = True
+        End If
+        nudMavPoints.Value = 3
+        'PopulateForm()
+
     End Sub
 
     Private Sub ClickHandler(sender As Object, e As MouseEventArgs) Handles Me.MouseClick
@@ -135,12 +181,21 @@ Public Class ChartViewer
             Case MouseButtons.Left
                 Me.BringToFront()
         End Select
+        If TypeOf sender Is RadioButton Then
+            Dim rb As RadioButton = DirectCast(sender, RadioButton)
+            If rb.Name = "rbBarChart" Then
+                MsgBox("BAR CHART")
+            Else
+                MsgBox("PIE CHART")
+            End If
+        End If
     End Sub
 
     Sub PopulateForm()
         Me.BringToFront()
         Me.Cursor = Cursors.WaitCursor
-        ClearCharts()
+        'ClearCharts()
+        CreateNewChart(5, 100, 934, 354)
         CreateChart()
         Me.Cursor = Cursors.Default
     End Sub
@@ -161,19 +216,46 @@ Public Class ChartViewer
         Dim Chart1 = New DataVisualization.Charting.Chart()
 
         Try
-            Me.Controls.Add(Chart1) 'if in a panel : me.pnlName.Controls.Add(Chart1)
+            Try
+                Me.Controls.Add(Chart1) 'if in a panel : me.pnlName.Controls.Add(Chart1)
+            Catch ex As Exception
+
+            End Try
+
             ChartArea1.Name = "ChartArea1"
-            Chart1.ChartAreas.Add(ChartArea1)
+            Try
+                Chart1.ChartAreas.Add(ChartArea1)
+            Catch ex As Exception
+            End Try
+
             Legend1.Name = "Legend1"
-            Chart1.Legends.Add(Legend1)
+            Try
+                Chart1.Legends.Add(Legend1)
+            Catch ex As Exception
+            End Try
+
             Chart1.Location = New System.Drawing.Point(xx, yy)
             Chart1.Name = "Chart1"
-            Series1.ChartArea = "ChartArea1"
-            Series1.Legend = "Legend1"
-            Series1.Name = "Series1"
+            Try
+                Series1.ChartArea = "ChartArea1"
+            Catch ex As Exception
+            End Try
+
+            Try
+                Series1.Legend = "Legend1"
+            Catch ex As Exception
+            End Try
+
+            Try
+                Series1.Name = "Series1"
+            Catch ex As Exception
+            End Try
+
             Chart1.Size = New System.Drawing.Size(width, height)
             Chart1.TabIndex = 0
             Chart1.Text = "Chart1"
+
+
         Catch ex As Exception
             Me.Cursor = Cursors.Default
             MsgBox(ex.ToString, MsgBoxStyle.OkOnly, "Create New Chart")
@@ -188,12 +270,13 @@ Public Class ChartViewer
         Dim Column2 As String
         Dim Column3 As String
         Dim SeriesTitle1 As String
+        Dim SeriesTitle2 As String
         'Dim tempAttribute As ColumnAttributes.ColumnAttributeProperties
 
         Cursor = Cursors.WaitCursor
         Refresh()
         'Dim dt As New DataTable
-
+        Me.ChartIndex = 0
         Try
             Chart1.DataSource = Nothing
             stsChartViewerLabel1.Text = "Getting Data"
@@ -221,32 +304,67 @@ Public Class ChartViewer
                     End If
                     'tempAttribute = FieldAttributes.Dic_Attributes(Column1)
                     'Column1Text = tempAttribute.SelectedFieldText
+                    If Column1 = "" Or Column2 = "" Then
+                        MsgBox("Cannot find Column 1 or Column2 fields", MsgBoxStyle.OkOnly, "Column 1 / 2 not found")
+                        Exit Sub
+                    End If
                     SeriesTitle1 = Column2
-                    ChartIndex = 0
+                    SeriesTitle2 = Column3
+                    If Me.Series1Title <> "" Then
+                        SeriesTitle1 = Me.Series1Title
+                    End If
+                    If Me.Series2Title <> "" Then
+                        SeriesTitle2 = Me.Series2Title
+                    End If
                     Try
-                        Chart1.Series.Add(ChartIndex)
+                        Chart1.Series.Add(ChartIndex) 'Adding Series(0) here.
+                        'Chart1.Series.Add(ChartIndex + 1) 'Adding Series(1) Trendline here.
                     Catch ex As Exception
-                        MsgBox(ex.Message, MsgBoxStyle.OkOnly, "Add Chart")
+                        MsgBox(ex.Message, MsgBoxStyle.OkOnly, "Add Series 1 to Chart")
                     End Try
+
                     If ChartType.ToUpper = "BAR" Then
                         Chart1.Series(ChartIndex).ChartType = SeriesChartType.Column
-                        FormatColumnChart(0, 1, SeriesTitle1, Column1, Column2, 1, 0)
-                        FormatColumnchartFinal(0)
+                        gbForecast.Visible = True
+                        'chk3D.Checked = False
+                        'chkDataLabels.Checked = False
+                        chkPercentages.Visible = False
+                        If Column3 <> "" Then
+                            Try
+                                ChartIndex += 2
+                                Chart1.Series.Add(ChartIndex) 'Adding Series(0) here.
+                                Chart1.Series.Add(ChartIndex + 1) 'Adding Series(1) Trendline here.
+                            Catch ex As Exception
+                                MsgBox(ex.Message, MsgBoxStyle.OkOnly, "Add series 2 to Chart")
+                            End Try
+                            FormatColumnChart(ChartIndex, ChartIndex + 1, SeriesTitle2, Column1, Column3, 1, 0)
+                            FormatColumnchartFinal(ChartIndex)
+                        Else
+                            FormatColumnChart(ChartIndex, ChartIndex + 1, SeriesTitle1, Column1, Column2, 1, 0)
+                            FormatColumnchartFinal(ChartIndex)
+                        End If
                     ElseIf ChartType.ToUpper = "PIE" Then
+                        chkTrendline.Checked = False
+                        gbForecast.Visible = False
+                        chkPercentages.Visible = True
+
                         If chkTrendline.Checked Then
                             MsgBox("Cannot have TRENDLINE with Pie chart - please untick")
                             Exit Sub
                         End If
                         Chart1.Series(ChartIndex).ChartType = SeriesChartType.Pie
                         Chart1.Series(ChartIndex)("PieLabelStyle") = "Outside"
-
-                        FormatPieChart(0, Column1, Column2)
+                        If Me.TimesRun = 0 Then
+                            chk3D.Checked = True
+                        End If
+                        FormatPieChart(0, Column1, Column2, False)
                     Else
                         Chart1.Series(ChartIndex).ChartType = SeriesChartType.Column
                         FormatColumnChart(0, 1, SeriesTitle1, Column1, Column2, 1, 0)
                         FormatColumnchartFinal(0)
                     End If
                     stsChartViewerLabel1.Text = "Records:" & ChartData.Rows.Count
+                    Refresh()
                 End If
             End If
 
@@ -255,7 +373,7 @@ Public Class ChartViewer
             MsgBox(ex.Message, MsgBoxStyle.OkOnly, "Create Chart")
         End Try
         Cursor = Cursors.Default
-        'Refresh()
+        Refresh()
     End Sub
 
     Sub FormatColumnChart(intChart As Integer, intTrendline As Integer, SeriesTitle As String, XMemberField As String, YMemberField As String, XAxisInterval As Integer, YAxisInterval As Integer)
@@ -297,7 +415,7 @@ Public Class ChartViewer
 
             If chkTrendline.Checked Then
                 Try
-                    Chart1.Series.Add(intTrendline)
+                    'Chart1.Series.Add(intTrendline)
                     Chart1.Series(intTrendline).ChartType = DataVisualization.Charting.SeriesChartType.Line
                     Chart1.Series(intTrendline).BorderWidth = 2
                     Chart1.Series(intTrendline).LegendText = SeriesTitle & " Trend"
@@ -308,7 +426,7 @@ Public Class ChartViewer
                     End If
 
                 Catch ex As Exception
-                    MsgBox(ex.Message, vbOK, "Trendline")
+                    MsgBox(ex.Message, MsgBoxStyle.OkOnly, "Trendline")
                 End Try
             End If
 
@@ -327,31 +445,104 @@ Public Class ChartViewer
         End Try
     End Sub
 
-    Sub FormatPieChart(intChart As Integer, XMemberField As String, YMemberField As String)
+    Sub FormatPieChart(intChart As Integer, XMemberField As String, YMemberField As String, altLegend As Boolean)
         Dim LegendList As New List(Of String)
         Dim pointValue As String
+        Dim PointName As String
         Dim TotalLegendItems As Integer
-        Dim LgndItem As New LegendItem
+        Dim LgndItem As LegendItem
         Dim LgndCell As LegendCell
-
+        Dim LgndCell2 As LegendCell
+        Dim LgndCell3 As LegendCell
+        Dim LgndCellColumn As LegendCellColumn
+        Dim LgndCellColumn2 As LegendCellColumn
+        Dim LgndCellColumn3 As LegendCellColumn
+        Dim xValues As String() = Nothing
+        Dim yValues As Double()
+        Dim TotalYValues As Double = 0
+        Dim Percentage As Double
+        Dim Percentages As String()
         'Chart1.Legends.Clear()
-        'Chart1.Legends.Add("Legend1")
+        Try
+            Chart1.Legends.Add("PieLegend1")
+            If altLegend = True Then
+                LgndCellColumn = New LegendCellColumn
+                LgndCellColumn2 = New LegendCellColumn
+                LgndCellColumn3 = New LegendCellColumn
+                LgndCellColumn.ColumnType = LegendCellColumnType.SeriesSymbol
+                LgndCellColumn.HeaderText = "Colour"
+                LgndCellColumn2.ColumnType = LegendCellColumnType.Text
+                LgndCellColumn2.HeaderText = "Point Name"
+                LgndCellColumn3.ColumnType = LegendCellColumnType.Text
+                LgndCellColumn3.HeaderText = "Point Value"
+                LgndCellColumn.SeriesSymbolSize = New Drawing.Size(100, 50)
+                Chart1.Legends("PieLegend1").CellColumns.Add(LgndCellColumn)
+                Chart1.Legends("PieLegend1").CellColumns.Add(LgndCellColumn2)
+                Chart1.Legends("PieLegend1").CellColumns.Add(LgndCellColumn3)
+            End If
 
+        Catch ex As Exception
+
+        End Try
+
+        ReDim xValues(0)
+        ReDim yValues(0)
+        ReDim Percentages(0)
         For row As Integer = 0 To Me.ChartData.Rows.Count - 1
-            pointValue = Me.ChartData.Rows(row)(0)
+            pointValue = Me.ChartData.Rows(row)(1)
+            TotalYValues += pointValue
+        Next
+        For row As Integer = 0 To Me.ChartData.Rows.Count - 1
+            PointName = Me.ChartData.Rows(row)(0)
+            pointValue = Me.ChartData.Rows(row)(1)
             LegendList.Add(pointValue)
-            'LgndCell = New LegendCell
-            'LgndCell.CellType = LegendCellType.Text
-            'LgndCell.Text = pointValue
-            'LgndItem.Cells.Add(LgndCell)
-            'Chart1.Legends("Legend1").CustomItems.Add(LgndItem)
+            ReDim Preserve xValues(xValues.GetUpperBound(0) + 1)
+            ReDim Preserve yValues(yValues.GetUpperBound(0) + 1)
+            ReDim Preserve Percentages(Percentages.GetUpperBound(0) + 1)
+            xValues(row) = PointName & " (" & pointValue & ")"
+
+            Percentage = (pointValue / TotalYValues) * 100
+            Percentages(row) = PointName & " (" & Percentage.ToString("N1") & "%)"
+
+            If chkPercentages.Checked = True Then
+                yValues(row) = Percentage
+                Chart1.Series(intChart).Points.AddXY(Percentages(row), yValues(row))
+            Else
+                yValues(row) = pointValue
+                Chart1.Series(intChart).Points.AddXY(PointName, yValues(row))
+            End If
+
+
+            If altLegend = True Then
+                LgndItem = New LegendItem
+                LgndItem.ImageStyle = LegendImageStyle.Marker
+                LgndCell = New LegendCell
+                LgndCell.CellType = LegendCellType.SeriesSymbol
+                LgndCell2 = New LegendCell
+                LgndCell2.CellType = LegendCellType.Text
+                LgndCell2.Text = PointName
+                LgndCell3 = New LegendCell
+                LgndCell3.CellType = LegendCellType.Text
+                LgndCell3.Text = pointValue
+                LgndItem.Cells.Add(LgndCell)
+                LgndItem.Cells.Add(LgndCell2)
+                LgndItem.Cells.Add(LgndCell3)
+                Chart1.Legends("PieLegend1").CustomItems.Add(LgndItem)
+            End If
+
         Next
         'Possibly then use LegendList.ToArray() ?
-        Chart1.Series(intChart).XValueMember = XMemberField
-        Chart1.Series(intChart).YValueMembers = YMemberField
+        'Chart1.Series(intChart).XValueMember = XMemberField
+        'Chart1.Series(intChart).YValueMembers = YMemberField
+        If chkPercentages.Checked Then
+            Chart1.Series(intChart).Points.DataBindXY(Percentages, yValues)
+        Else
+            Chart1.Series(intChart).Points.DataBindXY(xValues, yValues)
+        End If
+
         Chart1.Series(intChart).Color = Color.Blue
         Chart1.Series(intChart).BorderWidth = 2
-        Chart1.Series(intChart).LegendText = YMemberField
+        'Chart1.Series(intChart).LegendText = XMemberField
         TotalLegendItems = Chart1.Series(intChart).Legend.Count
         'Chart1.Series(intChart).Legend.ToList() = LegendList
         Chart1.Series(intChart).LabelFormat = "#,###,###.#"
@@ -361,15 +552,15 @@ Public Class ChartViewer
             Chart1.ChartAreas(0).Area3DStyle.Enable3D = False
         End If
 
-        Chart1.ChartAreas(0).AxisX.Title = XMemberField
-        Chart1.ChartAreas(0).AxisY.Title = YMemberField
+        'Chart1.ChartAreas(0).AxisX.Title = XMemberField
+        'Chart1.ChartAreas(0).AxisY.Title = YMemberField
         'Chart1.ChartAreas(0).AxisX.Interval = XAxisInterval
         'Chart1.ChartAreas(0).AxisY.Interval = YAxisInterval
 
         If chkDataLabels.Checked Then
-            Chart1.Series(intChart).IsValueShownAsLabel = True
-        Else
             Chart1.Series(intChart).IsValueShownAsLabel = False
+        Else
+            Chart1.Series(intChart).IsValueShownAsLabel = True
         End If
     End Sub
 
@@ -468,16 +659,32 @@ Public Class ChartViewer
 
     Private Sub rbPieChart_CheckedChanged(sender As Object, e As EventArgs) Handles rbPieChart.CheckedChanged
         Me.ChartType = "PIE"
-        PopulateForm()
+        'PopulateForm()
     End Sub
 
     Private Sub rbBarChart_CheckedChanged(sender As Object, e As EventArgs) Handles rbBarChart.CheckedChanged
         Me.ChartType = "BAR"
-        PopulateForm()
+        'PopulateForm()
     End Sub
 
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
+        If rbPieChart.Checked Then
+            Me.TimesRun += 1
+        End If
         PopulateForm()
     End Sub
 
+    Private Sub chkPercentages_CheckedChanged(sender As Object, e As EventArgs) Handles chkPercentages.CheckedChanged
+        If chkPercentages.Checked Then
+            chkDataLabels.Checked = False
+            Chart1.Series(0).IsValueShownAsLabel = False
+            PopulateForm()
+        End If
+
+    End Sub
+
+    Private Sub BtnAddSeries_Click(sender As Object, e As EventArgs) Handles BtnAddSeries.Click
+        'Add Another Series:
+
+    End Sub
 End Class

@@ -275,7 +275,7 @@ Public Class clsFieldDetails
                     ElseIf Word.ToUpper = "JOIN" Then ' SQL Clause, flag that we are in the JOIN part...
                         blnInsideJoin = True
                         blnSelectMode = False
-                        'blnFromMode = False
+                        blnFromMode = False
                         blnWhereMode = False
                         blnGroupByMode = False
                         int2 = 0
@@ -389,6 +389,7 @@ Public Class clsFieldDetails
                         strFROM = Word
 
                     ElseIf blnInsideJoin = True Then
+                        'On tablename left join t1.f1 = t2.f1
                         _arrJoins(intJoins) = Word
                         arrJoins(intJoins) = Word
                         ReDim Preserve _arrJoins(UBound(_arrJoins) + 1)

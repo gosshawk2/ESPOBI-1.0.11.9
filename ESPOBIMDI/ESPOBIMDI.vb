@@ -48,9 +48,13 @@
         NormalToolStripMenuItem.Checked = True
         DarkToolStripMenuItem.Checked = False
         MYSQLToolStripMenuItem.Checked = False
-        IBMToolStripMenuItem.Checked = True
-        DBToolStripMenuItem.Text = "IBM"
-        SQLBuilder.DataSetHeaderList.DBVersion = "IBM"
+        'IBMToolStripMenuItem.Checked = True
+        'DBToolStripMenuItem.Text = "IBM"
+        'SQLBuilder.DataSetHeaderList.DBVersion = "IBM"
+        SQLBuilder.DataSetHeaderList.DBVersion = "MYSQL"
+        DBToolStripMenuItem.Text = "MYSQL"
+        IBMToolStripMenuItem.Checked = False
+        MYSQLToolStripMenuItem.Checked = True
         ShowHeaderForm()
 
         For Each c As Control In Controls
