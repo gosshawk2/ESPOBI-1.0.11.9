@@ -2508,6 +2508,10 @@ Public Class ColumnSelect
         Dim Entry As Integer
         Dim FinalQuery As String
         Dim Output As Char
+        Dim dtTableData As DataTable
+        Dim dtChartDetails As DataTable
+        Dim myDAL = New SQLBuilderDAL
+
         If radDisplay.Checked Then
             Output = "D"
         ElseIf radExcel.Checked Then
@@ -2517,8 +2521,20 @@ Public Class ColumnSelect
 
         If FinalQuery <> "" Then
             Dim RQ As New RunQuery.QueryResultsDGV
+            If FieldAttributes.DBType = "MYSQL" Then
+                dtTableData = myDAL.ExecuteMySQLQuery(FinalQuery)
+                dtChartDetails = myDAL.GetChartDetailsMySQL()
+            Else
+                dtTableData = myDAL.ExecuteIBMSQLQuery(GlobalSession.ConnectString, FinalQuery)
+                dtChartDetails = myDAL.GetChartDetailsIBM(GlobalSession.ConnectString)
+            End If
+            If dtChartDetails Is Nothing Then
+                dtChartDetails = myDAL.CreateChartDetails()
+            End If
             RQ.GetParms(GlobalSession, GlobalParms)
             RQ.Tablename = txtTablename.Text
+            RQ.TableData = dtTableData
+            RQ.ChartDetails = dtChartDetails
             RQ.PopulateForm(FinalQuery, FieldAttributes, Output)
             RQ.Show()
         End If

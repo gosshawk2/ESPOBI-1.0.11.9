@@ -1394,4 +1394,152 @@ from tmp
         '20030818' 
     End Sub
 
+    Public Function ExecuteIBMSQLQuery(ConnectString As String, SQLStatement As String) As DataTable
+        '    Dim ConnectString As String
+        '    ConnectString = GlobalSession.ConnectString
+        'ConnectString = "Provider=MSDASQL.1;DRIVER=Client Access ODBC Driver (32-bit);SYSTEM=PARAGON;TRANSLATE=1;DBQ=,epobespliv,epobesiliv, ault2f3,ault1f3,epocrmfliv,epoapefliv,epoutility,islrtgf,aulamf3,eposysfliv,zxref;DFTPKGLIB=QGPL;LANGUAGEID=ENU;PKG=QGPL/DEFAULT(IBM),2,0,1,0,512;LIBVIEW=1;CONNTYPE=0;userid=odbcuser;password=odbcuser;Initial Catalog=PARAGON;NAM=1 "
+        Dim cn As New OdbcConnection(ConnectString)
+        Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
+
+        ExecuteIBMSQLQuery = Nothing
+        cn.Open()
+        cm.CommandTimeout = 0
+        cm.CommandType = CommandType.Text
+        cm.CommandText = SQLStatement
+        Dim da As New OdbcDataAdapter(cm)
+        Dim ds As New DataSet
+        da.Fill(ds)
+        Return ds.Tables(0)
+    End Function
+
+    Public Function ExecuteMySQLQuery(SqlStatement As String) As DataTable
+        Dim ConnString As String
+
+        ExecuteMySQLQuery = Nothing
+        Try
+            'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
+            ConnString = GetMYSQLConnection()
+            Dim cn As New MySqlConnection(ConnString)
+            cn.Open()
+            Dim cmd As New MySqlCommand
+            cmd.Connection = cn
+            cmd.CommandTimeout = 0
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = SqlStatement
+            Dim da As New MySqlDataAdapter(cmd)
+            Dim ds As New DataSet
+            da.Fill(ds)
+            Return ds.Tables(0)
+        Catch ex As Exception
+            MsgBox("DB ERROR: " & ex.Message)
+        End Try
+    End Function
+
+    Public Function GetChartDetailsIBM(ConnectString As String) As DataTable
+        Dim cn As New OdbcConnection(ConnectString)
+        Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
+        Dim SQLStatement As String
+
+        GetChartDetailsIBM = Nothing
+        Try
+            SQLStatement = "SELECT * FROM ChartDetails"
+            cn.Open()
+            cm.CommandTimeout = 0
+            cm.CommandType = CommandType.Text
+            cm.CommandText = SQLStatement
+            Dim da As New OdbcDataAdapter(cm)
+            Dim ds As New DataSet
+            da.Fill(ds)
+            Return ds.Tables(0)
+        Catch ex As Exception
+
+        End Try
+
+
+    End Function
+
+    Public Function GetChartDetailsMySQL() As DataTable
+        Dim ConnString As String
+        Dim SQLStatement As String
+
+        GetChartDetailsMySQL = Nothing
+        Try
+            'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
+            ConnString = GetMYSQLConnection()
+            Dim cn As New MySqlConnection(ConnString)
+
+
+            SQLStatement = "SELECT * FROM tblChartDetails"
+            cn.Open()
+            Dim cmd As New MySqlCommand
+            cmd.Connection = cn
+            cmd.CommandTimeout = 0
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = SqlStatement
+            Dim da As New MySqlDataAdapter(cmd)
+            Dim ds As New DataSet
+            da.Fill(ds)
+            Return ds.Tables(0)
+        Catch ex As Exception
+            MsgBox("DB ERROR: " & ex.Message)
+        End Try
+    End Function
+
+    Public Function CreateChartDetails() As DataTable
+        Dim dtChartDetails As New DataTable
+        Dim ColumnDesc As String
+        Dim ColumnMax As Integer
+        Dim ColumnYVal As Integer
+        Dim ColumnCannotCombine As String
+        Dim ColumnCustomOptions As String
+        Dim ColumnMSChartName As String
+        Dim ColumnMSChartID As Integer
+        Dim PieMax As Integer
+        Dim PieYVal As Integer
+        Dim PieDesc As String
+        Dim PieCannotCombine As String
+        Dim PieCustomOptions As String
+        Dim PieMSChartName As String
+        Dim PieMSChartID As Integer
+
+        CreateChartDetails = Nothing
+        Try
+            dtChartDetails.Columns.Add("id", GetType(Integer))
+            dtChartDetails.Columns.Add("ChartName", GetType(String))
+            dtChartDetails.Columns.Add("ChartDescription", GetType(String))
+            dtChartDetails.Columns.Add("MinSeries", GetType(Integer))
+            dtChartDetails.Columns.Add("MaxSeries", GetType(Integer))
+            dtChartDetails.Columns.Add("YValuesRequired", GetType(Integer))
+            dtChartDetails.Columns.Add("CannotCombine", GetType(String))
+            dtChartDetails.Columns.Add("CustomOptions", GetType(String))
+            dtChartDetails.Columns.Add("MSChartName", GetType(String))
+            dtChartDetails.Columns.Add("MSChartID", GetType(Integer))
+            ColumnDesc = "Column Charts are among the most commonly used chart types. Displayed in vertical bars (called columns) they depict the different values of one or more items. Points from adjacent series are drawn as bars next to each other. They are ideal for showing the variations in the value of an item over time."
+            ColumnMax = 0
+            ColumnYVal = 1
+            ColumnCannotCombine = "Pie;Bar;Polar;Radar"
+            ColumnCustomOptions = "3D"
+            ColumnMSChartName = "Column"
+            ColumnMSChartID = 10
+            PieDesc = "A Pie Chart renders y values as slices in a pie. These slices are rendered in proportion to the whole which is simply the sum of all the y values in the series. Consequently - Pie Charts are used to visualize the proportional contribution (in terms of percentage or fraction) of categories of data to the whole data set. The x values in the data series will only be treated as nominal (categorical qualitative) data. The Pie Chart can display only one Data Series at a time."
+            PieMax = 1
+            PieYVal = 1
+            PieCannotCombine = "None."
+            PieCustomOptions = "ExplodedIndex;3D"
+            PieMSChartName = "Pie"
+            PieMSChartID = 17
+
+            dtChartDetails.Rows.Add(1, "Column Chart", ColumnDesc, 1, ColumnMax, ColumnYVal,
+                                    ColumnCannotCombine, ColumnCustomOptions, ColumnMSChartName, ColumnMSChartID)
+            dtChartDetails.Rows.Add(2, "Pie Chart", PieDesc, 1, PieMax, PieYVal,
+                                    PieCannotCombine, PieCustomOptions, PieMSChartName, PieMSChartID)
+            CreateChartDetails = dtChartDetails
+        Catch ex As Exception
+            MsgBox("Chart Detail Create ERROR: " & ex.Message)
+        End Try
+
+        Return CreateChartDetails
+
+    End Function
+
 End Class

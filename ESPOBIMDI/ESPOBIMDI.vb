@@ -6,6 +6,8 @@
 
 
     Private Sub ESPOBIMDI_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim myDAL = New SQLBuilder.SQLBuilderDAL
+
         GlobalSession = New ESPOParms.Session
         GlobalParms = New ESPOBIParms.BIParms
         GlobalSession.CurrentUser = userid
@@ -39,7 +41,8 @@
         Dim espoConnect As New ESPOCommon.ESPOConnect
         GlobalSession.ConnectString = espoConnect.GetConnectString(GlobalSession.CurrentMode, GlobalSession.CurrentServer)
         GlobalSession.MDIParentHandle = Me.Handle
-
+        GlobalParms.IBMConnectionString = GlobalSession.ConnectString
+        GlobalParms.MySQLConnectionString = myDAL.GetMYSQLConnection()
         stsFW100Label2.Spring = True
         stsFW100Label3.Text = "    User: " & GlobalSession.CurrentUserShort & "   "
         stsFW100Label4.Text = "    Server: " & GlobalSession.CurrentServer & "   "

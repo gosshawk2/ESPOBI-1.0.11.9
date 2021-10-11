@@ -4,12 +4,33 @@ Imports MySql.Data.MySqlClient
 Imports System.IO
 Public Class QueryResultsDGV
     Private _Tablename As String
+    Private _TableData As DataTable
+    Private _ChartDetails As DataTable
+
     Property Tablename As String
         Get
             Return _Tablename
         End Get
         Set(value As String)
             _Tablename = value
+        End Set
+    End Property
+
+    Property TableData As DataTable
+        Get
+            Return _TableData
+        End Get
+        Set(value As DataTable)
+            _TableData = value
+        End Set
+    End Property
+
+    Property ChartDetails As DataTable
+        Get
+            Return _ChartDetails
+        End Get
+        Set(value As DataTable)
+            _ChartDetails = value
         End Set
     End Property
     'ViewSQL_KeyDown KEYS: CTRL+R = RUN QUERY, CTRL+SHIFT+C = CLOSE FORM
@@ -19,7 +40,8 @@ Public Class QueryResultsDGV
     Dim FieldAttributes As New ColumnAttributes.ColumnAttributes
     Dim SQLStatement As String
     Dim OutputType As Char
-    Dim dt As DataTable
+    Dim dtTableData As DataTable
+    Dim dtChartDetails As DataTable
     Dim XLName As String
 
     Public Sub GetParms(Session As ESPOParms.Session, Parms As ESPOBIParms.BIParms)
@@ -140,25 +162,25 @@ Public Class QueryResultsDGV
             Refresh()
             tssLabel1.Text = "Getting Data"
             Refresh()
-            If FieldAttributes.DBType = "MYSQL" Then
-                dt = ExecuteMySQLQuery(txtSQLQuery.Text)
-            Else
-                dt = ExecuteSQLQuery(GlobalSession.ConnectString, txtSQLQuery.Text)
-            End If
-
-            If dt IsNot Nothing Then
-                If dt.Rows.Count = 0 Then
+            'If FieldAttributes.DBType = "MYSQL" Then
+            'dt = ExecuteMySQLQuery(txtSQLQuery.Text)
+            'Else
+            'dt = ExecuteSQLQuery(GlobalSession.ConnectString, txtSQLQuery.Text)
+            'End If
+            dtTableData = Me.TableData
+            If dtTableData IsNot Nothing Then
+                If dtTableData.Rows.Count = 0 Then
                     'MsgBox("No records")
                     tssLabel1.Text = "Records: 0"
                 Else
                     tssLabel1.Text = "Loading Data to Grid"
                     Refresh()
-                    dgvOutput.DataSource = dt
+                    dgvOutput.DataSource = dtTableData
                     tssLabel1.Text = "Formatting Grid"
                     Refresh()
                     FormatGrid()
                     dgvOutput.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
-                    tssLabel1.Text = "Records:" & dt.Rows.Count
+                    tssLabel1.Text = "Records:" & dtTableData.Rows.Count
                 End If
             End If
 
@@ -227,7 +249,7 @@ Public Class QueryResultsDGV
         Cursor = Cursors.WaitCursor
         Refresh()
         If FieldAttributes.DBType = "MYSQL" Then
-            dt = ExecuteMySQLQuery(txtSQLQuery.Text)
+            dtTableData = ExecuteMySQLQuery(txtSQLQuery.Text)
             'ExportToExcelWithDataTable(dt, "SQLBuilder Output")
         Else
             Dim rsADO As ADODB.Recordset
@@ -355,7 +377,8 @@ Public Class QueryResultsDGV
         Cursor = Cursors.WaitCursor
         Refresh()
         App.Visible = False
-        App.ChartData = dt
+        App.ChartData = Me.dtTableData
+        App.ChartDetails = Me.dtChartDetails
         App.ChartType = "PIE"
         'App.PopulateForm()
         App.Show()
