@@ -204,9 +204,9 @@ Public Class SQLBuilderDAL
 
         'If DatasetID > 0 Or Tablename <> "" Or ColumnName <> "" Then
         SQLStatement += "WHERE " & strWhere & " "
-            ' End If
+        ' End If
 
-            SQLStatement += "order by rrn(ebi7023t) "
+        SQLStatement += "order by rrn(ebi7023t) "
         Try
             cn.Open()
             Dim cm As OdbcCommand = cn.CreateCommand 'Create a command object via the connection
@@ -327,7 +327,7 @@ Public Class SQLBuilderDAL
         End Try
     End Function
 
-    Function GetLastID_MYSQL(Tablename As String, PrimaryField As String) As Integer
+    Shared Function GetLastID_MYSQL(Tablename As String, PrimaryField As String) As Integer
         Dim cn As MySqlConnection
         Dim SQLStatement As String
         Dim dt As DataTable
@@ -625,7 +625,7 @@ Public Class SQLBuilderDAL
 
     End Function
 
-    Function GetMYSQLConnection(ByVal Optional MySQLDataBaseName As String = "") As String
+    Shared Function GetMYSQLConnection(ByVal Optional MySQLDataBaseName As String = "") As String
         Dim ConnString As String
         Dim ZeroDatetime As Boolean = True
         Dim Server As String = "localhost"
@@ -641,14 +641,15 @@ Public Class SQLBuilderDAL
         Return ConnString
     End Function
 
-    Function GetMYSQLDatabases() As DataTable
+    Shared Function GetMYSQLDatabases() As DataTable
         Dim ConnString As String
         Dim SQLStatement As String
+
 
         GetMYSQLDatabases = Nothing
         Try
             'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
-            ConnString = GetMYSQLConnection("mysql")
+            ConnString = SQLBuilderDAL.GetMYSQLConnection("mysql")
             Dim cn As New MySqlConnection(ConnString)
             cn.Open()
             SQLStatement = "SHOW DATABASES"
@@ -695,7 +696,7 @@ Public Class SQLBuilderDAL
 
     End Function
 
-    Function GetHeaderListMYSQL(DBName As String, Tablename As String, ByRef DatasetID As Integer) As DataTable
+    Shared Function GetHeaderListMYSQL(DBName As String, Tablename As String, ByRef DatasetID As Integer) As DataTable
         Dim ConnString As String
         Dim SQLStatement As String
         Dim dt As DataTable
@@ -709,12 +710,15 @@ Public Class SQLBuilderDAL
             SQLStatement = "SELECT " &
             "trim(DatasetName) as ""DataSet Name"", " &
             "trim(DataSetHeaderText) as ""DataSet Header Text"", " &
+            "trim(DBName) as ""DBName"", " &
             "trim(Tablename) as ""Tablename"", " &
             "trim(AuthorityFlag) as ""Authority Flag"", " &
+            "trim(GroupName) as ""Group Name"", " &
             "trim(CRTuserID) as ""CRT userID"", " &
             "trim(CRTTIMESTAMP) as ""CRT Timestamp"", " &
             "trim(UPDUserID) as ""UPD UserID"", " &
             "trim(UPDTimestamp) as ""UPD Timestamp"", " &
+            "TotalFields, " &
             "DatasetID " &
             "FROM EBI7020T"
             '"FROM ebi7020t "
@@ -722,6 +726,8 @@ Public Class SQLBuilderDAL
                 SQLStatement += " WHERE Tablename= '" & Tablename & "' "
             End If
             SQLStatement += " ORDER BY DatasetID"
+            'Test if certain fields are available in database - eg. TotalRecords INT
+            'before extracting information....
 
             Dim cmd As New MySqlCommand
             cmd.Connection = cn
@@ -748,7 +754,7 @@ Public Class SQLBuilderDAL
 
     End Function
 
-    Function GetColumnsMYSQL(DatasetID As Integer, DBName As String, Tablename As String, ColumnName As String) As DataTable
+    Shared Function GetColumnsMYSQL(DatasetID As Integer, DBName As String, Tablename As String, ColumnName As String) As DataTable
         Dim ConnString As String
         Dim myDR As MySqlDataReader = Nothing
         Dim SQLStatement As String
@@ -808,7 +814,7 @@ Public Class SQLBuilderDAL
 
     End Function
 
-    Function GetHeaderAndColumns_MYSQL(DatasetID As Integer) As DataTable
+    Shared Function GetHeaderAndColumns_MYSQL(DatasetID As Integer) As DataTable
         Dim ConnectString As String = GetMYSQLConnection()
         Dim cn As New MySqlConnection(ConnectString)
         Dim SQLStatement As String
@@ -854,7 +860,7 @@ Public Class SQLBuilderDAL
         End Try
     End Function
 
-    Function LocateDataSetID_MySQL(TableName As String) As DataTable
+    Shared Function LocateDataSetID_MySQL(TableName As String) As DataTable
         Dim ConnString As String
         Dim myDR As MySqlDataReader = Nothing
         Dim SQLStatement As String
@@ -886,7 +892,7 @@ Public Class SQLBuilderDAL
 
     End Function
 
-    Function CheckTableExists_MYSQL(Tablename As String) As DataTable
+    Shared Function CheckTableExists_MYSQL(Tablename As String) As DataTable
         Dim ConnectString As String
         Dim SQLStatement As String
 
@@ -910,7 +916,7 @@ Public Class SQLBuilderDAL
 
     End Function
 
-    Sub GetMySQLFieldsAndTypes(ByVal DBTable As String,
+    Shared Sub GetMySQLFieldsAndTypes(ByVal DBTable As String,
                          ByRef MyTypes As String,
                          ByRef Dic_Types As Object,
                          ByRef Fieldnames As String)
@@ -1096,13 +1102,14 @@ Public Class SQLBuilderDAL
         MsgBox("OK FINISHED: " & CStr(intLineCount) & " LINES IMPORTED")
     End Sub
 
-    Public Function Update_DatasetHeader_MYSQL(
+    Public Shared Function Update_DatasetHeader_MYSQL(
                     ByRef DatasetID As Integer,
                     DatasetName As String,
                     DatasetHeaderText As String,
                     DBName As String,
                     Tablename As String,
                     AuthFlag As String,
+                    GroupName As String,
                     CreatedUserID As String,
                     UpdUserID As String
 ) As Integer
@@ -1112,6 +1119,7 @@ Public Class SQLBuilderDAL
         Dim Result As Integer
         Dim dtCreateTime As DateTime
         Dim dtUpdTime As DateTime
+        Dim TotalFields As Integer
 
         ConnString = GetMYSQLConnection(DBName)
         Dim cn As New MySqlConnection(ConnString)
@@ -1135,16 +1143,20 @@ Public Class SQLBuilderDAL
         Dim da As New MySqlDataAdapter(cm)
         Dim ds As New DataSet
         da.Fill(ds)
+        TotalFields = ds.Tables(0).Rows.Count
         If ds.Tables(0).Rows.Count > 0 Then
             SQLStatement =
             "Update EB17020T " &
             "set " &
             "DatasetName='" & DatasetName.ToUpper & "', " &
             "DatasetHeaderText='" & DatasetHeaderText & "', " &
+            "DBName='" & DBName & "', " &
             "Tablename='" & Tablename.ToUpper & "', " &
             "AuthorityFlag='" & AuthFlag & "', " &
+            "GroupName='" & GroupName.ToUpper & "', " &
             "UPDUserID='" & CreatedUserID & "', " &
-            "UPDTIMESTAMP=" & dtUpdTime & " " &
+            "UPDTIMESTAMP=" & dtUpdTime & ", " &
+            "TotalFields=" & TotalFields & " " &
             "Where DatasetID =" & DatasetID & " "
             Result = 2
         Else
@@ -1152,22 +1164,28 @@ Public Class SQLBuilderDAL
             "Insert into EB17020T ( " &
             "DatasetName, " &
             "DatasetHeaderText, " &
+            "DBName, " &
             "Tablename, " &
             "AuthorityFlag, " &
+            "GroupName, " &
             "CRTUserID, " &
             "CRTTIMESTAMP, " &
             "UPDUserID, " &
-            "UPDTIMESTAMP" &
+            "UPDTIMESTAMP, " &
+            "TotalFields" &
             ")  " &
             "Values(" &
             "'" & DatasetName.ToUpper & "' , " &
             "'" & DatasetHeaderText & "', " &
             "'" & Tablename.ToUpper & "', " &
+            "'" & DBName.ToUpper & "', " &
             "'" & AuthFlag & "', " &
+            "'" & GroupName & "', " &
             "'" & CreatedUserID & "', " &
             dtCreateTime & ", " &
             "'" & UpdUserID & "', " &
-            dtUpdTime &
+            dtUpdTime & ", " &
+            TotalFields &
             ")"
             Result = 1
 
@@ -1188,7 +1206,7 @@ Public Class SQLBuilderDAL
         Return (Result)
     End Function
 
-    Public Function Update_DatasetColumns_MYSQL(
+    Public Shared Function Update_DatasetColumns_MYSQL(
                     DatasetID As Integer,
                     DatasetName As String,
                     Sequence As Integer,
@@ -1282,7 +1300,7 @@ Public Class SQLBuilderDAL
 
     End Sub
 
-    Function ExtractFieldDetails(ConnectString As String, Tablename As String, DBVersion As String, DatasetID As Integer,
+    Shared Function ExtractFieldDetails(ConnectString As String, Tablename As String, DBVersion As String, DatasetID As Integer,
                                  DatasetName As String, DatasetHeaderText As String, StartSequence As Integer, ByVal Optional DBName As String = "") As DataTable
         Dim fldDetails As New clsFieldDetails(ConnectString, "", DBVersion, DBName)
         Dim fldNames As String()
@@ -1346,7 +1364,7 @@ Public Class SQLBuilderDAL
 
     End Function
 
-    Sub GetFieldDetail(ConnectString As String, TableName As String, FieldName As String, ByRef FieldType As String, ByRef FieldLength As Integer, ByRef DecimalPlaces As Integer)
+    Shared Sub GetFieldDetail(ConnectString As String, TableName As String, FieldName As String, ByRef FieldType As String, ByRef FieldLength As Integer, ByRef DecimalPlaces As Integer)
         Dim fldDetails As clsFieldDetails
 
         fldDetails = New clsFieldDetails(ConnectString, "", SQLBuilder.DataSetHeaderList.DBVersion)
@@ -1412,7 +1430,7 @@ from tmp
         Return ds.Tables(0)
     End Function
 
-    Public Function ExecuteMySQLQuery(SqlStatement As String) As DataTable
+    Public Shared Function ExecuteMySQLQuery(SqlStatement As String) As DataTable
         Dim ConnString As String
 
         ExecuteMySQLQuery = Nothing
@@ -1458,7 +1476,7 @@ from tmp
 
     End Function
 
-    Public Function GetChartDetailsMySQL() As DataTable
+    Public Shared Function GetChartDetailsMySQL() As DataTable
         Dim ConnString As String
         Dim SQLStatement As String
 
@@ -1475,7 +1493,7 @@ from tmp
             cmd.Connection = cn
             cmd.CommandTimeout = 0
             cmd.CommandType = CommandType.Text
-            cmd.CommandText = SqlStatement
+            cmd.CommandText = SQLStatement
             Dim da As New MySqlDataAdapter(cmd)
             Dim ds As New DataSet
             da.Fill(ds)
@@ -1485,7 +1503,7 @@ from tmp
         End Try
     End Function
 
-    Public Function CreateChartDetails() As DataTable
+    Public Shared Function CreateChartDetails() As DataTable
         Dim dtChartDetails As New DataTable
         Dim ColumnDesc As String
         Dim ColumnMax As Integer

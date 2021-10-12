@@ -172,11 +172,17 @@
         stsFW100Label1.Text = "Loading List......"
         Cursor = Cursors.WaitCursor
         Refresh()
-        Dim App As New ImportTable.ImportTableDetail
-        App.Visible = False
-        App.GetParms(GlobalSession, GlobalParms)
-        'App.PopulateForm()
-        App.Show()
+        If SQLBuilder.DataSetHeaderList.DBVersion = "IBM" Then
+            Dim App As New ImportTable.ImportTableDetail
+            App.Visible = False
+            App.GetParms(GlobalSession, GlobalParms)
+            'App.PopulateForm()
+            App.Show()
+        ElseIf SQLBuilder.DataSetHeaderList.DBVersion = "MYSQL" Then
+
+        End If
+
+
         stsFW100Label1.Text = ""
         Cursor = Cursors.Default
     End Sub

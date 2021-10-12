@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("SQLBuilder")>
-<Assembly: AssemblyDescription("SQLBuilder for ESPO SQL Builder Application")>
-<Assembly: AssemblyCompany("Eastern Shires Purchasing Organisation")>
+<Assembly: AssemblyDescription("SQL Builder Application")>
+<Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("SQLBuilder")>
-<Assembly: AssemblyCopyright("Copyright ©  Eastern Shires Purchasing Organisation (ESPO) 2020")>
+<Assembly: AssemblyCopyright("Daniel Goss 2021")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
