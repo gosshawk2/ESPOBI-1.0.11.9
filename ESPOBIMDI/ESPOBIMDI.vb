@@ -179,6 +179,11 @@
             'App.PopulateForm()
             App.Show()
         ElseIf SQLBuilder.DataSetHeaderList.DBVersion = "MYSQL" Then
+            Dim App As New ImportTable.DataSetColumns
+
+            App.Visible = False
+            App.GetParms(GlobalSession, GlobalParms)
+            App.Show()
 
         End If
 

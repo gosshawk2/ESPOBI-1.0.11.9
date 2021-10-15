@@ -10,10 +10,10 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("SQLBuilder")>
 <Assembly: AssemblyDescription("SQL Builder Application")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyCompany("Gosshawk Solutions 2021")>
 <Assembly: AssemblyProduct("SQLBuilder")>
-<Assembly: AssemblyCopyright("Daniel Goss 2021")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyCopyright("Copyright © Gosshawk Solutions 2021")>
+<Assembly: AssemblyTrademark("Copyright © Gosshawk Solutions 2021")>
 
 <Assembly: ComVisible(False)>
 

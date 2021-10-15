@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Contact")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("Contact")>
-<Assembly: AssemblyCopyright("Copyright ©  2016")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTitle("ImportTable")>
+<Assembly: AssemblyDescription("Import Tables project")>
+<Assembly: AssemblyCompany("Gosshawk Solutions 2021")>
+<Assembly: AssemblyProduct("SQLBuilder")>
+<Assembly: AssemblyCopyright("Copyright © Gosshawk Solutions 2021")>
+<Assembly: AssemblyTrademark("Copyright © Gosshawk Solutions 2021")>
 
 <Assembly: ComVisible(False)>
 

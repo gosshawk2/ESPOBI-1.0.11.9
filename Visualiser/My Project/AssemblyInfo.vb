@@ -10,10 +10,10 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("Visualiser")>
 <Assembly: AssemblyDescription("Create charts. Feb 2021. D.Goss")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyCompany("Gosshawk Solutions 2021")>
 <Assembly: AssemblyProduct("Visualiser")>
-<Assembly: AssemblyCopyright("Copyright ©  2021")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyCopyright("Copyright © Gosshawk Solutions 2021")>
+<Assembly: AssemblyTrademark("Copyright © Gosshawk Solutions 2021")>
 
 <Assembly: ComVisible(False)>
 

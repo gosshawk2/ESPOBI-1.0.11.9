@@ -22,164 +22,229 @@ Partial Class DataSetColumns
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.gbTop = New System.Windows.Forms.GroupBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.cmbTables = New System.Windows.Forms.ComboBox()
+        Me.lblGroup = New System.Windows.Forms.Label()
+        Me.txtDatabase = New System.Windows.Forms.TextBox()
+        Me.lblDatabase = New System.Windows.Forms.Label()
+        Me.cmbDatabases = New System.Windows.Forms.ComboBox()
         Me.txtGroup = New System.Windows.Forms.TextBox()
-        Me.Label7 = New System.Windows.Forms.Label()
+        Me.lblID = New System.Windows.Forms.Label()
         Me.txtDataSetID = New System.Windows.Forms.TextBox()
-        Me.Label4 = New System.Windows.Forms.Label()
+        Me.lblAuthority = New System.Windows.Forms.Label()
         Me.txtAuthority = New System.Windows.Forms.TextBox()
         Me.txtDataSetHeaderText = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lblDataset = New System.Windows.Forms.Label()
         Me.txtDataSetName = New System.Windows.Forms.TextBox()
-        Me.Label5 = New System.Windows.Forms.Label()
+        Me.lblTable = New System.Windows.Forms.Label()
         Me.txtTableName = New System.Windows.Forms.TextBox()
         Me.btnExit = New System.Windows.Forms.Button()
         Me.gbFieldList = New System.Windows.Forms.GroupBox()
-        Me.dgvColumns = New System.Windows.Forms.DataGridView()
-        Me.cmbDatabases = New System.Windows.Forms.ComboBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.txtDatabase = New System.Windows.Forms.TextBox()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.cmbTables = New System.Windows.Forms.ComboBox()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.btnUpdate = New System.Windows.Forms.Button()
-        Me.Label6 = New System.Windows.Forms.Label()
+        Me.lblFields = New System.Windows.Forms.Label()
         Me.txtTotalFields = New System.Windows.Forms.TextBox()
-        Me.GroupBox3.SuspendLayout()
+        Me.dgvColumns = New System.Windows.Forms.DataGridView()
+        Me.btnUpdate = New System.Windows.Forms.Button()
+        Me.lblS21 = New System.Windows.Forms.Label()
+        Me.txtS21 = New System.Windows.Forms.TextBox()
+        Me.gbTop.SuspendLayout()
         Me.gbFieldList.SuspendLayout()
         CType(Me.dgvColumns, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'GroupBox3
+        'gbTop
         '
-        Me.GroupBox3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.gbTop.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox3.Controls.Add(Me.Button1)
-        Me.GroupBox3.Controls.Add(Me.cmbTables)
-        Me.GroupBox3.Controls.Add(Me.Label3)
-        Me.GroupBox3.Controls.Add(Me.txtDatabase)
-        Me.GroupBox3.Controls.Add(Me.Label2)
-        Me.GroupBox3.Controls.Add(Me.cmbDatabases)
-        Me.GroupBox3.Controls.Add(Me.txtGroup)
-        Me.GroupBox3.Controls.Add(Me.Label7)
-        Me.GroupBox3.Controls.Add(Me.txtDataSetID)
-        Me.GroupBox3.Controls.Add(Me.Label4)
-        Me.GroupBox3.Controls.Add(Me.txtAuthority)
-        Me.GroupBox3.Controls.Add(Me.txtDataSetHeaderText)
-        Me.GroupBox3.Controls.Add(Me.Label1)
-        Me.GroupBox3.Controls.Add(Me.txtDataSetName)
-        Me.GroupBox3.Controls.Add(Me.Label5)
-        Me.GroupBox3.Controls.Add(Me.txtTableName)
-        Me.GroupBox3.Location = New System.Drawing.Point(9, 12)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(802, 179)
-        Me.GroupBox3.TabIndex = 29
-        Me.GroupBox3.TabStop = False
+        Me.gbTop.Controls.Add(Me.lblS21)
+        Me.gbTop.Controls.Add(Me.txtS21)
+        Me.gbTop.Controls.Add(Me.Button1)
+        Me.gbTop.Controls.Add(Me.cmbTables)
+        Me.gbTop.Controls.Add(Me.lblGroup)
+        Me.gbTop.Controls.Add(Me.txtDatabase)
+        Me.gbTop.Controls.Add(Me.lblDatabase)
+        Me.gbTop.Controls.Add(Me.cmbDatabases)
+        Me.gbTop.Controls.Add(Me.txtGroup)
+        Me.gbTop.Controls.Add(Me.lblID)
+        Me.gbTop.Controls.Add(Me.txtDataSetID)
+        Me.gbTop.Controls.Add(Me.lblAuthority)
+        Me.gbTop.Controls.Add(Me.txtAuthority)
+        Me.gbTop.Controls.Add(Me.txtDataSetHeaderText)
+        Me.gbTop.Controls.Add(Me.lblDataset)
+        Me.gbTop.Controls.Add(Me.txtDataSetName)
+        Me.gbTop.Controls.Add(Me.lblTable)
+        Me.gbTop.Controls.Add(Me.txtTableName)
+        Me.gbTop.Location = New System.Drawing.Point(9, 12)
+        Me.gbTop.Name = "gbTop"
+        Me.gbTop.Size = New System.Drawing.Size(964, 179)
+        Me.gbTop.TabIndex = 29
+        Me.gbTop.TabStop = False
+        '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(74, 147)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 46
+        Me.Button1.Text = "Show Fields"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'cmbTables
+        '
+        Me.cmbTables.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbTables.FormattingEnabled = True
+        Me.cmbTables.Location = New System.Drawing.Point(251, 113)
+        Me.cmbTables.Name = "cmbTables"
+        Me.cmbTables.Size = New System.Drawing.Size(140, 24)
+        Me.cmbTables.TabIndex = 45
+        '
+        'lblGroup
+        '
+        Me.lblGroup.AutoSize = True
+        Me.lblGroup.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGroup.Location = New System.Drawing.Point(22, 117)
+        Me.lblGroup.Name = "lblGroup"
+        Me.lblGroup.Size = New System.Drawing.Size(48, 16)
+        Me.lblGroup.TabIndex = 44
+        Me.lblGroup.Text = "Group:"
+        '
+        'txtDatabase
+        '
+        Me.txtDatabase.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtDatabase.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDatabase.Location = New System.Drawing.Point(392, 81)
+        Me.txtDatabase.Name = "txtDatabase"
+        Me.txtDatabase.ReadOnly = True
+        Me.txtDatabase.Size = New System.Drawing.Size(300, 22)
+        Me.txtDatabase.TabIndex = 43
+        '
+        'lblDatabase
+        '
+        Me.lblDatabase.AutoSize = True
+        Me.lblDatabase.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDatabase.Location = New System.Drawing.Point(3, 84)
+        Me.lblDatabase.Name = "lblDatabase"
+        Me.lblDatabase.Size = New System.Drawing.Size(71, 16)
+        Me.lblDatabase.TabIndex = 42
+        Me.lblDatabase.Text = "Database:"
+        '
+        'cmbDatabases
+        '
+        Me.cmbDatabases.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbDatabases.FormattingEnabled = True
+        Me.cmbDatabases.Location = New System.Drawing.Point(74, 81)
+        Me.cmbDatabases.Name = "cmbDatabases"
+        Me.cmbDatabases.Size = New System.Drawing.Size(283, 24)
+        Me.cmbDatabases.TabIndex = 41
         '
         'txtGroup
         '
         Me.txtGroup.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtGroup.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtGroup.Location = New System.Drawing.Point(435, 114)
+        Me.txtGroup.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGroup.Location = New System.Drawing.Point(74, 114)
         Me.txtGroup.Name = "txtGroup"
         Me.txtGroup.ReadOnly = True
-        Me.txtGroup.Size = New System.Drawing.Size(101, 20)
+        Me.txtGroup.Size = New System.Drawing.Size(127, 22)
         Me.txtGroup.TabIndex = 40
         '
-        'Label7
+        'lblID
         '
-        Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(717, 22)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(22, 14)
-        Me.Label7.TabIndex = 39
-        Me.Label7.Text = "ID:"
+        Me.lblID.AutoSize = True
+        Me.lblID.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblID.Location = New System.Drawing.Point(870, 22)
+        Me.lblID.Name = "lblID"
+        Me.lblID.Size = New System.Drawing.Size(24, 16)
+        Me.lblID.TabIndex = 39
+        Me.lblID.Text = "ID:"
         '
         'txtDataSetID
         '
         Me.txtDataSetID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtDataSetID.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDataSetID.Location = New System.Drawing.Point(742, 19)
+        Me.txtDataSetID.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDataSetID.Location = New System.Drawing.Point(895, 19)
         Me.txtDataSetID.Name = "txtDataSetID"
         Me.txtDataSetID.ReadOnly = True
-        Me.txtDataSetID.Size = New System.Drawing.Size(40, 20)
+        Me.txtDataSetID.Size = New System.Drawing.Size(56, 22)
         Me.txtDataSetID.TabIndex = 38
+        Me.txtDataSetID.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'Label4
+        'lblAuthority
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(589, 117)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(59, 14)
-        Me.Label4.TabIndex = 37
-        Me.Label4.Text = "Authority:"
+        Me.lblAuthority.AutoSize = True
+        Me.lblAuthority.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAuthority.Location = New System.Drawing.Point(589, 117)
+        Me.lblAuthority.Name = "lblAuthority"
+        Me.lblAuthority.Size = New System.Drawing.Size(62, 16)
+        Me.lblAuthority.TabIndex = 37
+        Me.lblAuthority.Text = "Authority:"
         '
         'txtAuthority
         '
         Me.txtAuthority.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtAuthority.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAuthority.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtAuthority.Location = New System.Drawing.Point(651, 114)
         Me.txtAuthority.Name = "txtAuthority"
         Me.txtAuthority.ReadOnly = True
-        Me.txtAuthority.Size = New System.Drawing.Size(41, 20)
+        Me.txtAuthority.Size = New System.Drawing.Size(41, 22)
         Me.txtAuthority.TabIndex = 4
         Me.txtAuthority.Text = "0"
         '
         'txtDataSetHeaderText
         '
-        Me.txtDataSetHeaderText.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDataSetHeaderText.Location = New System.Drawing.Point(175, 19)
+        Me.txtDataSetHeaderText.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDataSetHeaderText.Location = New System.Drawing.Point(185, 19)
         Me.txtDataSetHeaderText.Multiline = True
         Me.txtDataSetHeaderText.Name = "txtDataSetHeaderText"
         Me.txtDataSetHeaderText.ReadOnly = True
-        Me.txtDataSetHeaderText.Size = New System.Drawing.Size(517, 56)
+        Me.txtDataSetHeaderText.Size = New System.Drawing.Size(507, 56)
         Me.txtDataSetHeaderText.TabIndex = 3
         '
-        'Label1
+        'lblDataset
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(9, 22)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(56, 14)
-        Me.Label1.TabIndex = 30
-        Me.Label1.Text = "Data Set:"
+        Me.lblDataset.AutoSize = True
+        Me.lblDataset.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDataset.Location = New System.Drawing.Point(9, 22)
+        Me.lblDataset.Name = "lblDataset"
+        Me.lblDataset.Size = New System.Drawing.Size(63, 16)
+        Me.lblDataset.TabIndex = 30
+        Me.lblDataset.Text = "Data Set:"
         '
         'txtDataSetName
         '
         Me.txtDataSetName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtDataSetName.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDataSetName.Location = New System.Drawing.Point(68, 19)
+        Me.txtDataSetName.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDataSetName.Location = New System.Drawing.Point(73, 19)
         Me.txtDataSetName.Name = "txtDataSetName"
         Me.txtDataSetName.ReadOnly = True
-        Me.txtDataSetName.Size = New System.Drawing.Size(101, 20)
+        Me.txtDataSetName.Size = New System.Drawing.Size(101, 22)
         Me.txtDataSetName.TabIndex = 2
         '
-        'Label5
+        'lblTable
         '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(26, 117)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(40, 14)
-        Me.Label5.TabIndex = 26
-        Me.Label5.Text = "Table:"
+        Me.lblTable.AutoSize = True
+        Me.lblTable.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTable.Location = New System.Drawing.Point(208, 117)
+        Me.lblTable.Name = "lblTable"
+        Me.lblTable.Size = New System.Drawing.Size(47, 16)
+        Me.lblTable.TabIndex = 26
+        Me.lblTable.Text = "Table:"
         '
         'txtTableName
         '
         Me.txtTableName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtTableName.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTableName.Location = New System.Drawing.Point(212, 114)
+        Me.txtTableName.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTableName.Location = New System.Drawing.Point(394, 114)
         Me.txtTableName.Name = "txtTableName"
         Me.txtTableName.ReadOnly = True
-        Me.txtTableName.Size = New System.Drawing.Size(140, 20)
+        Me.txtTableName.Size = New System.Drawing.Size(140, 22)
         Me.txtTableName.TabIndex = 0
         '
         'btnExit
         '
         Me.btnExit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExit.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnExit.Location = New System.Drawing.Point(716, 570)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(75, 23)
@@ -189,7 +254,7 @@ Partial Class DataSetColumns
         '
         'gbFieldList
         '
-        Me.gbFieldList.Controls.Add(Me.Label6)
+        Me.gbFieldList.Controls.Add(Me.lblFields)
         Me.gbFieldList.Controls.Add(Me.txtTotalFields)
         Me.gbFieldList.Controls.Add(Me.dgvColumns)
         Me.gbFieldList.Location = New System.Drawing.Point(9, 194)
@@ -197,6 +262,27 @@ Partial Class DataSetColumns
         Me.gbFieldList.Size = New System.Drawing.Size(802, 370)
         Me.gbFieldList.TabIndex = 30
         Me.gbFieldList.TabStop = False
+        '
+        'lblFields
+        '
+        Me.lblFields.AutoSize = True
+        Me.lblFields.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFields.Location = New System.Drawing.Point(21, 22)
+        Me.lblFields.Name = "lblFields"
+        Me.lblFields.Size = New System.Drawing.Size(48, 16)
+        Me.lblFields.TabIndex = 46
+        Me.lblFields.Text = "Fields:"
+        '
+        'txtTotalFields
+        '
+        Me.txtTotalFields.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtTotalFields.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTotalFields.Location = New System.Drawing.Point(74, 19)
+        Me.txtTotalFields.Name = "txtTotalFields"
+        Me.txtTotalFields.ReadOnly = True
+        Me.txtTotalFields.Size = New System.Drawing.Size(60, 22)
+        Me.txtTotalFields.TabIndex = 45
+        Me.txtTotalFields.Text = "0"
         '
         'dgvColumns
         '
@@ -207,66 +293,10 @@ Partial Class DataSetColumns
         Me.dgvColumns.Size = New System.Drawing.Size(796, 311)
         Me.dgvColumns.TabIndex = 13
         '
-        'cmbDatabases
-        '
-        Me.cmbDatabases.FormattingEnabled = True
-        Me.cmbDatabases.Location = New System.Drawing.Point(68, 81)
-        Me.cmbDatabases.Name = "cmbDatabases"
-        Me.cmbDatabases.Size = New System.Drawing.Size(283, 21)
-        Me.cmbDatabases.TabIndex = 41
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(3, 84)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(63, 14)
-        Me.Label2.TabIndex = 42
-        Me.Label2.Text = "Database:"
-        '
-        'txtDatabase
-        '
-        Me.txtDatabase.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtDatabase.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDatabase.Location = New System.Drawing.Point(392, 81)
-        Me.txtDatabase.Name = "txtDatabase"
-        Me.txtDatabase.ReadOnly = True
-        Me.txtDatabase.Size = New System.Drawing.Size(300, 20)
-        Me.txtDatabase.TabIndex = 43
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(389, 117)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(43, 14)
-        Me.Label3.TabIndex = 44
-        Me.Label3.Text = "Group:"
-        '
-        'cmbTables
-        '
-        Me.cmbTables.FormattingEnabled = True
-        Me.cmbTables.Location = New System.Drawing.Point(69, 113)
-        Me.cmbTables.Name = "cmbTables"
-        Me.cmbTables.Size = New System.Drawing.Size(140, 21)
-        Me.cmbTables.TabIndex = 45
-        Me.cmbTables.Text = "abcdefghijklmnoprstuvwxyz"
-        '
-        'Button1
-        '
-        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Button1.Location = New System.Drawing.Point(68, 147)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 46
-        Me.Button1.Text = "Show Fields"
-        Me.Button1.UseVisualStyleBackColor = True
-        '
         'btnUpdate
         '
         Me.btnUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdate.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnUpdate.Location = New System.Drawing.Point(32, 570)
         Me.btnUpdate.Name = "btnUpdate"
         Me.btnUpdate.Size = New System.Drawing.Size(75, 23)
@@ -274,40 +304,40 @@ Partial Class DataSetColumns
         Me.btnUpdate.Text = "Update"
         Me.btnUpdate.UseVisualStyleBackColor = True
         '
-        'Label6
+        'lblS21
         '
-        Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Calibri", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(21, 22)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(44, 14)
-        Me.Label6.TabIndex = 46
-        Me.Label6.Text = "Fields:"
+        Me.lblS21.AutoSize = True
+        Me.lblS21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblS21.Location = New System.Drawing.Point(704, 116)
+        Me.lblS21.Name = "lblS21"
+        Me.lblS21.Size = New System.Drawing.Size(62, 16)
+        Me.lblS21.TabIndex = 48
+        Me.lblS21.Text = "S21 App:"
         '
-        'txtTotalFields
+        'txtS21
         '
-        Me.txtTotalFields.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtTotalFields.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTotalFields.Location = New System.Drawing.Point(68, 19)
-        Me.txtTotalFields.Name = "txtTotalFields"
-        Me.txtTotalFields.ReadOnly = True
-        Me.txtTotalFields.Size = New System.Drawing.Size(60, 20)
-        Me.txtTotalFields.TabIndex = 45
-        Me.txtTotalFields.Text = "0"
+        Me.txtS21.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtS21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtS21.Location = New System.Drawing.Point(766, 113)
+        Me.txtS21.Name = "txtS21"
+        Me.txtS21.ReadOnly = True
+        Me.txtS21.Size = New System.Drawing.Size(128, 22)
+        Me.txtS21.TabIndex = 47
+        Me.txtS21.Text = "0"
         '
         'DataSetColumns
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(827, 605)
+        Me.ClientSize = New System.Drawing.Size(989, 605)
         Me.Controls.Add(Me.btnUpdate)
         Me.Controls.Add(Me.gbFieldList)
-        Me.Controls.Add(Me.GroupBox3)
+        Me.Controls.Add(Me.gbTop)
         Me.Controls.Add(Me.btnExit)
         Me.Name = "DataSetColumns"
         Me.Text = "Dataset Column Details"
-        Me.GroupBox3.ResumeLayout(False)
-        Me.GroupBox3.PerformLayout()
+        Me.gbTop.ResumeLayout(False)
+        Me.gbTop.PerformLayout()
         Me.gbFieldList.ResumeLayout(False)
         Me.gbFieldList.PerformLayout()
         CType(Me.dgvColumns, System.ComponentModel.ISupportInitialize).EndInit()
@@ -315,27 +345,29 @@ Partial Class DataSetColumns
 
     End Sub
 
-    Friend WithEvents GroupBox3 As GroupBox
-    Friend WithEvents Label7 As Label
+    Friend WithEvents gbTop As GroupBox
+    Friend WithEvents lblID As Label
     Friend WithEvents txtDataSetID As TextBox
-    Friend WithEvents Label4 As Label
+    Friend WithEvents lblAuthority As Label
     Friend WithEvents txtAuthority As TextBox
     Friend WithEvents txtDataSetHeaderText As TextBox
-    Friend WithEvents Label1 As Label
+    Friend WithEvents lblDataset As Label
     Friend WithEvents txtDataSetName As TextBox
-    Friend WithEvents Label5 As Label
+    Friend WithEvents lblTable As Label
     Friend WithEvents txtTableName As TextBox
     Friend WithEvents btnExit As Button
     Friend WithEvents txtGroup As TextBox
     Friend WithEvents gbFieldList As GroupBox
     Friend WithEvents dgvColumns As DataGridView
-    Friend WithEvents Label2 As Label
+    Friend WithEvents lblDatabase As Label
     Friend WithEvents cmbDatabases As ComboBox
     Friend WithEvents txtDatabase As TextBox
     Friend WithEvents Button1 As Button
     Friend WithEvents cmbTables As ComboBox
-    Friend WithEvents Label3 As Label
+    Friend WithEvents lblGroup As Label
     Friend WithEvents btnUpdate As Button
-    Friend WithEvents Label6 As Label
+    Friend WithEvents lblFields As Label
     Friend WithEvents txtTotalFields As TextBox
+    Friend WithEvents lblS21 As Label
+    Friend WithEvents txtS21 As TextBox
 End Class

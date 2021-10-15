@@ -12,7 +12,7 @@
     <AssemblyName>ImportTable</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -142,6 +142,10 @@
     <ProjectReference Include="..\BIParms\ESPOBIParms.vbproj">
       <Project>{f460bc83-f08a-4c05-bbca-2b6dd6d5389a}</Project>
       <Name>ESPOBIParms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLBuilder\SQLBuilder.vbproj">
+      <Project>{86d27397-df7c-4631-b426-59b62c355f2a}</Project>
+      <Name>SQLBuilder</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

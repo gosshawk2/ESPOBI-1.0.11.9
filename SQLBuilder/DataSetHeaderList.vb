@@ -211,23 +211,23 @@
     Sub EditTable2()
         Cursor = Cursors.WaitCursor
         Refresh()
-        Dim App As New ImportTable.ImportTableDetail
-        App.Visible = False
-        App.GetParms(GlobalSession, GlobalParms)
+        'Dim App As New ImportTableDetail
+        'App.Visible = False
+        'App.GetParms(GlobalSession, GlobalParms)
         'App.PopulateForm()
-        App.Show()
-        Cursor = Cursors.Default
+        'App.Show()
+        'Cursor = Cursors.Default
     End Sub
 
     Sub ViewDataset()
         Cursor = Cursors.WaitCursor
         Refresh()
-        Dim App As New ImportTable.DataSetColumns
-        App.Visible = False
-        App.GetParms(GlobalSession, GlobalParms)
+        'Dim App As New ImportTable.DataSetColumns
+        'App.Visible = False
+        'App.GetParms(GlobalSession, GlobalParms)
         'App.PopulateForm()
-        App.Show()
-        Cursor = Cursors.Default
+        'App.Show()
+        'Cursor = Cursors.Default
     End Sub
 
     'Sub EditTable()
@@ -330,15 +330,14 @@
 
     Private Sub RefreshColumnsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RefreshColumnsToolStripMenuItem.Click
         Cursor = Cursors.Default
-        Dim dal As New ImportTable.ImportTableDAL
-        Dim dt As DataTable
-        dt = dal.InsertEBI7023T_IBM(
-            GlobalSession.ConnectString,
-            dgvHeaderList.CurrentRow.Cells("TableName").Value,
-            dgvHeaderList.CurrentRow.Cells("Library").Value,
-            dgvHeaderList.CurrentRow.Cells("DataSet Name").Value,
-            "Text")
-        stsDataSetListLabel1.Text = dt.Rows(0)("Records") & " Columns were replaced"
+        'Dim dal As New ImportTableDAL
+        'Dim dt As DataTable
+        'dt = dal.InsertEBI7023T_IBM(
+        'GlobalSession.ConnectString,
+        'dgvHeaderList.CurrentRow.Cells("TableName").Value,
+        'dgvHeaderList.CurrentRow.Cells("Library").Value,
+        'dgvHeaderList.CurrentRow.Cells("DataSet Name").Value,"Text")
+        'stsDataSetListLabel1.Text = dt.Rows(0)("Records") & " Columns were replaced"
     End Sub
 
     Private Sub ViewDatasetToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewDatasetToolStripMenuItem.Click

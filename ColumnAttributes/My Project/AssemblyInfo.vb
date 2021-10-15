@@ -10,9 +10,9 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("ColumnAttributes")>
 <Assembly: AssemblyDescription("ColumnAttributes project for SQLBuilder")>
-<Assembly: AssemblyCompany("Eastern Shires Purchasing Organisation")>
+<Assembly: AssemblyCompany("Gosshawk Solutions")>
 <Assembly: AssemblyProduct("ColumnAttributes")>
-<Assembly: AssemblyCopyright("Copyright © Eastern Shires Purchasing Organisation (ESPO) 2020")>
+<Assembly: AssemblyCopyright("Copyright © Gosshawk Solutions 2021")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
