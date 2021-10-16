@@ -143,6 +143,10 @@
       <Project>{f460bc83-f08a-4c05-bbca-2b6dd6d5389a}</Project>
       <Name>ESPOBIParms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ColumnAttributes\ColumnAttributes.vbproj">
+      <Project>{7b0fbb75-1dfd-48e0-b9e1-131413ee662d}</Project>
+      <Name>ColumnAttributes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SQLBuilder\SQLBuilder.vbproj">
       <Project>{86d27397-df7c-4631-b426-59b62c355f2a}</Project>
       <Name>SQLBuilder</Name>

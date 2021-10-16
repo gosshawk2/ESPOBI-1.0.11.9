@@ -23,6 +23,9 @@ Partial Class DataSetColumns
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.gbTop = New System.Windows.Forms.GroupBox()
+        Me.cbDBUppercase = New System.Windows.Forms.CheckBox()
+        Me.lblS21 = New System.Windows.Forms.Label()
+        Me.txtS21 = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.cmbTables = New System.Windows.Forms.ComboBox()
         Me.lblGroup = New System.Windows.Forms.Label()
@@ -45,8 +48,7 @@ Partial Class DataSetColumns
         Me.txtTotalFields = New System.Windows.Forms.TextBox()
         Me.dgvColumns = New System.Windows.Forms.DataGridView()
         Me.btnUpdate = New System.Windows.Forms.Button()
-        Me.lblS21 = New System.Windows.Forms.Label()
-        Me.txtS21 = New System.Windows.Forms.TextBox()
+        Me.cbTableUppercase = New System.Windows.Forms.CheckBox()
         Me.gbTop.SuspendLayout()
         Me.gbFieldList.SuspendLayout()
         CType(Me.dgvColumns, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -56,6 +58,8 @@ Partial Class DataSetColumns
         '
         Me.gbTop.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gbTop.Controls.Add(Me.cbTableUppercase)
+        Me.gbTop.Controls.Add(Me.cbDBUppercase)
         Me.gbTop.Controls.Add(Me.lblS21)
         Me.gbTop.Controls.Add(Me.txtS21)
         Me.gbTop.Controls.Add(Me.Button1)
@@ -80,6 +84,38 @@ Partial Class DataSetColumns
         Me.gbTop.TabIndex = 29
         Me.gbTop.TabStop = False
         '
+        'cbDBUppercase
+        '
+        Me.cbDBUppercase.AutoSize = True
+        Me.cbDBUppercase.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbDBUppercase.Location = New System.Drawing.Point(698, 81)
+        Me.cbDBUppercase.Name = "cbDBUppercase"
+        Me.cbDBUppercase.Size = New System.Drawing.Size(105, 20)
+        Me.cbDBUppercase.TabIndex = 49
+        Me.cbDBUppercase.Text = "Uppercase ?"
+        Me.cbDBUppercase.UseVisualStyleBackColor = True
+        '
+        'lblS21
+        '
+        Me.lblS21.AutoSize = True
+        Me.lblS21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblS21.Location = New System.Drawing.Point(333, 150)
+        Me.lblS21.Name = "lblS21"
+        Me.lblS21.Size = New System.Drawing.Size(62, 16)
+        Me.lblS21.TabIndex = 48
+        Me.lblS21.Text = "S21 App:"
+        '
+        'txtS21
+        '
+        Me.txtS21.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtS21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtS21.Location = New System.Drawing.Point(396, 147)
+        Me.txtS21.Name = "txtS21"
+        Me.txtS21.ReadOnly = True
+        Me.txtS21.Size = New System.Drawing.Size(128, 22)
+        Me.txtS21.TabIndex = 47
+        Me.txtS21.Text = "0"
+        '
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -95,9 +131,9 @@ Partial Class DataSetColumns
         '
         Me.cmbTables.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmbTables.FormattingEnabled = True
-        Me.cmbTables.Location = New System.Drawing.Point(251, 113)
+        Me.cmbTables.Location = New System.Drawing.Point(255, 113)
         Me.cmbTables.Name = "cmbTables"
-        Me.cmbTables.Size = New System.Drawing.Size(140, 24)
+        Me.cmbTables.Size = New System.Drawing.Size(215, 24)
         Me.cmbTables.TabIndex = 45
         '
         'lblGroup
@@ -112,7 +148,6 @@ Partial Class DataSetColumns
         '
         'txtDatabase
         '
-        Me.txtDatabase.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtDatabase.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDatabase.Location = New System.Drawing.Point(392, 81)
         Me.txtDatabase.Name = "txtDatabase"
@@ -174,7 +209,7 @@ Partial Class DataSetColumns
         '
         Me.lblAuthority.AutoSize = True
         Me.lblAuthority.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAuthority.Location = New System.Drawing.Point(589, 117)
+        Me.lblAuthority.Location = New System.Drawing.Point(210, 151)
         Me.lblAuthority.Name = "lblAuthority"
         Me.lblAuthority.Size = New System.Drawing.Size(62, 16)
         Me.lblAuthority.TabIndex = 37
@@ -184,7 +219,7 @@ Partial Class DataSetColumns
         '
         Me.txtAuthority.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtAuthority.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtAuthority.Location = New System.Drawing.Point(651, 114)
+        Me.txtAuthority.Location = New System.Drawing.Point(272, 148)
         Me.txtAuthority.Name = "txtAuthority"
         Me.txtAuthority.ReadOnly = True
         Me.txtAuthority.Size = New System.Drawing.Size(41, 22)
@@ -233,12 +268,11 @@ Partial Class DataSetColumns
         '
         'txtTableName
         '
-        Me.txtTableName.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtTableName.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTableName.Location = New System.Drawing.Point(394, 114)
+        Me.txtTableName.Location = New System.Drawing.Point(477, 114)
         Me.txtTableName.Name = "txtTableName"
         Me.txtTableName.ReadOnly = True
-        Me.txtTableName.Size = New System.Drawing.Size(140, 22)
+        Me.txtTableName.Size = New System.Drawing.Size(215, 22)
         Me.txtTableName.TabIndex = 0
         '
         'btnExit
@@ -269,15 +303,15 @@ Partial Class DataSetColumns
         Me.lblFields.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFields.Location = New System.Drawing.Point(21, 22)
         Me.lblFields.Name = "lblFields"
-        Me.lblFields.Size = New System.Drawing.Size(48, 16)
+        Me.lblFields.Size = New System.Drawing.Size(63, 16)
         Me.lblFields.TabIndex = 46
-        Me.lblFields.Text = "Fields:"
+        Me.lblFields.Text = "Records:"
         '
         'txtTotalFields
         '
         Me.txtTotalFields.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtTotalFields.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTotalFields.Location = New System.Drawing.Point(74, 19)
+        Me.txtTotalFields.Location = New System.Drawing.Point(87, 19)
         Me.txtTotalFields.Name = "txtTotalFields"
         Me.txtTotalFields.ReadOnly = True
         Me.txtTotalFields.Size = New System.Drawing.Size(60, 22)
@@ -304,26 +338,16 @@ Partial Class DataSetColumns
         Me.btnUpdate.Text = "Update"
         Me.btnUpdate.UseVisualStyleBackColor = True
         '
-        'lblS21
+        'cbTableUppercase
         '
-        Me.lblS21.AutoSize = True
-        Me.lblS21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblS21.Location = New System.Drawing.Point(704, 116)
-        Me.lblS21.Name = "lblS21"
-        Me.lblS21.Size = New System.Drawing.Size(62, 16)
-        Me.lblS21.TabIndex = 48
-        Me.lblS21.Text = "S21 App:"
-        '
-        'txtS21
-        '
-        Me.txtS21.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtS21.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtS21.Location = New System.Drawing.Point(766, 113)
-        Me.txtS21.Name = "txtS21"
-        Me.txtS21.ReadOnly = True
-        Me.txtS21.Size = New System.Drawing.Size(128, 22)
-        Me.txtS21.TabIndex = 47
-        Me.txtS21.Text = "0"
+        Me.cbTableUppercase.AutoSize = True
+        Me.cbTableUppercase.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbTableUppercase.Location = New System.Drawing.Point(698, 115)
+        Me.cbTableUppercase.Name = "cbTableUppercase"
+        Me.cbTableUppercase.Size = New System.Drawing.Size(105, 20)
+        Me.cbTableUppercase.TabIndex = 50
+        Me.cbTableUppercase.Text = "Uppercase ?"
+        Me.cbTableUppercase.UseVisualStyleBackColor = True
         '
         'DataSetColumns
         '
@@ -370,4 +394,6 @@ Partial Class DataSetColumns
     Friend WithEvents txtTotalFields As TextBox
     Friend WithEvents lblS21 As Label
     Friend WithEvents txtS21 As TextBox
+    Friend WithEvents cbDBUppercase As CheckBox
+    Friend WithEvents cbTableUppercase As CheckBox
 End Class

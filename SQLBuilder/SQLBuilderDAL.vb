@@ -669,7 +669,7 @@ Public Class SQLBuilderDAL
 
     End Function
 
-    Function GetMYSQLTables(MySQLDatabase As String) As DataTable
+    Shared Function GetMYSQLTables(MySQLDatabase As String) As DataTable
         Dim ConnString As String
         Dim SQLStatement As String
 
@@ -679,8 +679,8 @@ Public Class SQLBuilderDAL
             ConnString = GetMYSQLConnection(MySQLDatabase)
             Dim cn As New MySqlConnection(ConnString)
             cn.Open()
-            SQLStatement = "SHOW TABLES"
-
+            SQLStatement = "SELECT TABLE_SCHEMA,TABLE_NAME,ENGINE,TABLE_ROWS,CREATE_TIME,UPDATE_TIME FROM information_schema.tables WHERE TABLE_SCHEMA='" & MySQLDatabase & "'"
+            'SQLStatement = "SELECT * FROM information_schema.tables WHERE table_schema = " & MySQLDatabase
             Dim cmd As New MySqlCommand
             cmd.Connection = cn
             cmd.CommandTimeout = 0
