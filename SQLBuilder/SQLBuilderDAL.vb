@@ -696,6 +696,59 @@ Public Class SQLBuilderDAL
 
     End Function
 
+    Shared Function GetMYSQLFields(MySQLDatabase As String, TableName As String) As DataTable
+        'Duplicate fields may result if 2 databaases have the same fields in them ! 
+        'Need to test for the database also.
+        'LIMIT amount of rows returned. hOW TO FIND THE TRUE FIELD LENGTH ?
+        Dim SelectedFields As String = "ORDINAL_POSITION,COLUMN_NAME,COLUMN_TYPE,NUMERIC_SCALE,NUMERIC_PRECISION,COLLATION_NAME,COLUMN_KEY"
+        Dim SQLStatement As String = "SELECT " & SelectedFields & " FROM INFORMATION_SCHEMA.Columns"
+        Dim ConnString As String
+        Dim strWhere As String
+        Dim ColumnLength As Integer = 0
+        Dim dt As DataTable
+        Dim DicTypes As Object
+        Dim DicColumnSize As Object
+        Dim myTypes As String
+        Dim Fieldnames As String
+
+        GetMYSQLFields = Nothing
+        strWhere = ""
+        If Not MySQLDatabase = "" Then
+            strWhere += " TABLE_SCHEMA= '" & MySQLDatabase & "'"
+        End If
+
+        If Not strWhere = "" Then
+            strWhere += " AND "
+        End If
+        If Not TableName = "" Then
+            strWhere += " TABLE_NAME= '" & TableName & "'"
+        End If
+        If Not strWhere = "" Then
+            SQLStatement += " WHERE " & strWhere
+        End If
+        Try
+            'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
+            ConnString = GetMYSQLConnection(MySQLDatabase)
+            Dim cn As New MySqlConnection(ConnString)
+            cn.Open()
+            'SQLStatement = "SELECT * FROM information_schema.tables WHERE table_schema = " & MySQLDatabase
+            Dim cmd As New MySqlCommand
+            cmd.Connection = cn
+            cmd.CommandTimeout = 0
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = SQLStatement
+            Dim da As New MySqlDataAdapter(cmd)
+            Dim ds As New DataSet
+            da.Fill(ds)
+            dt = ds.Tables(0)
+            GetMySQLFieldsAndTypes(MySQLDatabase, TableName, myTypes, DicTypes, dt, Fieldnames)
+
+            Return dt
+        Catch ex As Exception
+            MsgBox("DB ERROR WHILE GETTING MYSQL FIELDS: " & ex.Message)
+        End Try
+    End Function
+
     Shared Function GetHeaderListMYSQL(DBName As String, Tablename As String, ByRef DatasetID As Integer) As DataTable
         Dim ConnString As String
         Dim SQLStatement As String
@@ -916,9 +969,10 @@ Public Class SQLBuilderDAL
 
     End Function
 
-    Shared Sub GetMySQLFieldsAndTypes(ByVal DBTable As String,
+    Shared Sub GetMySQLFieldsAndTypes(DBname As String, ByVal DBTable As String,
                          ByRef MyTypes As String,
                          ByRef Dic_Types As Object,
+                         ByRef dt As DataTable,
                          ByRef Fieldnames As String)
         Dim con As MySqlConnection
         Dim cmd As MySqlCommand
@@ -928,8 +982,13 @@ Public Class SQLBuilderDAL
         Dim dr1 As MySqlDataReader
         Dim FieldType As String
         Dim Fieldname As String
+        Dim dtFieldAttr As DataTable
+        Dim dtColumnSize As New DataTable
         Dim NewFieldnames As String
         Dim ConnString As String
+        Dim ColSize As Integer = 0
+        Dim ColType As Type
+        Dim ShortType As String
 
         NewFieldnames = ""
         Fieldnames = ""
@@ -944,20 +1003,29 @@ Public Class SQLBuilderDAL
             Exit Sub
         End If
         Try
-            ConnString = GetMYSQLConnection()
+            ConnString = GetMYSQLConnection(DBname)
             con = New MySqlConnection(ConnString)
             con.Open()
             strSQL = "SELECT * FROM " & DBTable
             cmd = New MySqlCommand(strSQL, con)
             dr1 = cmd.ExecuteReader()
-
+            dtColumnSize = dt
+            dtColumnSize.Columns.Add("COLUMN_TEXT", GetType(String))
+            dtColumnSize.Columns.Add("COLUMN_SIZE", GetType(Integer))
+            dtColumnSize.Columns.Add("SHORT_TYPE", GetType(String))
             NumFields = dr1.FieldCount - 1
             While colIDX <= NumFields
                 Fieldname = dr1.GetName(colIDX)
                 FieldType = dr1.GetDataTypeName(colIDX)
+                dtFieldAttr = dr1.GetSchemaTable()
                 If Not Dic_Types.exists(Fieldname) Then
                     Dic_Types(Fieldname) = FieldType
                 End If
+                ColSize = dtFieldAttr.Rows(colIDX)("ColumnSize")
+                ShortType = FieldType
+                dtColumnSize.Rows(colIDX)("COLUMN_SIZE") = ColSize
+                dtColumnSize.Rows(colIDX)("COLUMN_TEXT") = Fieldname
+                dtColumnSize.Rows(colIDX)("SHORT_TYPE") = ShortType
                 If Len(NewFieldnames) = 0 Then
                     NewFieldnames = Fieldname
                     MyTypes = FieldType.ToString
@@ -1065,7 +1133,7 @@ Public Class SQLBuilderDAL
         CSVFileToArray = numRowsRead
     End Function
 
-    Sub CreateMySQLTable(DBName As String, Fieldnames As String, FieldTypes As String, FieldValues As String)
+    Sub CreateMySQLTable(DBName As String, TableName As String, Fieldnames As String, FieldTypes As String, FieldValues As String)
 
     End Sub
 
@@ -1104,38 +1172,37 @@ Public Class SQLBuilderDAL
 
     Public Shared Function Update_DatasetHeader_MYSQL(
                     ByRef DatasetID As Integer,
-                    DatasetName As String,
-                    DatasetHeaderText As String,
-                    DBName As String,
-                    Tablename As String,
-                    AuthFlag As String,
-                    GroupName As String,
-                    CreatedUserID As String,
-                    UpdUserID As String
+                    objHeader As ColumnAttributes.clsDBDatasetHeader
 ) As Integer
         Dim SQLStatement As String
         Dim SQLOK As Boolean = True
         Dim ConnString As String
         Dim Result As Integer
-        Dim dtCreateTime As DateTime
-        Dim dtUpdTime As DateTime
-        Dim TotalFields As Integer
+        Dim dtCreateTime As String
+        Dim dtUpdTime As String
 
-        ConnString = GetMYSQLConnection(DBName)
+        ConnString = GetMYSQLConnection()
         Dim cn As New MySqlConnection(ConnString)
+
+        'WHAT IF DatasetID = 0 as passed into this function in all innocense etc.
+        'BUT what if a match does occur with the DBNAme and TAblename ????
+        'ORPHAN ? - OK so grab the Dataset ID from the record after finding it...
+        'Update the DatasetID variable....
+
 
         cn.Open()
         Dim cm As MySqlCommand = cn.CreateCommand 'Create a command object via the connection
         Result = 0
-        dtCreateTime = Now()
-        dtUpdTime = Now()
+        dtCreateTime = Now().ToString("yyyy-MM-dd HH:mm:ss")
+        dtUpdTime = Now().ToString("yyyy-MM-dd HH:mm:ss")
         SQLStatement =
         "Select DatasetID  " &
         "From EBI7020T "
         If DatasetID > 0 Then
             SQLStatement = SQLStatement & " Where DatasetID =" & DatasetID & " "
         Else
-            SQLStatement = SQLStatement & " Where Tablename ='" & Tablename & "' "
+            SQLStatement = SQLStatement & " Where DBName ='" & objHeader.DBName & "' "
+            SQLStatement = SQLStatement & " AND Tablename ='" & objHeader.TableName & "' "
         End If
         cm.CommandTimeout = 0
         cm.CommandType = CommandType.Text
@@ -1143,25 +1210,29 @@ Public Class SQLBuilderDAL
         Dim da As New MySqlDataAdapter(cm)
         Dim ds As New DataSet
         da.Fill(ds)
-        TotalFields = ds.Tables(0).Rows.Count
+        If objHeader.TotalFields = 0 Then
+            objHeader.TotalFields = ds.Tables(0).Rows.Count
+        End If
+
         If ds.Tables(0).Rows.Count > 0 Then
             SQLStatement =
-            "Update EB17020T " &
+            "Update EBI7020T " &
             "set " &
-            "DatasetName='" & DatasetName.ToUpper & "', " &
-            "DatasetHeaderText='" & DatasetHeaderText & "', " &
-            "DBName='" & DBName & "', " &
-            "Tablename='" & Tablename.ToUpper & "', " &
-            "AuthorityFlag='" & AuthFlag & "', " &
-            "GroupName='" & GroupName.ToUpper & "', " &
-            "UPDUserID='" & CreatedUserID & "', " &
-            "UPDTIMESTAMP=" & dtUpdTime & ", " &
-            "TotalFields=" & TotalFields & " " &
+            "DatasetName='" & objHeader.DatasetName.ToUpper & "', " &
+            "DatasetHeaderText='" & objHeader.DatasetHeaderText & "', " &
+            "DBName='" & objHeader.DBName & "', " &
+            "Tablename='" & objHeader.TableName.ToUpper & "', " &
+            "AuthorityFlag='" & objHeader.AuthFlag & "', " &
+            "GroupName='" & objHeader.GroupName.ToUpper & "', " &
+            "UPDUserID='" & objHeader.UpdUserID & "', " &
+            "UPDTIMESTAMP='" & dtUpdTime & "', " &
+            "TotalFields=" & objHeader.TotalFields & " " &
+            "TotalRecords=" & objHeader.TotalRecords & " " &
             "Where DatasetID =" & DatasetID & " "
             Result = 2
         Else
             SQLStatement =
-            "Insert into EB17020T ( " &
+            "Insert into EBI7020T ( " &
             "DatasetName, " &
             "DatasetHeaderText, " &
             "DBName, " &
@@ -1172,20 +1243,22 @@ Public Class SQLBuilderDAL
             "CRTTIMESTAMP, " &
             "UPDUserID, " &
             "UPDTIMESTAMP, " &
-            "TotalFields" &
+            "TotalFields, " &
+            "TotalRecords" &
             ")  " &
             "Values(" &
-            "'" & DatasetName.ToUpper & "' , " &
-            "'" & DatasetHeaderText & "', " &
-            "'" & Tablename.ToUpper & "', " &
-            "'" & DBName.ToUpper & "', " &
-            "'" & AuthFlag & "', " &
-            "'" & GroupName & "', " &
-            "'" & CreatedUserID & "', " &
-            dtCreateTime & ", " &
-            "'" & UpdUserID & "', " &
-            dtUpdTime & ", " &
-            TotalFields &
+            "'" & objHeader.DatasetName.ToUpper & "' , " &
+            "'" & objHeader.DatasetHeaderText & "', " &
+            "'" & objHeader.DBName.ToUpper & "', " &
+            "'" & objHeader.TableName.ToUpper & "', " &
+            "'" & objHeader.AuthFlag & "', " &
+            "'" & objHeader.GroupName & "', " &
+            "'" & objHeader.CreatedUserID & "', " &
+            "'" & dtCreateTime & "', " &
+            "'" & objHeader.UpdUserID & "', " &
+            "'" & dtUpdTime & "', " &
+            objHeader.TotalFields & ", " &
+            objHeader.TotalRecords &
             ")"
             Result = 1
 
@@ -1196,7 +1269,7 @@ Public Class SQLBuilderDAL
         Try
             da1.Fill(ds1)
             If Result = 1 Then
-                DatasetID = GetLastID_MYSQL("EB17020T", "DatasetID")
+                DatasetID = GetLastID_MYSQL("EBI7020T", "DatasetID")
             End If
         Catch ex As Exception
             Result = 3
@@ -1207,20 +1280,14 @@ Public Class SQLBuilderDAL
     End Function
 
     Public Shared Function Update_DatasetColumns_MYSQL(
-                    DatasetID As Integer,
-                    DatasetName As String,
-                    Sequence As Integer,
-                    Tablename As String,
-                    ColumnName As String,
-                    ColumnText As String,
-                    ColumnType As String,
-                    ColumnLength As Integer,
-                    ColumnDecimals As Integer
+                    DatasetDetailID As Integer,
+                    objDetail As ColumnAttributes.clsDBDatasetDetail
 ) As Integer
         Dim SQLStatement As String
         Dim SQLOK As Boolean = True
         Dim ConnString As String
         Dim Result As Integer
+        Dim strWhere As String
 
         ConnString = GetMYSQLConnection()
         Dim cn As New MySqlConnection(ConnString)
@@ -1228,10 +1295,16 @@ Public Class SQLBuilderDAL
         cn.Open()
         Dim cm As MySqlCommand = cn.CreateCommand 'Create a command object via the connection
         Result = 0
+        strWhere = ""
+        If DatasetDetailID > 0 Then
+            strWhere = "ID=" & DatasetDetailID
+        Else
+            strWhere = "DBName='" & objDetail.DBName & "' AND TableName='" & objDetail.Tablename & "'"
+            strWhere += " AND ColumnName='" & objDetail.ColumnName & "'"
+        End If
         SQLStatement =
-        "Select DatasetID  " &
-        "From EB17023T " &
-        "Where DatasetID =" & DatasetID & " AND ColumnName= '" & ColumnName & "'"
+        "Select ID  " &
+        "From EBI7023T WHERE " & strWhere
         cm.CommandTimeout = 0
         cm.CommandType = CommandType.Text
         cm.CommandText = SQLStatement
@@ -1240,42 +1313,48 @@ Public Class SQLBuilderDAL
         da.Fill(ds)
         If ds.Tables(0).Rows.Count > 0 Then
             SQLStatement =
-            "Update EB17023T " &
+            "Update EBI7023T " &
             "set " &
-            "DatasetID=" & DatasetID & ", " &
-            "DatasetName='" & DatasetName.ToUpper & "', " &
-            "SEQUENCE=" & Sequence & ", " &
-            "Tablename='" & Tablename.ToUpper & "', " &
-            "ColumnName='" & ColumnName.ToUpper & "', " &
-            "ColumnText='" & ColumnText & "', " &
-            "ColumnType='" & ColumnType.ToUpper & "', " &
-            "ColumnLength=" & ColumnLength & ", " &
-            "ColumnDecimals=" & ColumnDecimals & " " &
-            "Where DatasetName ='" & DatasetName.ToUpper & "' AND ColumnName= '" & ColumnName.ToUpper & "'"
+            "DatasetID=" & objDetail.DatasetID & ", " &
+            "DatasetName='" & objDetail.DatasetName.ToUpper & "', " &
+            "SEQUENCE=" & objDetail.Sequence & ", " &
+            "DBName='" & objDetail.DBName & "', " &
+            "Tablename='" & objDetail.Tablename.ToUpper & "', " &
+            "ColumnName='" & objDetail.ColumnName.ToUpper & "', " &
+            "ColumnText='" & objDetail.ColumnText & "', " &
+            "ColumnType='" & objDetail.ColumnType.ToUpper & "', " &
+            "ColumnFullType='" & objDetail.ColumnFullType.ToUpper & "', " &
+            "ColumnLength=" & objDetail.ColumnLength & ", " &
+            "ColumnDecimals=" & objDetail.ColumnDecimals & " " &
+            "Where " & strWhere
             Result = 2
         Else
             SQLStatement =
-            "Insert into EB17023T ( " &
+            "Insert into EBI7023T ( " &
             "DatasetID, " &
             "DatasetName, " &
             "SEQUENCE, " &
+            "DBName," &
             "Tablename, " &
             "ColumnName, " &
             "ColumnText, " &
             "ColumnType, " &
+            "ColumnFullType, " &
             "ColumnLength, " &
             "ColumnDecimals" &
             ")  " &
             "Values(" &
-            DatasetID & ", " &
-            "'" & DatasetName.ToUpper & "', " &
-            Sequence & ", " &
-            "'" & Tablename.ToUpper & "', " &
-            "'" & ColumnName.ToUpper & "', " &
-            "'" & ColumnText & "', " &
-            "'" & ColumnType.ToUpper & "', " &
-            ColumnLength & ", " &
-            ColumnDecimals &
+            objDetail.DatasetID & ", " &
+            "'" & objDetail.DatasetName.ToUpper & "', " &
+            objDetail.Sequence & ", " &
+            "'" & objDetail.DBName & ", " &
+            "'" & objDetail.Tablename.ToUpper & "', " &
+            "'" & objDetail.ColumnName.ToUpper & "', " &
+            "'" & objDetail.ColumnText & "', " &
+            "'" & objDetail.ColumnType.ToUpper & "', " &
+            "'" & objDetail.ColumnFullType.ToUpper & "', " &
+            objDetail.ColumnLength & ", " &
+            objDetail.ColumnDecimals &
             ")"
             Result = 1
         End If

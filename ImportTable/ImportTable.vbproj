@@ -88,6 +88,12 @@
     <Compile Include="DataSetColumns.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form_FieldAttributesConfig.Designer.vb">
+      <DependentUpon>Form_FieldAttributesConfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_FieldAttributesConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ImportTableDAL.vb" />
     <Compile Include="ImportTableDetail.Designer.vb">
       <DependentUpon>ImportTableDetail.vb</DependentUpon>
@@ -115,6 +121,9 @@
   <ItemGroup>
     <EmbeddedResource Include="DataSetColumns.resx">
       <DependentUpon>DataSetColumns.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_FieldAttributesConfig.resx">
+      <DependentUpon>Form_FieldAttributesConfig.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportTableDetail.resx">
       <DependentUpon>ImportTableDetail.vb</DependentUpon>

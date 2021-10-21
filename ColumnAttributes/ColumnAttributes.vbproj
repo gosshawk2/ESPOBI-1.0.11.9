@@ -77,6 +77,8 @@
   <ItemGroup>
     <Compile Include="clsAttributeProperties.vb" />
     <Compile Include="clsAttributes.vb" />
+    <Compile Include="clsDBDatasetDetail.vb" />
+    <Compile Include="clsDBDatasetHeader.vb" />
     <Compile Include="clsFieldPosition.vb" />
     <Compile Include="clsOperators.vb" />
     <Compile Include="clsWhereFields.vb" />

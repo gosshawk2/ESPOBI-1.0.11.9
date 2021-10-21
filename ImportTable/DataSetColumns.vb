@@ -6,7 +6,10 @@
     Dim GlobalSession As ESPOParms.Session
     Dim dtDatabases As DataTable
     Dim dtTables As DataTable
-    Dim TotalFields As String
+    Dim dtFields As DataTable
+    Dim TotalFields As Integer
+    Dim TotalTables As Integer
+    Dim TotalRecords As Integer
 
     Public Sub GetParms(Session As ESPOParms.Session, Parms As ESPOBIParms.BIParms)
         GlobalParms = Parms
@@ -30,6 +33,12 @@
 
         Me.Left = 5
         Me.Top = 5
+        'Dim dgvColumnText As New DataGridViewTextBoxColumn()
+        'dgvColumnText.HeaderText = "COLUMN_TEXT"
+        'dgvColumnText.Name = "COLUMN_TEXT"
+        'dgvColumnText.Resizable = DataGridViewTriState.True
+
+        'dgvColumns.Columns.Add(dgvColumnText)
 
         dgvColumns.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells
         dgvColumns.AllowUserToOrderColumns = True
@@ -37,14 +46,19 @@
         dgvColumns.AllowUserToAddRows = False
         dgvColumns.AllowUserToDeleteRows = False
         dgvColumns.MultiSelect = True
-        dgvColumns.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        dgvColumns.SelectionMode = DataGridViewSelectionMode.CellSelect
+
+        gbFieldList.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
         dgvColumns.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom
 
         For Each c As Control In Controls
             AddHandler c.MouseClick, AddressOf ClickHandler
         Next
-        PopulateDatabaseCombo(True)
-        PopulateDatabaseTablesCombo(True)
+        If SQLBuilder.DataSetHeaderList.DBVersion = "MYSQL" Then
+            PopulateMySQLDatabaseCombo(True)
+            PopulateMySQLDatabaseTablesCombo(True)
+        End If
+
         populateForm()
 
     End Sub
@@ -97,17 +111,42 @@
 
             Cursor = Cursors.Default
         ElseIf SQLBuilder.DataSetHeaderList.DBVersion = "MYSQL" Then
-            PopulateDatabaseCombo(False)
+            PopulateMySQLDatabaseCombo(False)
             'dt1 = SQLBuilder.SQLBuilderDAL.GetHeaderListMYSQL(DBName:=, Tablename:=, DatasetID)
             'User has to select database and table first. Then display in grid:
             lblS21.Visible = False
             txtS21.Visible = False
+            AdjustColumns()
         End If
 
 
     End Sub
 
-    Public Sub PopulateDatabaseCombo(FirstTime As Boolean)
+    Public Sub AdjustColumns()
+        dgvColumns.Columns("ORDINAL_POSITION").HeaderText = "POS"
+        dgvColumns.Columns("ORDINAL_POSITION").DisplayIndex = 0
+        dgvColumns.Columns("ORDINAL_POSITION").ReadOnly = True
+        dgvColumns.Columns("COLUMN_NAME").DisplayIndex = 1
+        dgvColumns.Columns("COLUMN_NAME").ReadOnly = True
+        dgvColumns.Columns("COLUMN_TEXT").ReadOnly = False
+        dgvColumns.Columns("COLUMN_TEXT").Resizable = DataGridViewTriState.True
+        dgvColumns.Columns("COLUMN_TEXT").DisplayIndex = 2
+        dgvColumns.Columns("COLUMN_TYPE").DisplayIndex = 3
+        dgvColumns.Columns("COLUMN_TYPE").ReadOnly = True
+        dgvColumns.Columns("COLUMN_SIZE").DisplayIndex = 4
+        dgvColumns.Columns("COLUMN_SIZE").ReadOnly = True
+        dgvColumns.Columns("NUMERIC_SCALE").HeaderText = "DECIMALS"
+        dgvColumns.Columns("NUMERIC_SCALE").DisplayIndex = 5
+        dgvColumns.Columns("NUMERIC_SCALE").ReadOnly = True
+        dgvColumns.Columns("NUMERIC_PRECISION").HeaderText = "PRECISION"
+        dgvColumns.Columns("NUMERIC_PRECISION").DisplayIndex = 6
+        dgvColumns.Columns("NUMERIC_PRECISION").ReadOnly = True
+        dgvColumns.Columns("COLLATION_NAME").ReadOnly = True
+        dgvColumns.Columns("COLUMN_KEY").ReadOnly = True
+
+    End Sub
+
+    Public Sub PopulateMySQLDatabaseCombo(FirstTime As Boolean)
 
 
         dtDatabases = SQLBuilder.SQLBuilderDAL.GetMYSQLDatabases()
@@ -126,7 +165,7 @@
 
     End Sub
 
-    Public Sub PopulateDatabaseTablesCombo(FirstTime As Boolean)
+    Public Sub PopulateMySQLDatabaseTablesCombo(FirstTime As Boolean)
 
 
         If Me._TableInitialised = False Then
@@ -137,7 +176,8 @@
         If Not txtDatabase.Text = "" And _DBInitialised Then
             dtTables = SQLBuilder.SQLBuilderDAL.GetMYSQLTables(txtDatabase.Text)
             cmbTables.DataSource = dtTables
-
+            TotalTables = dtTables.Rows.Count
+            txtTotalTables.Text = CStr(TotalTables)
             cmbTables.Refresh()
         End If
 
@@ -149,6 +189,72 @@
     End Sub
 
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
+        Dim myHeader As New ColumnAttributes.clsDBDatasetHeader
+        Dim myDetail As New ColumnAttributes.clsDBDatasetDetail
+        Dim DatasetID As Integer = 0
+        Dim DetailID As Integer = 0
+        Dim OrdinalPos As Integer
+        Dim ColumnName As String
+        Dim ColumnText As String
+        Dim ColumnType As String
+        Dim ColumnLength As Integer
+        Dim ColumnDecimals As Integer
+
+        If txtDataSetName.Text = "" Then
+            MessageBox.Show("Please enter the Data Set Name")
+            Exit Sub
+        End If
+        If txtDatabase.Text = "" Then
+            MessageBox.Show("Please enter a MYSQL DATABASE")
+            Exit Sub
+        End If
+        If txtTableName.Text = "" Then
+            MessageBox.Show("Plesae enter a MYSQL TABLENAME")
+            Exit Sub
+        End If
+        myHeader.DatasetName = txtDataSetName.Text
+        myHeader.DBName = txtDatabase.Text
+        myHeader.TableName = txtTableName.Text
+        myHeader.DatasetHeaderText = txtDataSetHeaderText.Text
+        myHeader.CreatedUserID = "ddg407"
+        myHeader.TotalFields = CInt(txtTotalFields.Text)
+        myHeader.TotalRecords = CInt(txtTotalRecords.Text)
+        myHeader.AuthFlag = txtAuthority.Text
+        myHeader.GroupName = txtGroup.Text
+        'Not saving correctly ? - Put date into correct format yyyy-mm-dd HH:MM:SS
+        SQLBuilder.SQLBuilderDAL.Update_DatasetHeader_MYSQL(DatasetID, myHeader)
+        If DatasetID = 0 Then
+            MessageBox.Show("DB ERROR: Header record did not save correctly")
+            Exit Sub
+        End If
+        myHeader.ID = DatasetID
+        'The following will be populated from the grid:
+        If dgvColumns.Rows.Count = 0 Then
+            MessageBox.Show("No Fields Selected")
+            Exit Sub
+        End If
+        For xx = 0 To dgvColumns.Rows.Count - 1
+            OrdinalPos = dgvColumns.Rows(xx).Cells("ORDINAL_POSITION").Value
+            ColumnName = dgvColumns.Rows(xx).Cells("COLUMN_NAME").Value.ToString()
+            ColumnText = dgvColumns.Rows(xx).Cells("COLUMN_TEXT").Value.ToString()
+            ColumnType = dgvColumns.Rows(xx).Cells("COLUMN_TYPE").Value.ToString()
+            ColumnLength = dgvColumns.Rows(xx).Cells("COLUMN_SIZE").Value
+            ColumnDecimals = dgvColumns.Rows(xx).Cells("NUMERIC_SCALE").Value
+            'DetailID = dgvColumns.Rows(xx).Cells("ID").Value
+
+            myDetail.DatasetID = DatasetID
+            myDetail.DatasetName = txtDataSetName.Text
+            myDetail.DBName = txtDatabase.Text
+            myDetail.ColumnName = ColumnName
+            myDetail.ColumnText = ColumnText
+            myDetail.ColumnType = ColumnType
+            myDetail.Tablename = txtTableName.Text
+            myDetail.Sequence = OrdinalPos
+            myDetail.ColumnLength = ColumnLength
+            myDetail.ColumnDecimals = ColumnDecimals
+
+            SQLBuilder.SQLBuilderDAL.Update_DatasetColumns_MYSQL(DetailID, myDetail)
+        Next
 
     End Sub
 
@@ -173,14 +279,17 @@
 
         IDX = cmbDatabases.SelectedIndex
         If IDX > -1 And _DBInitialised Then
+            'dgvColumns.Rows.Clear()
+
             If cbDBUppercase.Checked Then
                 txtDatabase.Text = UCase(cmbDatabases.SelectedValue.ToString())
             Else
                 txtDatabase.Text = cmbDatabases.SelectedValue.ToString()
             End If
-            PopulateDatabaseTablesCombo(False)
+            If SQLBuilder.DataSetHeaderList.DBVersion = "MYSQL" Then
+                PopulateMySQLDatabaseTablesCombo(False)
+            End If
         End If
-
     End Sub
 
     Private Sub cmbTables_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbTables.SelectedIndexChanged
@@ -194,8 +303,31 @@
                 txtTableName.Text = cmbTables.SelectedValue.ToString()
             End If
             'POPULATE DATAGRID WITH FIELD DETAILS FROM CHOSEN TABLE:
-            TotalFields = dtTables.Rows(IDX)("TABLE_ROWS").ToString
-            txtTotalFields.Text = TotalFields
+            TotalRecords = dtTables.Rows(IDX)("TABLE_ROWS").ToString
+            txtTotalRecords.Text = CStr(TotalRecords)
+            ShowFields()
         End If
+    End Sub
+
+    Public Sub ShowFields()
+        'Take the Database and the Table selected - get the fields:
+        If SQLBuilder.DataSetHeaderList.DBVersion = "IBM" Then
+
+        ElseIf SQLBuilder.DataSetHeaderList.DBVersion = "MYSQL" Then
+            If Not txtDatabase.Text = "" And Not txtTableName.Text = "" Then
+                dtFields = SQLBuilder.SQLBuilderDAL.GetMYSQLFields(txtDatabase.Text, txtTableName.Text)
+                dgvColumns.DataSource = dtFields
+                TotalFields = dtFields.Rows.Count
+                txtTotalFields.Text = CStr(TotalFields)
+            Else
+                MsgBox("Please select a database and table")
+                Exit Sub
+            End If
+
+        End If
+    End Sub
+
+    Private Sub btnShowFields_Click(sender As Object, e As EventArgs) Handles btnShowFields.Click
+        ShowFields()
     End Sub
 End Class

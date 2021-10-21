@@ -155,7 +155,8 @@ Public Class ColumnSelect
             txtValue2.Visible = False
             txtFirstRows.Text = ""
             txtINvalues.Text = ""
-            'Dim dgvCheck As New DataGridViewCheckBoxColumn()
+            'Dim dgvCheck As New DataGridViewTextBoxColumn
+
             'dgvCheck.HeaderText = "Select Field"
             'dgvCheck.Name = "SelectField"
 
@@ -2578,6 +2579,7 @@ Public Class ColumnSelect
 
     Private Sub btnGenerateSQL_Click(sender As Object, e As EventArgs) Handles btnGenerateSQL.Click
         GlobalParms.SQLStatement = BuildQueryFromSelection()
+        ShowQueryForm()
         'MsgBox(GlobalParms.SQLStatement)
     End Sub
 
