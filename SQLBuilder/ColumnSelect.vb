@@ -184,9 +184,26 @@ Public Class ColumnSelect
             'IndexCol.SetOrdinal(0)
             Me.IsEditingCondition = False
             If DataSetHeaderList.DBVersion = "IBM" Then
+                lblInstance.Visible = False
+                txtInstance.Visible = False
+                lblDatabase.Visible = False
+                txtDatabase.Visible = False
                 dt = myDAL.GetColumns(GlobalSession.ConnectString, DataSetID, "", txtSearchColumnText.Text)
-            Else
-                dt = myDAL.GetColumnsMYSQL(DataSetID, SQLBuilder.DataSetHeaderList.DBName, "", "")
+            ElseIf DataSetHeaderList.DBVersion = "MYSQL" Then
+                lblInstance.Visible = False
+                txtInstance.Visible = False
+                lblDatabase.Visible = True
+                txtDatabase.Visible = True
+                txtDatabase.Text = GlobalParms.DBName
+
+                dt = myDAL.GetColumnsMYSQL(DataSetID, "", "", txtSearchColumnText.Text)
+            ElseIf DataSetHeaderList.DBVersion = "MSSQL" Then
+                lblInstance.Visible = True
+                txtInstance.Visible = True
+                lblDatabase.Visible = True
+                txtDatabase.Visible = True
+                txtInstance.Text = GlobalParms.InstanceName
+                txtDatabase.Text = GlobalParms.DBName
             End If
             cbAudioClick.Checked = False
             dgvColumnList.DataSource = Nothing
@@ -270,7 +287,7 @@ Public Class ColumnSelect
             If DataSetHeaderList.DBVersion = "IBM" Then
                 dt = myDAL.GetColumns(GlobalSession.ConnectString, DataSetID, "", txtSearchColumnText.Text)
             Else
-                dt = myDAL.GetColumnsMYSQL(DataSetID, SQLBuilder.DataSetHeaderList.DBName, "", "")
+                dt = myDAL.GetColumnsMYSQL(DataSetID, "", "", txtSearchColumnText.Text)
             End If
             dgvColumnList.DataSource = Nothing
             If dt IsNot Nothing Then
@@ -1806,6 +1823,7 @@ Public Class ColumnSelect
         Dim recs As Long
         Dim dt As DataTable
         Dim FinalQuery As String
+        Dim DBName As String
 
         GetRecordsGenerated = 0
         FinalQuery = BuildQueryFromSelection()
@@ -1814,8 +1832,11 @@ Public Class ColumnSelect
         End If
         If DataSetHeaderList.DBVersion = "IBM" Then
             dt = ViewSQL.ExecuteSQLQuery(FinalQuery)
-        Else
-            dt = ViewSQL.ExecuteMySQLQuery(FinalQuery)
+        ElseIf DataSetHeaderList.DBVersion = "MYSQL" Then
+            DBName = GlobalParms.DBName
+            dt = SQLBuilder.SQLBuilderDAL.ExecuteMySQLQuery(DBName, FinalQuery)
+        ElseIf DataSetHeaderList.DBVersion = "MSSQL" Then
+
         End If
         recs = dt.Rows.Count
         Return recs
@@ -2512,6 +2533,7 @@ Public Class ColumnSelect
         Dim dtTableData As DataTable
         Dim dtChartDetails As DataTable
         Dim myDAL = New SQLBuilderDAL
+        Dim DBName As String
 
         If radDisplay.Checked Then
             Output = "D"
@@ -2523,11 +2545,17 @@ Public Class ColumnSelect
         If FinalQuery <> "" Then
             Dim RQ As New RunQuery.QueryResultsDGV
             If FieldAttributes.DBType = "MYSQL" Then
-                dtTableData = myDAL.ExecuteMySQLQuery(FinalQuery)
+                DBName = GlobalParms.DBName
+                dtTableData = myDAL.ExecuteMySQLQuery(DBName, FinalQuery)
                 dtChartDetails = myDAL.GetChartDetailsMySQL()
-            Else
+            ElseIf FieldAttributes.DBType = "IBM" Then
                 dtTableData = myDAL.ExecuteIBMSQLQuery(GlobalSession.ConnectString, FinalQuery)
                 dtChartDetails = myDAL.GetChartDetailsIBM(GlobalSession.ConnectString)
+            ElseIf FieldAttributes.DBType = "MSSQL" Then
+
+            Else
+                MessageBox.Show("Database Not Recognised")
+                Exit Sub
             End If
             If dtChartDetails Is Nothing Then
                 dtChartDetails = myDAL.CreateChartDetails()

@@ -28,14 +28,6 @@ Partial Class ESPOBIMDI
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SQLBuilderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.WindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.TileHorizontalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.TileVerticalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CascadeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ArrangeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MinimiseAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.RestoreAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CloseAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImportFromCSVToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ThemeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -44,6 +36,14 @@ Partial Class ESPOBIMDI
         Me.SelectDBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.IBMToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MYSQLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.WindowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TileHorizontalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TileVerticalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CascadeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ArrangeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MinimiseAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RestoreAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CloseAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tls1 = New System.Windows.Forms.ToolStrip()
         Me.tlsbExportToExcel = New System.Windows.Forms.ToolStripButton()
@@ -54,6 +54,7 @@ Partial Class ESPOBIMDI
         Me.stsFW100Label4 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.stsFW100Label5 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.stsFW100Label6 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.MSSQLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.tls1.SuspendLayout()
         Me.stsFWMainMenu.SuspendLayout()
@@ -92,8 +93,63 @@ Partial Class ESPOBIMDI
         'SQLBuilderToolStripMenuItem
         '
         Me.SQLBuilderToolStripMenuItem.Name = "SQLBuilderToolStripMenuItem"
-        Me.SQLBuilderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SQLBuilderToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
         Me.SQLBuilderToolStripMenuItem.Text = "Data Sets"
+        '
+        'ToolsToolStripMenuItem
+        '
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ImportFromCSVToolStripMenuItem, Me.ThemeToolStripMenuItem, Me.SelectDBToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
+        Me.ToolsToolStripMenuItem.Text = "Tools"
+        '
+        'ImportFromCSVToolStripMenuItem
+        '
+        Me.ImportFromCSVToolStripMenuItem.Name = "ImportFromCSVToolStripMenuItem"
+        Me.ImportFromCSVToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ImportFromCSVToolStripMenuItem.Text = "Import Table"
+        '
+        'ThemeToolStripMenuItem
+        '
+        Me.ThemeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NormalToolStripMenuItem, Me.DarkToolStripMenuItem})
+        Me.ThemeToolStripMenuItem.Name = "ThemeToolStripMenuItem"
+        Me.ThemeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ThemeToolStripMenuItem.Text = "Theme"
+        '
+        'NormalToolStripMenuItem
+        '
+        Me.NormalToolStripMenuItem.CheckOnClick = True
+        Me.NormalToolStripMenuItem.Name = "NormalToolStripMenuItem"
+        Me.NormalToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
+        Me.NormalToolStripMenuItem.Text = "Normal"
+        '
+        'DarkToolStripMenuItem
+        '
+        Me.DarkToolStripMenuItem.CheckOnClick = True
+        Me.DarkToolStripMenuItem.Name = "DarkToolStripMenuItem"
+        Me.DarkToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
+        Me.DarkToolStripMenuItem.Text = "Dark"
+        '
+        'SelectDBToolStripMenuItem
+        '
+        Me.SelectDBToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IBMToolStripMenuItem, Me.MYSQLToolStripMenuItem, Me.MSSQLToolStripMenuItem})
+        Me.SelectDBToolStripMenuItem.Name = "SelectDBToolStripMenuItem"
+        Me.SelectDBToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.SelectDBToolStripMenuItem.Text = "Select DB"
+        '
+        'IBMToolStripMenuItem
+        '
+        Me.IBMToolStripMenuItem.CheckOnClick = True
+        Me.IBMToolStripMenuItem.Name = "IBMToolStripMenuItem"
+        Me.IBMToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.IBMToolStripMenuItem.Text = "IBM"
+        '
+        'MYSQLToolStripMenuItem
+        '
+        Me.MYSQLToolStripMenuItem.CheckOnClick = True
+        Me.MYSQLToolStripMenuItem.Name = "MYSQLToolStripMenuItem"
+        Me.MYSQLToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MYSQLToolStripMenuItem.Text = "MYSQL"
         '
         'WindowToolStripMenuItem
         '
@@ -144,61 +200,6 @@ Partial Class ESPOBIMDI
         Me.CloseAllToolStripMenuItem.Name = "CloseAllToolStripMenuItem"
         Me.CloseAllToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.CloseAllToolStripMenuItem.Text = "Close All"
-        '
-        'ToolsToolStripMenuItem
-        '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ImportFromCSVToolStripMenuItem, Me.ThemeToolStripMenuItem, Me.SelectDBToolStripMenuItem})
-        Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
-        Me.ToolsToolStripMenuItem.Text = "Tools"
-        '
-        'ImportFromCSVToolStripMenuItem
-        '
-        Me.ImportFromCSVToolStripMenuItem.Name = "ImportFromCSVToolStripMenuItem"
-        Me.ImportFromCSVToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.ImportFromCSVToolStripMenuItem.Text = "Import Table"
-        '
-        'ThemeToolStripMenuItem
-        '
-        Me.ThemeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NormalToolStripMenuItem, Me.DarkToolStripMenuItem})
-        Me.ThemeToolStripMenuItem.Name = "ThemeToolStripMenuItem"
-        Me.ThemeToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.ThemeToolStripMenuItem.Text = "Theme"
-        '
-        'NormalToolStripMenuItem
-        '
-        Me.NormalToolStripMenuItem.CheckOnClick = True
-        Me.NormalToolStripMenuItem.Name = "NormalToolStripMenuItem"
-        Me.NormalToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
-        Me.NormalToolStripMenuItem.Text = "Normal"
-        '
-        'DarkToolStripMenuItem
-        '
-        Me.DarkToolStripMenuItem.CheckOnClick = True
-        Me.DarkToolStripMenuItem.Name = "DarkToolStripMenuItem"
-        Me.DarkToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
-        Me.DarkToolStripMenuItem.Text = "Dark"
-        '
-        'SelectDBToolStripMenuItem
-        '
-        Me.SelectDBToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.IBMToolStripMenuItem, Me.MYSQLToolStripMenuItem})
-        Me.SelectDBToolStripMenuItem.Name = "SelectDBToolStripMenuItem"
-        Me.SelectDBToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.SelectDBToolStripMenuItem.Text = "Select DB"
-        '
-        'IBMToolStripMenuItem
-        '
-        Me.IBMToolStripMenuItem.CheckOnClick = True
-        Me.IBMToolStripMenuItem.Name = "IBMToolStripMenuItem"
-        Me.IBMToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
-        Me.IBMToolStripMenuItem.Text = "IBM"
-        '
-        'MYSQLToolStripMenuItem
-        '
-        Me.MYSQLToolStripMenuItem.CheckOnClick = True
-        Me.MYSQLToolStripMenuItem.Name = "MYSQLToolStripMenuItem"
-        Me.MYSQLToolStripMenuItem.Size = New System.Drawing.Size(113, 22)
-        Me.MYSQLToolStripMenuItem.Text = "MYSQL"
         '
         'DBToolStripMenuItem
         '
@@ -279,6 +280,12 @@ Partial Class ESPOBIMDI
         Me.stsFW100Label6.Name = "stsFW100Label6"
         Me.stsFW100Label6.Size = New System.Drawing.Size(4, 17)
         '
+        'MSSQLToolStripMenuItem
+        '
+        Me.MSSQLToolStripMenuItem.Name = "MSSQLToolStripMenuItem"
+        Me.MSSQLToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.MSSQLToolStripMenuItem.Text = "MSSQL"
+        '
         'ESPOBIMDI
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -333,4 +340,5 @@ Partial Class ESPOBIMDI
     Friend WithEvents IBMToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MYSQLToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DBToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MSSQLToolStripMenuItem As ToolStripMenuItem
 End Class

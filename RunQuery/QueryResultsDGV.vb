@@ -89,6 +89,22 @@ Public Class QueryResultsDGV
         OutputType = Output
         FieldAttributes = objFieldAttributes
         SQLStatement = SQLQuery
+        If GlobalParms.DBVersion = "IBM" Then
+            lblDatabase.Visible = False
+            txtDatabase.Visible = False
+            lblInstance.Visible = False
+            txtInstance.Visible = False
+        ElseIf GlobalParms.DBVersion = "MYSQL" Then
+            lblDatabase.Visible = True
+            txtDatabase.Visible = True
+            lblInstance.Visible = False
+            txtInstance.Visible = False
+        ElseIf GlobalParms.DBVersion = "MSSQL" Then
+            lblDatabase.Visible = True
+            txtDatabase.Visible = True
+            lblInstance.Visible = True
+            txtInstance.Visible = True
+        End If
         txtSQLQuery.Text = SQLStatement
         txtSQLQuery.Focus()
         Me.Text = "SQL Query: " & Me.Tablename
@@ -117,35 +133,6 @@ Public Class QueryResultsDGV
         Dim ds As New DataSet
         da.Fill(ds)
         Return ds.Tables(0)
-    End Function
-
-    Public Shared Function ExecuteMySQLQuery(SqlStatement As String) As DataTable
-        Dim ConnString As String
-        Dim ZeroDatetime As Boolean = True
-        Dim Server As String = "localhost"
-        Dim DbaseName As String = "simplequerybuilder"
-        Dim USERNAME As String = "root"
-        Dim password As String = "root"
-        Dim port As String = "3306"
-
-        ExecuteMySQLQuery = Nothing
-        Try
-            'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
-            ConnString = String.Format("server={0}; user id={1}; password={2}; database={3}; Convert Zero Datetime={4}; port={5}; pooling=false", Server, USERNAME, password, DbaseName, ZeroDatetime, port)
-            Dim cn As New MySqlConnection(ConnString)
-            cn.Open()
-            Dim cmd As New MySqlCommand
-            cmd.Connection = cn
-            cmd.CommandTimeout = 0
-            cmd.CommandType = CommandType.Text
-            cmd.CommandText = SqlStatement
-            Dim da As New MySqlDataAdapter(cmd)
-            Dim ds As New DataSet
-            da.Fill(ds)
-            Return ds.Tables(0)
-        Catch ex As Exception
-            MsgBox("DB ERROR: " & ex.Message)
-        End Try
     End Function
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -249,7 +236,7 @@ Public Class QueryResultsDGV
         Cursor = Cursors.WaitCursor
         Refresh()
         If FieldAttributes.DBType = "MYSQL" Then
-            dtTableData = ExecuteMySQLQuery(txtSQLQuery.Text)
+            dtTableData = Me.TableData
             'ExportToExcelWithDataTable(dt, "SQLBuilder Output")
         Else
             Dim rsADO As ADODB.Recordset

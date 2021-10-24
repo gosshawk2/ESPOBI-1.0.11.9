@@ -4,6 +4,11 @@
     Dim p As System.Security.Principal.WindowsPrincipal = CType(System.Threading.Thread.CurrentPrincipal, System.Security.Principal.WindowsPrincipal)
     Dim userid As String = p.Identity.Name
 
+    'NEW properties added to clsAttributes.vb by DG : 24-10-2021 20:45
+    'Private _ServerName As String
+    'Private _DBName As String
+    'Private _IP4Addr As String
+    'Private _ComputerName As String
 
     Private Sub ESPOBIMDI_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim myDAL = New SQLBuilder.SQLBuilderDAL
@@ -159,12 +164,24 @@
         SQLBuilder.DataSetHeaderList.DBVersion = "IBM"
         DBToolStripMenuItem.Text = "IBM"
         MYSQLToolStripMenuItem.Checked = False
+        MSSQLToolStripMenuItem.Checked = False
+        IBMToolStripMenuItem.Checked = True
     End Sub
 
     Private Sub MYSQLToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MYSQLToolStripMenuItem.Click
         SQLBuilder.DataSetHeaderList.DBVersion = "MYSQL"
         DBToolStripMenuItem.Text = "MYSQL"
         IBMToolStripMenuItem.Checked = False
+        MSSQLToolStripMenuItem.Checked = False
+        MYSQLToolStripMenuItem.Checked = True
+    End Sub
+
+    Private Sub MSSQLToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MSSQLToolStripMenuItem.Click
+        SQLBuilder.DataSetHeaderList.DBVersion = "MSSQL"
+        DBToolStripMenuItem.Text = "MSSQL"
+        IBMToolStripMenuItem.Checked = False
+        MYSQLToolStripMenuItem.Checked = False
+        MSSQLToolStripMenuItem.Checked = True
     End Sub
 
     Private Sub ImportFromCSVToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ImportFromCSVToolStripMenuItem.Click
@@ -187,8 +204,9 @@
 
         End If
 
-
         stsFW100Label1.Text = ""
         Cursor = Cursors.Default
     End Sub
+
+
 End Class

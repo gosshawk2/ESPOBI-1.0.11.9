@@ -35,6 +35,10 @@ Partial Class QueryResultsDGV
         Me.btnExportToExcel = New System.Windows.Forms.Button()
         Me.btnSQLUpdate = New System.Windows.Forms.Button()
         Me.btnVisualise = New System.Windows.Forms.Button()
+        Me.lblInstance = New System.Windows.Forms.Label()
+        Me.txtInstance = New System.Windows.Forms.TextBox()
+        Me.txtDatabase = New System.Windows.Forms.TextBox()
+        Me.lblDatabase = New System.Windows.Forms.Label()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.dgvOutput, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl1.SuspendLayout()
@@ -165,11 +169,47 @@ Partial Class QueryResultsDGV
         Me.btnVisualise.Text = "Visualise"
         Me.btnVisualise.UseVisualStyleBackColor = True
         '
+        'lblInstance
+        '
+        Me.lblInstance.AutoSize = True
+        Me.lblInstance.Location = New System.Drawing.Point(460, 17)
+        Me.lblInstance.Name = "lblInstance"
+        Me.lblInstance.Size = New System.Drawing.Size(51, 13)
+        Me.lblInstance.TabIndex = 28
+        Me.lblInstance.Text = "Instance:"
+        '
+        'txtInstance
+        '
+        Me.txtInstance.Location = New System.Drawing.Point(515, 15)
+        Me.txtInstance.Name = "txtInstance"
+        Me.txtInstance.Size = New System.Drawing.Size(100, 20)
+        Me.txtInstance.TabIndex = 29
+        '
+        'txtDatabase
+        '
+        Me.txtDatabase.Location = New System.Drawing.Point(694, 15)
+        Me.txtDatabase.Name = "txtDatabase"
+        Me.txtDatabase.Size = New System.Drawing.Size(100, 20)
+        Me.txtDatabase.TabIndex = 31
+        '
+        'lblDatabase
+        '
+        Me.lblDatabase.AutoSize = True
+        Me.lblDatabase.Location = New System.Drawing.Point(634, 17)
+        Me.lblDatabase.Name = "lblDatabase"
+        Me.lblDatabase.Size = New System.Drawing.Size(56, 13)
+        Me.lblDatabase.TabIndex = 30
+        Me.lblDatabase.Text = "Database:"
+        '
         'QueryResultsDGV
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(929, 539)
+        Me.Controls.Add(Me.txtDatabase)
+        Me.Controls.Add(Me.lblDatabase)
+        Me.Controls.Add(Me.txtInstance)
+        Me.Controls.Add(Me.lblInstance)
         Me.Controls.Add(Me.btnVisualise)
         Me.Controls.Add(Me.btnSQLUpdate)
         Me.Controls.Add(Me.btnExportToExcel)
@@ -203,4 +243,8 @@ Partial Class QueryResultsDGV
     Friend WithEvents btnExportToExcel As Button
     Friend WithEvents btnSQLUpdate As Button
     Friend WithEvents btnVisualise As Button
+    Friend WithEvents lblInstance As Label
+    Friend WithEvents txtInstance As TextBox
+    Friend WithEvents txtDatabase As TextBox
+    Friend WithEvents lblDatabase As Label
 End Class

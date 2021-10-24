@@ -31,6 +31,10 @@ Public Class ColumnAttributes
     Private _SQLGroupByPart As String
     Private _SQLOrderByPart As String
     Private _FetchCount As Integer
+    Private _ServerName As String
+    Private _DBName As String
+    Private _IP4Addr As String
+    Private _ComputerName As String
     Private _TableName As String
     Private _HavingConditions As String
     Public Shared ThemeSelection As Integer
@@ -333,6 +337,49 @@ Public Class ColumnAttributes
         End Set
     End Property
 
+    'NEW properties added by DG : 24-10-2021 20:45
+    'Private _ServerName As String
+    'Private _DBName As String
+    'Private _IP4Addr As String
+    'Private _ComputerName As String
+
+    Public Property ServerName As String
+        Get
+            Return _ServerName
+        End Get
+        Set(value As String)
+            _ServerName = value
+        End Set
+    End Property
+
+    Public Property DBName As String
+        Get
+            Return _DBName
+        End Get
+        Set(value As String)
+            _DBName = value
+        End Set
+    End Property
+
+    Public Property IP4Addr As String
+        Get
+            Return _IP4Addr
+        End Get
+        Set(value As String)
+            _IP4Addr = value
+        End Set
+    End Property
+
+    Public Property ComputerName As String
+        Get
+            Return _ComputerName
+        End Get
+        Set(value As String)
+            _ComputerName = value
+        End Set
+    End Property
+
+    '
     Public Property TableName As String
         Get
             Return _TableName

@@ -57,8 +57,8 @@
             dgvHeaderList.Columns.Clear()
             dgvHeaderList.DataSource = Nothing
             If DBVersion = "MYSQL" Then
-                dt = myDAL.GetHeaderListMYSQL(SQLBuilder.DataSetHeaderList.DBName, "", DatasetID)
-            Else
+                dt = myDAL.GetHeaderListMYSQL("", "", DatasetID)
+            ElseIf DBVersion = "IBM" Then
                 dt = myDAL.GetHeaderList(
                     GlobalSession.ConnectString,
                     txtTableName.Text,
@@ -70,6 +70,8 @@
                     txtApplicationCode.Text,
                     chkTables.Checked,
                     chkViews.Checked)
+            ElseIf DBVersion = "MSSQL" Then
+
             End If
             If dt IsNot Nothing Then
                 If dt.Rows.Count > 0 Then
@@ -124,6 +126,14 @@
         Refresh()
         DataSetID = dgvHeaderList.CurrentRow.Cells("DataSetID").Value
         Tablename = dgvHeaderList.CurrentRow.Cells("Tablename").Value
+        If DBVersion = "MYSQL" Then
+            GlobalParms.DBName = dgvHeaderList.CurrentRow.Cells("DBName").Value
+            DBName = GlobalParms.DBName
+        ElseIf DBVersion = "MSSQL" Then
+            'will need instance name to be set.
+            GlobalParms.DBName = dgvHeaderList.CurrentRow.Cells("DatabaseName").Value
+            DBName = GlobalParms.DBName
+        End If
         GlobalParms.DataSetHeaderText = dgvHeaderList.CurrentRow.Cells("DataSet Header Text").Value.trim
         GlobalParms.DataSetName = dgvHeaderList.CurrentRow.Cells("DataSet Name").Value.trim
         App.Visible = False

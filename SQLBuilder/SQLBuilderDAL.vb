@@ -816,7 +816,11 @@ Public Class SQLBuilderDAL
         GetColumnsMYSQL = Nothing
         Try
             'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
-            ConnString = GetMYSQLConnection(DBName)
+            If DBName = "" Then
+                ConnString = GetMYSQLConnection("")
+            Else
+                ConnString = GetMYSQLConnection(DBName)
+            End If
 
             strWhere = ""
             If DatasetID > 0 Then
@@ -1172,7 +1176,7 @@ Public Class SQLBuilderDAL
 
     Public Shared Function Update_DatasetHeader_MYSQL(
                     ByRef DatasetID As Integer,
-                    objHeader As ColumnAttributes.clsDBDatasetHeader
+                    ByRef objHeader As ColumnAttributes.clsDBDatasetHeader
 ) As Integer
         Dim SQLStatement As String
         Dim SQLOK As Boolean = True
@@ -1180,6 +1184,8 @@ Public Class SQLBuilderDAL
         Dim Result As Integer
         Dim dtCreateTime As String
         Dim dtUpdTime As String
+        Dim dtHeader As DataTable
+        Dim Answer As String
 
         ConnString = GetMYSQLConnection()
         Dim cn As New MySqlConnection(ConnString)
@@ -1210,25 +1216,35 @@ Public Class SQLBuilderDAL
         Dim da As New MySqlDataAdapter(cm)
         Dim ds As New DataSet
         da.Fill(ds)
+        dtHeader = ds.Tables(0)
         If objHeader.TotalFields = 0 Then
-            objHeader.TotalFields = ds.Tables(0).Rows.Count
+            objHeader.TotalFields = dtHeader.Rows.Count
         End If
 
-        If ds.Tables(0).Rows.Count > 0 Then
+        If dtHeader.Rows.Count > 0 Then
+            DatasetID = dtHeader.Rows(0)("DatasetID")
+            Answer = InputBox("Table already imported - Overwrite ?", "Already Exists - Overwrite?", "n")
+            If Answer = "n" Then
+                Result = 3
+                Exit Function
+            End If
+            objHeader.DatasetID = DatasetID
+
+
             SQLStatement =
-            "Update EBI7020T " &
-            "set " &
-            "DatasetName='" & objHeader.DatasetName.ToUpper & "', " &
-            "DatasetHeaderText='" & objHeader.DatasetHeaderText & "', " &
-            "DBName='" & objHeader.DBName & "', " &
-            "Tablename='" & objHeader.TableName.ToUpper & "', " &
-            "AuthorityFlag='" & objHeader.AuthFlag & "', " &
-            "GroupName='" & objHeader.GroupName.ToUpper & "', " &
-            "UPDUserID='" & objHeader.UpdUserID & "', " &
-            "UPDTIMESTAMP='" & dtUpdTime & "', " &
-            "TotalFields=" & objHeader.TotalFields & " " &
-            "TotalRecords=" & objHeader.TotalRecords & " " &
-            "Where DatasetID =" & DatasetID & " "
+                "Update EBI7020T " &
+                "set " &
+                "DatasetName='" & objHeader.DatasetName.ToUpper & "', " &
+                "DatasetHeaderText='" & objHeader.DatasetHeaderText & "', " &
+                "DBName='" & objHeader.DBName & "', " &
+                "Tablename='" & objHeader.TableName.ToUpper & "', " &
+                "AuthorityFlag='" & objHeader.AuthFlag & "', " &
+                "GroupName='" & objHeader.GroupName.ToUpper & "', " &
+                "UPDUserID='" & objHeader.UpdUserID & "', " &
+                "UPDTIMESTAMP='" & dtUpdTime & "', " &
+                "TotalFields=" & objHeader.TotalFields & ", " &
+                "TotalRecords=" & objHeader.TotalRecords & " " &
+                "Where DatasetID =" & DatasetID & " "
             Result = 2
         Else
             SQLStatement =
@@ -1288,6 +1304,8 @@ Public Class SQLBuilderDAL
         Dim ConnString As String
         Dim Result As Integer
         Dim strWhere As String
+        Dim dtDetail As DataTable
+        Dim Answer As String
 
         ConnString = GetMYSQLConnection()
         Dim cn As New MySqlConnection(ConnString)
@@ -1311,7 +1329,13 @@ Public Class SQLBuilderDAL
         Dim da As New MySqlDataAdapter(cm)
         Dim ds As New DataSet
         da.Fill(ds)
-        If ds.Tables(0).Rows.Count > 0 Then
+        dtDetail = ds.Tables(0)
+        If dtDetail.Rows.Count > 0 Then
+            DatasetDetailID = dtDetail.Rows(0)("ID")
+            Answer = InputBox("Column already exists in database table", "OVERWRITE ?", "N")
+            If Answer.ToUpper = "N" Then
+                Exit Function
+            End If
             SQLStatement =
             "Update EBI7023T " &
             "set " &
@@ -1347,7 +1371,7 @@ Public Class SQLBuilderDAL
             objDetail.DatasetID & ", " &
             "'" & objDetail.DatasetName.ToUpper & "', " &
             objDetail.Sequence & ", " &
-            "'" & objDetail.DBName & ", " &
+            "'" & objDetail.DBName & "', " &
             "'" & objDetail.Tablename.ToUpper & "', " &
             "'" & objDetail.ColumnName.ToUpper & "', " &
             "'" & objDetail.ColumnText & "', " &
@@ -1509,13 +1533,18 @@ from tmp
         Return ds.Tables(0)
     End Function
 
-    Public Shared Function ExecuteMySQLQuery(SqlStatement As String) As DataTable
+    Public Shared Function ExecuteMySQLQuery(DBName As String, SqlStatement As String) As DataTable
         Dim ConnString As String
 
         ExecuteMySQLQuery = Nothing
         Try
             'ConnString = setupMySQLconnection("localhost", "simplequerybuilder", "root", "root", "3306", ErrMessage)
-            ConnString = GetMYSQLConnection()
+            If DBName = "" Then
+                ConnString = GetMYSQLConnection()
+            Else
+                ConnString = GetMYSQLConnection(DBName)
+            End If
+
             Dim cn As New MySqlConnection(ConnString)
             cn.Open()
             Dim cmd As New MySqlCommand
@@ -1530,6 +1559,14 @@ from tmp
         Catch ex As Exception
             MsgBox("DB ERROR: " & ex.Message)
         End Try
+    End Function
+
+    Public Shared Function ExecuteMSSQLQuery(DBName As String, SqlStatement As String) As DataTable
+        Dim ConnString As String
+
+        ExecuteMSSQLQuery = Nothing
+        'Do we need the INSTANCE name ?
+
     End Function
 
     Public Function GetChartDetailsIBM(ConnectString As String) As DataTable

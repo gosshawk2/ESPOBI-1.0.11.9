@@ -199,6 +199,9 @@
         Dim ColumnType As String
         Dim ColumnLength As Integer
         Dim ColumnDecimals As Integer
+        Dim strOrdinalPos As String
+        Dim strColumnLength As String
+        Dim strColumnDecimals As String
 
         If txtDataSetName.Text = "" Then
             MessageBox.Show("Please enter the Data Set Name")
@@ -234,20 +237,51 @@
             Exit Sub
         End If
         For xx = 0 To dgvColumns.Rows.Count - 1
-            OrdinalPos = dgvColumns.Rows(xx).Cells("ORDINAL_POSITION").Value
+            If Not IsDBNull(dgvColumns.Rows(xx).Cells("ORDINAL_POSITION").Value) Then
+                strOrdinalPos = dgvColumns.Rows(xx).Cells("ORDINAL_POSITION").Value.ToString()
+            Else
+                strOrdinalPos = "0"
+            End If
+
             ColumnName = dgvColumns.Rows(xx).Cells("COLUMN_NAME").Value.ToString()
             ColumnText = dgvColumns.Rows(xx).Cells("COLUMN_TEXT").Value.ToString()
             ColumnType = dgvColumns.Rows(xx).Cells("COLUMN_TYPE").Value.ToString()
-            ColumnLength = dgvColumns.Rows(xx).Cells("COLUMN_SIZE").Value
-            ColumnDecimals = dgvColumns.Rows(xx).Cells("NUMERIC_SCALE").Value
+            If Not IsDBNull(dgvColumns.Rows(xx).Cells("COLUMN_SIZE").Value) Then
+                strColumnLength = dgvColumns.Rows(xx).Cells("COLUMN_SIZE").Value.ToString()
+            Else
+                strColumnLength = "0"
+            End If
+
+            If Not IsDBNull(dgvColumns.Rows(xx).Cells("NUMERIC_SCALE").Value) Then
+                strColumnDecimals = dgvColumns.Rows(xx).Cells("NUMERIC_SCALE").Value.ToString()
+            Else
+                strColumnDecimals = "0"
+            End If
+
             'DetailID = dgvColumns.Rows(xx).Cells("ID").Value
 
+            If strOrdinalPos = "" Then
+                OrdinalPos = 0
+            Else
+                OrdinalPos = CInt(strOrdinalPos)
+            End If
+            If strColumnLength = "" Then
+                ColumnLength = 0
+            Else
+                ColumnLength = CInt(strColumnLength)
+            End If
+            If strColumnDecimals = "" Then
+                ColumnDecimals = 0
+            Else
+                ColumnDecimals = CInt(strColumnDecimals)
+            End If
             myDetail.DatasetID = DatasetID
             myDetail.DatasetName = txtDataSetName.Text
             myDetail.DBName = txtDatabase.Text
             myDetail.ColumnName = ColumnName
             myDetail.ColumnText = ColumnText
             myDetail.ColumnType = ColumnType
+            myDetail.ColumnFullType = ColumnType
             myDetail.Tablename = txtTableName.Text
             myDetail.Sequence = OrdinalPos
             myDetail.ColumnLength = ColumnLength

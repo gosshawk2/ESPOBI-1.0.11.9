@@ -98,6 +98,10 @@ Partial Class ColumnSelect
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.txtDatabase = New System.Windows.Forms.TextBox()
+        Me.lblDatabase = New System.Windows.Forms.Label()
+        Me.txtInstance = New System.Windows.Forms.TextBox()
+        Me.lblInstance = New System.Windows.Forms.Label()
         CType(Me.dgvColumnList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.stsQueryBuilder.SuspendLayout()
         Me.gbFilterRecords.SuspendLayout()
@@ -115,14 +119,14 @@ Partial Class ColumnSelect
         Me.lblTableName.AutoSize = True
         Me.lblTableName.Location = New System.Drawing.Point(1140, 19)
         Me.lblTableName.Name = "lblTableName"
-        Me.lblTableName.Size = New System.Drawing.Size(34, 13)
+        Me.lblTableName.Size = New System.Drawing.Size(37, 13)
         Me.lblTableName.TabIndex = 2
-        Me.lblTableName.Text = "Table"
+        Me.lblTableName.Text = "Table:"
         '
         'txtTablename
         '
         Me.txtTablename.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtTablename.Location = New System.Drawing.Point(1180, 15)
+        Me.txtTablename.Location = New System.Drawing.Point(1181, 15)
         Me.txtTablename.Name = "txtTablename"
         Me.txtTablename.ReadOnly = True
         Me.txtTablename.Size = New System.Drawing.Size(105, 20)
@@ -147,7 +151,7 @@ Partial Class ColumnSelect
         'btnClear
         '
         Me.btnClear.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.btnClear.Location = New System.Drawing.Point(772, 15)
+        Me.btnClear.Location = New System.Drawing.Point(623, 13)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(63, 23)
         Me.btnClear.TabIndex = 3
@@ -391,7 +395,7 @@ Partial Class ColumnSelect
         '
         'btnClose
         '
-        Me.btnClose.Location = New System.Drawing.Point(865, 15)
+        Me.btnClose.Location = New System.Drawing.Point(694, 13)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(63, 23)
         Me.btnClose.TabIndex = 21
@@ -846,6 +850,10 @@ Partial Class ColumnSelect
         '
         Me.GroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox2.Controls.Add(Me.txtInstance)
+        Me.GroupBox2.Controls.Add(Me.lblInstance)
+        Me.GroupBox2.Controls.Add(Me.txtDatabase)
+        Me.GroupBox2.Controls.Add(Me.lblDatabase)
         Me.GroupBox2.Controls.Add(Me.txtSearchColumnText)
         Me.GroupBox2.Controls.Add(Me.Label3)
         Me.GroupBox2.Controls.Add(Me.btnClear)
@@ -915,6 +923,44 @@ Partial Class ColumnSelect
         Me.GroupBox4.Size = New System.Drawing.Size(508, 667)
         Me.GroupBox4.TabIndex = 35
         Me.GroupBox4.TabStop = False
+        '
+        'txtDatabase
+        '
+        Me.txtDatabase.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtDatabase.Location = New System.Drawing.Point(1019, 16)
+        Me.txtDatabase.Name = "txtDatabase"
+        Me.txtDatabase.ReadOnly = True
+        Me.txtDatabase.Size = New System.Drawing.Size(105, 20)
+        Me.txtDatabase.TabIndex = 30
+        '
+        'lblDatabase
+        '
+        Me.lblDatabase.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblDatabase.AutoSize = True
+        Me.lblDatabase.Location = New System.Drawing.Point(959, 20)
+        Me.lblDatabase.Name = "lblDatabase"
+        Me.lblDatabase.Size = New System.Drawing.Size(56, 13)
+        Me.lblDatabase.TabIndex = 31
+        Me.lblDatabase.Text = "Database:"
+        '
+        'txtInstance
+        '
+        Me.txtInstance.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtInstance.Location = New System.Drawing.Point(825, 16)
+        Me.txtInstance.Name = "txtInstance"
+        Me.txtInstance.ReadOnly = True
+        Me.txtInstance.Size = New System.Drawing.Size(105, 20)
+        Me.txtInstance.TabIndex = 32
+        '
+        'lblInstance
+        '
+        Me.lblInstance.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblInstance.AutoSize = True
+        Me.lblInstance.Location = New System.Drawing.Point(770, 20)
+        Me.lblInstance.Name = "lblInstance"
+        Me.lblInstance.Size = New System.Drawing.Size(51, 13)
+        Me.lblInstance.TabIndex = 33
+        Me.lblInstance.Text = "Instance:"
         '
         'ColumnSelect
         '
@@ -1030,4 +1076,8 @@ Partial Class ColumnSelect
     Friend WithEvents GroupBox4 As GroupBox
     Friend WithEvents txtSearchColumnText As TextBox
     Friend WithEvents Label3 As Label
+    Friend WithEvents txtInstance As TextBox
+    Friend WithEvents lblInstance As Label
+    Friend WithEvents txtDatabase As TextBox
+    Friend WithEvents lblDatabase As Label
 End Class

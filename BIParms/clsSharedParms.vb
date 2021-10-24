@@ -9,5 +9,9 @@
     Public MySQLConnectionString As String
     Public MSSQLConnectionString As String
     Public OracleConnectionString As String
+    Public ComputerName As String
+    Public IP4Addr As String
+    Public ServerName As String
+    Public InstanceName As String
 
 End Class
